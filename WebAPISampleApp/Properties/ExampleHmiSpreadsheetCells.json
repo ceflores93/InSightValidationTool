@@ -1,0 +1,30 @@
+{
+  "$type": "HmiSpreadsheetCells",
+  "cells": [
+    {
+      "$type": "DialogCell",
+      "location": "A2",
+      "label": "Dialog1",
+      "title": "Dialog 1",
+      "range": "A400:E405"
+    },
+    {
+      "$type": "DialogCell",
+      "location": "A3",
+      "label": "Dialog2",
+      "title": "Dialog 2",
+      "range": "F400:J410"
+    },
+    {
+      "$type": "WizardCell",
+      "location": "A1",
+      "label": "MyWizard",
+      "dialogs": [ "A2", "A3" ]
+    },
+    {
+      "$type": "BitmapCell",
+      "location": "B2",
+      "file": "MyLogo.jpg"
+    }
+  ]
+}
