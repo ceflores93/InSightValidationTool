@@ -20,6 +20,8 @@ using static System.Windows.Forms.AxHost;
 using System.Security.RightsManagement;
 using System.Web;
 using System.Xml.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace InSightValidationTool
 {
@@ -59,10 +61,10 @@ namespace InSightValidationTool
         private List<ImageEntry> _imageEntries; 
         private bool _imageLoaded;
         private bool _secuence;
-        private TaskCompletionSource<bool> _imageProcessedSiganl;
+        private TaskCompletionSource<bool> _imageProcessedSignal;
         private bool _validationResult;
         private bool _Ignore;
-
+        private string _loggedMessages = "";
         
         public InSightDevice(string ipAddress, int port, string username, string password, bool autoConnect)
         {
@@ -206,6 +208,74 @@ namespace InSightValidationTool
         ~InSightDevice() { 
             UnsubscribeEvents();    
         }
+
+        private async Task Connect() {
+
+            try {
+                if (_inSight.Connected)
+                {
+                    await _inSight.Disconnect();    
+                }
+                else {
+                    HmiSessionInfo sessionInfo = new HmiSessionInfo();
+                    sessionInfo.SheetName = "Inspection";
+                    sessionInfo.CellNames = new string[1] { "A0:Z599" }; // Designating a cell range requires 6.3 or newer firmware
+                    sessionInfo.EnableQueuedResults = true; // When the queue is frozen, then show the queued results
+                    sessionInfo.IncludeCustomView = true;
+                    await _inSight.Connect(String.Concat(IpAddress, ":", Port.ToString()), UserName, Password, sessionInfo);
+                }
+
+            } catch(Exception ex) {
+                Debug.WriteLine("Connect error: " + ex.Message);
+                MessageBox.Show("Unable to connect: " + ex.Message);
+            }
+        }
+
+        private async Task LoadJob(string filename) {
+            try { 
+            
+                if(_inSight.Connected) await _inSight.LoadJob(filename).ConfigureAwait(false);   
+            } 
+            
+            catch(Exception ex) {
+                MessageBox.Show($"LoadJob Exception: {ex.Message}");
+            }
+        
+        }
+
+        private async Task LoadImage(string imgpath)
+        {
+            try
+            {
+                if (_inSight.Connected)  await _inSight.LoadImage(imgpath);
+            }
+            catch (Exception ex) {
+                MessageBox.Show($"LoadImage Exception: {ex.Message}");
+            }
+        
+        }
+
+        private async Task SendImageAndWait(string imgpath)
+        {
+            _imageProcessedSignal = new TaskCompletionSource<bool> { };
+
+            try
+            {
+                if (_inSight.Connected)
+                {
+                    await _inSight.LoadImage(imgpath);
+                    await _imageProcessedSignal.Task;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"LoadImage Exception: {ex.Message}");
+                _imageProcessedSignal.TrySetResult(true);
+            }
+        }
+
+
+
 
 
 

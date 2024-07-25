@@ -871,7 +871,7 @@ namespace InSightValidationTool
                 {
                     await _inSight.Disconnect();
                     _loggedMessages = "";
-                    UpdateMessages();
+                    UpdateMessages();//GUI
                 }
                 else
                 {
@@ -883,7 +883,7 @@ namespace InSightValidationTool
                     sessionInfo.IncludeCustomView = true;
                     await _inSight.Connect(tbIpAddressWithPort.Text, tbUsername.Text, tbPassword.Text, sessionInfo);
 
-                    await cvsDisplay.OnConnected();
+                    await cvsDisplay.OnConnected();//GUI
                     //cvsFilmstrip.OnConnected();
                 }
 
