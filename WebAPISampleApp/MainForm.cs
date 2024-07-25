@@ -100,6 +100,8 @@ namespace InSightValidationTool
 
         private void InitializeDataGridView() {
 
+         
+
             dgwImageResults.AutoGenerateColumns = false;
             dgwImageResults.AllowUserToAddRows = false;
             dgwImageResults.AllowUserToDeleteRows = false;
