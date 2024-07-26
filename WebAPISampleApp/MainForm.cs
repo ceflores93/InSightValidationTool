@@ -66,7 +66,8 @@ namespace InSightValidationTool
         private TaskCompletionSource<bool> m_imageProcessedSignal;
         private bool m_ValidationResult = true; 
         private bool m_Ignore = false;
-
+        private bool m_mouseDown;
+        private Point m_lastLocation;
 
 
 
@@ -1436,6 +1437,42 @@ namespace InSightValidationTool
             }
         }
 
-      
+        private void btnMinimize_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;    
+        }
+
+        private void btnRestoreMaximize_Click(object sender, EventArgs e)
+        {
+            if(WindowState == FormWindowState.Normal) WindowState = FormWindowState.Maximized;
+            else WindowState = FormWindowState.Normal;  
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Exit(); 
+        }
+
+        private void panel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            m_mouseDown = true;
+            m_lastLocation = e.Location;
+        }
+
+        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (m_mouseDown)
+            {
+                this.Location = new Point(
+                    (this.Location.X - m_lastLocation.X) + e.X, (this.Location.Y - m_lastLocation.Y) + e.Y);
+
+                this.Update();
+            }
+        }
+
+        private void panel1_MouseUp(object sender, MouseEventArgs e)
+        {
+            m_mouseDown = false;
+        }
     }
 }
