@@ -89,12 +89,12 @@ namespace InSightValidationTool
             this.lblValidationResultBanner = new System.Windows.Forms.Label();
             this.lblValidationResult = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.controlBox = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.controlBox = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnRestoreMaximize = new System.Windows.Forms.Button();
             this.btnMinimize = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgwImageResults)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -102,8 +102,8 @@ namespace InSightValidationTool
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.controlBox.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.controlBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnConnectDisconnect
@@ -185,7 +185,7 @@ namespace InSightValidationTool
             this.lblState.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblState.AutoSize = true;
             this.lblState.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblState.Location = new System.Drawing.Point(1708, 96);
+            this.lblState.Location = new System.Drawing.Point(1715, 96);
             this.lblState.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblState.Name = "lblState";
             this.lblState.Size = new System.Drawing.Size(117, 19);
@@ -202,7 +202,7 @@ namespace InSightValidationTool
             this.tbMessages.Margin = new System.Windows.Forms.Padding(2);
             this.tbMessages.Name = "tbMessages";
             this.tbMessages.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbMessages.Size = new System.Drawing.Size(1893, 27);
+            this.tbMessages.Size = new System.Drawing.Size(1900, 27);
             this.tbMessages.TabIndex = 0;
             this.tbMessages.WordWrap = false;
             // 
@@ -224,7 +224,7 @@ namespace InSightValidationTool
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(3, 2, 0, 2);
             this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menuStrip.Size = new System.Drawing.Size(438, 30);
+            this.menuStrip.Size = new System.Drawing.Size(438, 29);
             this.menuStrip.TabIndex = 25;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -240,7 +240,7 @@ namespace InSightValidationTool
             this.saveImageMenuItem});
             this.fileMenuItem.ForeColor = System.Drawing.Color.White;
             this.fileMenuItem.Name = "fileMenuItem";
-            this.fileMenuItem.Size = new System.Drawing.Size(49, 26);
+            this.fileMenuItem.Size = new System.Drawing.Size(49, 25);
             this.fileMenuItem.Text = "File";
             // 
             // loadValidationFileToolStripMenuItem
@@ -303,7 +303,7 @@ namespace InSightValidationTool
             this.hmiCustomViewMenuItem});
             this.editMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.editMenuItem.Name = "editMenuItem";
-            this.editMenuItem.Size = new System.Drawing.Size(51, 26);
+            this.editMenuItem.Size = new System.Drawing.Size(51, 25);
             this.editMenuItem.Text = "Edit";
             // 
             // hmiCustomViewMenuItem
@@ -323,7 +323,7 @@ namespace InSightValidationTool
             this.showSpreadsheetToolStripMenuItem});
             this.viewMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.viewMenuItem.Name = "viewMenuItem";
-            this.viewMenuItem.Size = new System.Drawing.Size(60, 26);
+            this.viewMenuItem.Size = new System.Drawing.Size(60, 25);
             this.viewMenuItem.Text = "View";
             // 
             // openHMIMenuItem
@@ -363,7 +363,7 @@ namespace InSightValidationTool
             this.triggerMenuItem});
             this.imageMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.imageMenuItem.Name = "imageMenuItem";
-            this.imageMenuItem.Size = new System.Drawing.Size(68, 26);
+            this.imageMenuItem.Size = new System.Drawing.Size(68, 25);
             this.imageMenuItem.Text = "Image";
             // 
             // triggerMenuItem
@@ -383,7 +383,7 @@ namespace InSightValidationTool
             this.saveQueuedImagesToolStripMenuItem});
             this.sensorMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.sensorMenuItem.Name = "sensorMenuItem";
-            this.sensorMenuItem.Size = new System.Drawing.Size(72, 26);
+            this.sensorMenuItem.Size = new System.Drawing.Size(72, 25);
             this.sensorMenuItem.Text = "Sensor";
             // 
             // onlineMenuItem
@@ -419,7 +419,7 @@ namespace InSightValidationTool
             this.hmiSettingsMenuItem});
             this.systemMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.systemMenuItem.Name = "systemMenuItem";
-            this.systemMenuItem.Size = new System.Drawing.Size(76, 26);
+            this.systemMenuItem.Size = new System.Drawing.Size(76, 25);
             this.systemMenuItem.Text = "System";
             // 
             // hmiSettingsMenuItem
@@ -437,7 +437,7 @@ namespace InSightValidationTool
             this.aboutMenuItem});
             this.helpMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.helpMenuItem.Name = "helpMenuItem";
-            this.helpMenuItem.Size = new System.Drawing.Size(57, 26);
+            this.helpMenuItem.Size = new System.Drawing.Size(57, 25);
             this.helpMenuItem.Text = "Help";
             // 
             // aboutMenuItem
@@ -464,7 +464,7 @@ namespace InSightValidationTool
             // 
             this.imgsFolderbtn.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.imgsFolderbtn.AutoSize = true;
-            this.imgsFolderbtn.Location = new System.Drawing.Point(379, 84);
+            this.imgsFolderbtn.Location = new System.Drawing.Point(386, 84);
             this.imgsFolderbtn.Name = "imgsFolderbtn";
             this.imgsFolderbtn.Size = new System.Drawing.Size(103, 34);
             this.imgsFolderbtn.TabIndex = 28;
@@ -510,7 +510,7 @@ namespace InSightValidationTool
             this.lblJobInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblJobInfo.AutoSize = true;
             this.lblJobInfo.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblJobInfo.Location = new System.Drawing.Point(1110, 99);
+            this.lblJobInfo.Location = new System.Drawing.Point(1117, 99);
             this.lblJobInfo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblJobInfo.Name = "lblJobInfo";
             this.lblJobInfo.Size = new System.Drawing.Size(101, 19);
@@ -527,7 +527,7 @@ namespace InSightValidationTool
             this.dgwImageResults.Name = "dgwImageResults";
             this.dgwImageResults.RowHeadersWidth = 51;
             this.dgwImageResults.RowTemplate.Height = 24;
-            this.dgwImageResults.Size = new System.Drawing.Size(849, 904);
+            this.dgwImageResults.Size = new System.Drawing.Size(853, 904);
             this.dgwImageResults.TabIndex = 33;
             // 
             // cvsCustomView
@@ -549,7 +549,7 @@ namespace InSightValidationTool
             this.cvsDisplay.Location = new System.Drawing.Point(0, 0);
             this.cvsDisplay.Margin = new System.Windows.Forms.Padding(0);
             this.cvsDisplay.Name = "cvsDisplay";
-            this.cvsDisplay.Size = new System.Drawing.Size(1043, 904);
+            this.cvsDisplay.Size = new System.Drawing.Size(1046, 904);
             this.cvsDisplay.TabIndex = 19;
             // 
             // cvsSpreadsheet
@@ -583,8 +583,8 @@ namespace InSightValidationTool
             // 
             this.splitContainer1.Panel2.Controls.Add(this.cvsSpreadsheet);
             this.splitContainer1.Panel2.Controls.Add(this.dgwImageResults);
-            this.splitContainer1.Size = new System.Drawing.Size(1894, 904);
-            this.splitContainer1.SplitterDistance = 1043;
+            this.splitContainer1.Size = new System.Drawing.Size(1901, 904);
+            this.splitContainer1.SplitterDistance = 1046;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 26;
             // 
@@ -618,22 +618,11 @@ namespace InSightValidationTool
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1902, 30);
+            this.panel1.Size = new System.Drawing.Size(1909, 30);
             this.panel1.TabIndex = 35;
-            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(panel1_MouseDown);
-            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(panel1_MouseMove);
-            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(panel1_MouseUp);
-            // 
-            // controlBox
-            // 
-            this.controlBox.Controls.Add(this.btnClose);
-            this.controlBox.Controls.Add(this.btnRestoreMaximize);
-            this.controlBox.Controls.Add(this.btnMinimize);
-            this.controlBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.controlBox.Location = new System.Drawing.Point(1752, 0);
-            this.controlBox.Name = "controlBox";
-            this.controlBox.Size = new System.Drawing.Size(150, 30);
-            this.controlBox.TabIndex = 0;
+            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
+            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
+            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
             // 
             // panel2
             // 
@@ -644,6 +633,36 @@ namespace InSightValidationTool
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(337, 30);
             this.panel2.TabIndex = 1;
+            // 
+            // controlBox
+            // 
+            this.controlBox.Controls.Add(this.btnClose);
+            this.controlBox.Controls.Add(this.btnRestoreMaximize);
+            this.controlBox.Controls.Add(this.btnMinimize);
+            this.controlBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.controlBox.Location = new System.Drawing.Point(1759, 0);
+            this.controlBox.Name = "controlBox";
+            this.controlBox.Size = new System.Drawing.Size(150, 30);
+            this.controlBox.TabIndex = 0;
+            // 
+            // button1
+            // 
+            this.button1.AutoSize = true;
+            this.button1.CausesValidation = false;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Image = global::WebAPISampleApp.Properties.Resources.Cognex_InSightViDiPC_1;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(0, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(334, 37);
+            this.button1.TabIndex = 0;
+            this.button1.TabStop = false;
+            this.button1.Text = "In-Sight Vision Suite Validation Tool";
+            this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // btnClose
             // 
@@ -689,32 +708,13 @@ namespace InSightValidationTool
             this.btnMinimize.UseVisualStyleBackColor = true;
             this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
             // 
-            // button1
-            // 
-            this.button1.AutoSize = true;
-            this.button1.CausesValidation = false;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Image = global::WebAPISampleApp.Properties.Resources.Cognex_InSightViDiPC_1;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(0, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(334, 37);
-            this.button1.TabIndex = 0;
-            this.button1.TabStop = false;
-            this.button1.Text = "In-Sight Vision Suite Validation Tool";
-            this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.ClientSize = new System.Drawing.Size(1902, 1033);
+            this.ClientSize = new System.Drawing.Size(1909, 1033);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblValidationResult);
             this.Controls.Add(this.lblValidationResultBanner);
@@ -753,9 +753,9 @@ namespace InSightValidationTool
             this.splitContainer1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.controlBox.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.controlBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -153,6 +153,9 @@
     <None Include="Resources\folder.png" />
     <None Include="Resources\icons8-check-mark-28.png" />
     <None Include="Resources\icons8-check-mark-28green.png" />
+    <None Include="Resources\icons8-images-folder-28.png" />
+    <None Include="Resources\connecticon2.png" />
+    <None Include="Resources\connecticon1.png" />
     <Content Include="testing-icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

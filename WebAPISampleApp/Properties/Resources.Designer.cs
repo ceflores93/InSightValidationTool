@@ -83,6 +83,26 @@ namespace WebAPISampleApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap connecticon1 {
+            get {
+                object obj = ResourceManager.GetObject("connecticon1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap connecticon2 {
+            get {
+                object obj = ResourceManager.GetObject("connecticon2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap folder {
             get {
                 object obj = ResourceManager.GetObject("folder", resourceCulture);
@@ -146,6 +166,16 @@ namespace WebAPISampleApp.Properties {
         internal static System.Drawing.Bitmap icons8_horizontal_line_24 {
             get {
                 object obj = ResourceManager.GetObject("icons8-horizontal-line-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_images_folder_28 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-images-folder-28", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
