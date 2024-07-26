@@ -41,31 +41,31 @@ namespace InSightValidationTool
             public bool ActualResult { get; set; }
         }
 
-        public string IpAddress { get; set; }    
-        public int Port { get; set; }   
-        public string UserName {  get; set; }   
-        public string Password { get; set; }    
-        public bool AutoConnect {  get; set; }  
+        public string IpAddress { get; set; }
+        public int Port { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public bool AutoConnect { get; set; }
 
-        public bool ImageLoad {  get; set; }    
-        public List<String> ImgsPath {  get; set; } 
+        public bool ImageLoad { get; set; }
+        public List<String> ImgsPath { get; set; }
         public JToken Results { get; set; }
-        public JToken Configuration { get; set; }   
-        public string JobFile {  get; set; }
+        public JToken Configuration { get; set; }
+        public string JobFile { get; set; }
 
         public CvsInSight _inSight;
 
 
         private int _startTicks;
         public string _deviceName;
-        private List<ImageEntry> _imageEntries; 
+        private List<ImageEntry> _imageEntries;
         private bool _imageLoaded;
         private bool _secuence;
         private TaskCompletionSource<bool> _imageProcessedSignal;
         private bool _validationResult;
         private bool _Ignore;
         private string _loggedMessages = "";
-        
+
         public InSightDevice(string ipAddress, int port, string username, string password, bool autoConnect)
         {
             IpAddress = ipAddress;
@@ -147,7 +147,7 @@ namespace InSightValidationTool
 
         private void _inSight_ConnectedChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace InSightValidationTool
         /// </summary>
         private void _inSight_ConnectingChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace InSightValidationTool
         /// </summary>
         private void _inSight_StateChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         /// <summary>
@@ -171,28 +171,28 @@ namespace InSightValidationTool
         /// </summary>
         private void _inSight_LiveModeChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void _inSight_JobInfoChanged(object sender, EventArgs e)
         {
             // Handle sheet re-format
             _inSight_ResultsChanged(sender, e); // Be sure we re-process the result after job load
-            
+
 
         }
 
         private void _inSight_JobLoadingChanged(object sender, EventArgs e)
         {
-            
+
         }
 
-        private  void _inSight_EditorAttachedChanged(object sender, EventArgs e)
+        private void _inSight_EditorAttachedChanged(object sender, EventArgs e)
         {
-     
+
         }
 
-        private void UnsubscribeEvents()
+        private async void UnsubscribeEvents()
         {
             _inSight.PreviewMessage -= _inSight_PreviewMessage;
             _inSight.ResultsChanged -= _inSight_ResultsChanged;
@@ -202,21 +202,27 @@ namespace InSightValidationTool
             _inSight.JobInfoChanged -= _inSight_JobInfoChanged;
             _inSight.JobLoadingChanged -= _inSight_JobLoadingChanged;
             _inSight.EditorAttachedChanged -= _inSight_EditorAttachedChanged;
+            await _inSight.Disconnect();
         }
 
 
-        ~InSightDevice() { 
-            UnsubscribeEvents();    
+        ~InSightDevice()
+        {
+            UnsubscribeEvents();
+
         }
 
-        private async Task Connect() {
+        private async Task Connect()
+        {
 
-            try {
+            try
+            {
                 if (_inSight.Connected)
                 {
-                    await _inSight.Disconnect();    
+                    await _inSight.Disconnect();
                 }
-                else {
+                else
+                {
                     HmiSessionInfo sessionInfo = new HmiSessionInfo();
                     sessionInfo.SheetName = "Inspection";
                     sessionInfo.CellNames = new string[1] { "A0:Z599" }; // Designating a cell range requires 6.3 or newer firmware
@@ -225,34 +231,40 @@ namespace InSightValidationTool
                     await _inSight.Connect(String.Concat(IpAddress, ":", Port.ToString()), UserName, Password, sessionInfo);
                 }
 
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Debug.WriteLine("Connect error: " + ex.Message);
                 MessageBox.Show("Unable to connect: " + ex.Message);
             }
         }
 
-        private async Task LoadJob(string filename) {
-            try { 
-            
-                if(_inSight.Connected) await _inSight.LoadJob(filename).ConfigureAwait(false);   
-            } 
-            
-            catch(Exception ex) {
+        private async Task LoadJob(string filename)
+        {
+            try
+            {
+
+                if (_inSight.Connected) await _inSight.LoadJob(filename).ConfigureAwait(false);
+            }
+
+            catch (Exception ex)
+            {
                 MessageBox.Show($"LoadJob Exception: {ex.Message}");
             }
-        
+
         }
 
         private async Task LoadImage(string imgpath)
         {
             try
             {
-                if (_inSight.Connected)  await _inSight.LoadImage(imgpath);
+                if (_inSight.Connected) await _inSight.LoadImage(imgpath);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show($"LoadImage Exception: {ex.Message}");
             }
-        
+
         }
 
         private async Task SendImageAndWait(string imgpath)
@@ -275,10 +287,55 @@ namespace InSightValidationTool
         }
 
 
+        private async Task SetCameraStatus(bool state)
+        {
+            if (_inSight.Connected)
+            {
+                try
+                {
+                    await _inSight.SetSoftOnlineAsync(state);
+
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Error setting soft Status. Verify that ISE is not connected.");
+                }
+            }
+        }
 
 
+        private async Task SetLiveMode(bool state)
+        {
 
+            if (_inSight.Connected)
+            {
+                try
+                {
+                    await _inSight.SetSoftOnlineAsync(state);
 
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Live Mode Exception: {ex.Message}");
+                }
+            }
+        }
 
+        private async Task ManualTrigger()
+        {
+
+            if (_inSight.Connected)
+            {
+                try
+                {
+                    await _inSight.ManualAcquire();
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Live Mode Exception: {ex.Message}");
+                }
+            }
+        }
     }
 }
