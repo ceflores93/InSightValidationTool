@@ -41,7 +41,7 @@ namespace InSightValidationTool
             public bool ActualResult { get; set; }
         }
 
-        public string IpAddress { get; set; }
+        public string IpAddressWithPort { get; set; }
         public int Port { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -56,23 +56,28 @@ namespace InSightValidationTool
         public CvsInSight _inSight;
 
 
-        private int _startTicks;
+        public int _startTicks;
         public string _deviceName;
-        private List<ImageEntry> _imageEntries;
-        private bool _imageLoaded;
+        public List<ImageEntry> _imageEntries;
+        public bool _imageLoaded;
         private bool _secuence;
-        private TaskCompletionSource<bool> _imageProcessedSignal;
-        private bool _validationResult;
+        public TaskCompletionSource<bool> _imageProcessedSignal;
+        public bool _validationResult;
         private bool _Ignore;
         private string _loggedMessages = "";
 
-        public InSightDevice(string ipAddress, int port, string username, string password, bool autoConnect)
+
+
+
+
+        public InSightDevice(string IPwPort,string username, string password, bool autoConnect)
         {
-            IpAddress = ipAddress;
-            Port = port;
+            IpAddressWithPort = IPwPort;
             UserName = username;
             Password = password;
             AutoConnect = autoConnect;
+
+            _startTicks = Environment.TickCount;    
 
             _inSight = new CvsInSight();
             _inSight.PreviewMessage += _inSight_PreviewMessage;
@@ -212,7 +217,7 @@ namespace InSightValidationTool
 
         }
 
-        private async Task Connect()
+        public async Task Connect()
         {
 
             try
@@ -228,7 +233,7 @@ namespace InSightValidationTool
                     sessionInfo.CellNames = new string[1] { "A0:Z599" }; // Designating a cell range requires 6.3 or newer firmware
                     sessionInfo.EnableQueuedResults = true; // When the queue is frozen, then show the queued results
                     sessionInfo.IncludeCustomView = true;
-                    await _inSight.Connect(String.Concat(IpAddress, ":", Port.ToString()), UserName, Password, sessionInfo);
+                    await _inSight.Connect(IpAddressWithPort, UserName, Password, sessionInfo);
                 }
 
             }
@@ -239,7 +244,7 @@ namespace InSightValidationTool
             }
         }
 
-        private async Task LoadJob(string filename)
+        public async Task LoadJob(string filename)
         {
             try
             {
@@ -254,7 +259,7 @@ namespace InSightValidationTool
 
         }
 
-        private async Task LoadImage(string imgpath)
+        public async Task LoadImage(string imgpath)
         {
             try
             {
@@ -267,7 +272,7 @@ namespace InSightValidationTool
 
         }
 
-        private async Task SendImageAndWait(string imgpath)
+        public async Task SendImageAndWait(string imgpath)
         {
             _imageProcessedSignal = new TaskCompletionSource<bool> { };
 
@@ -287,7 +292,7 @@ namespace InSightValidationTool
         }
 
 
-        private async Task SetCameraStatus(bool state)
+        public async Task SetCameraStatus(bool state)
         {
             if (_inSight.Connected)
             {
@@ -304,7 +309,7 @@ namespace InSightValidationTool
         }
 
 
-        private async Task SetLiveMode(bool state)
+        public async Task SetLiveMode(bool state)
         {
 
             if (_inSight.Connected)
@@ -321,7 +326,7 @@ namespace InSightValidationTool
             }
         }
 
-        private async Task ManualTrigger()
+        public async Task ManualTrigger()
         {
 
             if (_inSight.Connected)

@@ -30,6 +30,8 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblState = new System.Windows.Forms.Label();
             this.lblValidationResult = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lblJobInfo = new System.Windows.Forms.Label();
@@ -41,16 +43,14 @@
             this.tbIpAddressWithPort = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.chkAutoConnect = new System.Windows.Forms.CheckBox();
+            this.btnRunValidation = new System.Windows.Forms.Button();
+            this.imgsFolderbtn = new System.Windows.Forms.Button();
+            this.btnConnectDisconnect = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.cvsCustomView1 = new Cognex.InSight.Web.Controls.CvsCustomView();
             this.cvsDisplay1 = new Cognex.InSight.Web.Controls.CvsDisplay();
             this.cvsSpreadsheet1 = new Cognex.InSight.Web.Controls.CvsSpreadsheet();
             this.dgwImageResults = new System.Windows.Forms.DataGridView();
-            this.lblState = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.btnRunValidation = new System.Windows.Forms.Button();
-            this.imgsFolderbtn = new System.Windows.Forms.Button();
-            this.btnConnectDisconnect = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -111,6 +111,32 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Connection Parameters";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(1429, 20);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(171, 24);
+            this.label5.TabIndex = 44;
+            this.label5.Text = "PLC Not Connected";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblState
+            // 
+            this.lblState.AutoSize = true;
+            this.lblState.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblState.ForeColor = System.Drawing.Color.White;
+            this.lblState.Location = new System.Drawing.Point(1459, 66);
+            this.lblState.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblState.Name = "lblState";
+            this.lblState.Size = new System.Drawing.Size(136, 24);
+            this.lblState.TabIndex = 43;
+            this.lblState.Text = "Not Connected";
+            this.lblState.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblValidationResult
             // 
@@ -247,6 +273,67 @@
             this.chkAutoConnect.Text = "Auto";
             this.chkAutoConnect.UseVisualStyleBackColor = true;
             // 
+            // btnRunValidation
+            // 
+            this.btnRunValidation.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.btnRunValidation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
+            this.btnRunValidation.FlatAppearance.BorderSize = 3;
+            this.btnRunValidation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRunValidation.Font = new System.Drawing.Font("Calibri", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRunValidation.ForeColor = System.Drawing.Color.White;
+            this.btnRunValidation.Image = global::WebAPISampleApp.Properties.Resources.icons8_check_mark_28green;
+            this.btnRunValidation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRunValidation.Location = new System.Drawing.Point(813, 23);
+            this.btnRunValidation.Margin = new System.Windows.Forms.Padding(2);
+            this.btnRunValidation.Name = "btnRunValidation";
+            this.btnRunValidation.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnRunValidation.Size = new System.Drawing.Size(165, 61);
+            this.btnRunValidation.TabIndex = 7;
+            this.btnRunValidation.Text = "Run Validation";
+            this.btnRunValidation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnRunValidation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnRunValidation.UseVisualStyleBackColor = false;
+            this.btnRunValidation.Click += new System.EventHandler(this.btnRunValidation_Click);
+            // 
+            // imgsFolderbtn
+            // 
+            this.imgsFolderbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.imgsFolderbtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
+            this.imgsFolderbtn.FlatAppearance.BorderSize = 3;
+            this.imgsFolderbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.imgsFolderbtn.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.imgsFolderbtn.ForeColor = System.Drawing.Color.White;
+            this.imgsFolderbtn.Image = global::WebAPISampleApp.Properties.Resources.folder;
+            this.imgsFolderbtn.Location = new System.Drawing.Point(632, 29);
+            this.imgsFolderbtn.Margin = new System.Windows.Forms.Padding(2);
+            this.imgsFolderbtn.Name = "imgsFolderbtn";
+            this.imgsFolderbtn.Size = new System.Drawing.Size(152, 53);
+            this.imgsFolderbtn.TabIndex = 6;
+            this.imgsFolderbtn.Text = "Load Images";
+            this.imgsFolderbtn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.imgsFolderbtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.imgsFolderbtn.UseVisualStyleBackColor = false;
+            this.imgsFolderbtn.Click += new System.EventHandler(this.imgsFolderbtn_Click);
+            // 
+            // btnConnectDisconnect
+            // 
+            this.btnConnectDisconnect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.btnConnectDisconnect.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
+            this.btnConnectDisconnect.FlatAppearance.BorderSize = 3;
+            this.btnConnectDisconnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConnectDisconnect.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConnectDisconnect.ForeColor = System.Drawing.Color.White;
+            this.btnConnectDisconnect.Image = global::WebAPISampleApp.Properties.Resources.connecticon1;
+            this.btnConnectDisconnect.Location = new System.Drawing.Point(465, 22);
+            this.btnConnectDisconnect.Margin = new System.Windows.Forms.Padding(2);
+            this.btnConnectDisconnect.Name = "btnConnectDisconnect";
+            this.btnConnectDisconnect.Size = new System.Drawing.Size(163, 61);
+            this.btnConnectDisconnect.TabIndex = 5;
+            this.btnConnectDisconnect.Text = "Connect";
+            this.btnConnectDisconnect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnConnectDisconnect.UseVisualStyleBackColor = false;
+            this.btnConnectDisconnect.Click += new System.EventHandler(this.btnConnectDisconnect_Click);
+            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -311,90 +398,6 @@
             this.dgwImageResults.RowTemplate.Height = 24;
             this.dgwImageResults.Size = new System.Drawing.Size(796, 699);
             this.dgwImageResults.TabIndex = 34;
-            // 
-            // lblState
-            // 
-            this.lblState.AutoSize = true;
-            this.lblState.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblState.ForeColor = System.Drawing.Color.White;
-            this.lblState.Location = new System.Drawing.Point(1459, 66);
-            this.lblState.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblState.Name = "lblState";
-            this.lblState.Size = new System.Drawing.Size(136, 24);
-            this.lblState.TabIndex = 43;
-            this.lblState.Text = "Not Connected";
-            this.lblState.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(1429, 20);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(171, 24);
-            this.label5.TabIndex = 44;
-            this.label5.Text = "PLC Not Connected";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // btnRunValidation
-            // 
-            this.btnRunValidation.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.btnRunValidation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
-            this.btnRunValidation.FlatAppearance.BorderSize = 3;
-            this.btnRunValidation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRunValidation.Font = new System.Drawing.Font("Calibri", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRunValidation.ForeColor = System.Drawing.Color.White;
-            this.btnRunValidation.Image = global::WebAPISampleApp.Properties.Resources.icons8_check_mark_28green;
-            this.btnRunValidation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRunValidation.Location = new System.Drawing.Point(813, 23);
-            this.btnRunValidation.Margin = new System.Windows.Forms.Padding(2);
-            this.btnRunValidation.Name = "btnRunValidation";
-            this.btnRunValidation.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnRunValidation.Size = new System.Drawing.Size(165, 61);
-            this.btnRunValidation.TabIndex = 7;
-            this.btnRunValidation.Text = "Run Validation";
-            this.btnRunValidation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnRunValidation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnRunValidation.UseVisualStyleBackColor = false;
-            // 
-            // imgsFolderbtn
-            // 
-            this.imgsFolderbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.imgsFolderbtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
-            this.imgsFolderbtn.FlatAppearance.BorderSize = 3;
-            this.imgsFolderbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.imgsFolderbtn.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.imgsFolderbtn.ForeColor = System.Drawing.Color.White;
-            this.imgsFolderbtn.Image = global::WebAPISampleApp.Properties.Resources.folder;
-            this.imgsFolderbtn.Location = new System.Drawing.Point(632, 29);
-            this.imgsFolderbtn.Margin = new System.Windows.Forms.Padding(2);
-            this.imgsFolderbtn.Name = "imgsFolderbtn";
-            this.imgsFolderbtn.Size = new System.Drawing.Size(152, 53);
-            this.imgsFolderbtn.TabIndex = 6;
-            this.imgsFolderbtn.Text = "Load Images";
-            this.imgsFolderbtn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.imgsFolderbtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.imgsFolderbtn.UseVisualStyleBackColor = false;
-            // 
-            // btnConnectDisconnect
-            // 
-            this.btnConnectDisconnect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.btnConnectDisconnect.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
-            this.btnConnectDisconnect.FlatAppearance.BorderSize = 3;
-            this.btnConnectDisconnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnConnectDisconnect.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConnectDisconnect.ForeColor = System.Drawing.Color.White;
-            this.btnConnectDisconnect.Image = global::WebAPISampleApp.Properties.Resources.connecticon1;
-            this.btnConnectDisconnect.Location = new System.Drawing.Point(465, 22);
-            this.btnConnectDisconnect.Margin = new System.Windows.Forms.Padding(2);
-            this.btnConnectDisconnect.Name = "btnConnectDisconnect";
-            this.btnConnectDisconnect.Size = new System.Drawing.Size(163, 61);
-            this.btnConnectDisconnect.TabIndex = 5;
-            this.btnConnectDisconnect.Text = "Connect";
-            this.btnConnectDisconnect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnConnectDisconnect.UseVisualStyleBackColor = false;
             // 
             // InsightValidationControl
             // 
