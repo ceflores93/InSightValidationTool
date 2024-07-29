@@ -146,8 +146,8 @@ namespace InSightValidationTool
 
         private void _inSight_ResultsChanged(object sender, EventArgs e)
         {
-            JToken results = _inSight.Results;
-            Results = results;
+          //  JToken results = _inSight.Results;
+          //Results = results;
         }
 
         private void _inSight_ConnectedChanged(object sender, EventArgs e)

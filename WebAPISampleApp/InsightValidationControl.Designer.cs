@@ -145,7 +145,7 @@
             this.lblValidationResult.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblValidationResult.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.lblValidationResult.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.lblValidationResult.Location = new System.Drawing.Point(1157, 66);
+            this.lblValidationResult.Location = new System.Drawing.Point(1224, 66);
             this.lblValidationResult.Margin = new System.Windows.Forms.Padding(0);
             this.lblValidationResult.Name = "lblValidationResult";
             this.lblValidationResult.Size = new System.Drawing.Size(63, 28);
@@ -158,7 +158,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(982, 66);
+            this.label4.Location = new System.Drawing.Point(1049, 66);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(173, 28);
@@ -171,7 +171,7 @@
             this.lblJobInfo.AutoSize = true;
             this.lblJobInfo.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblJobInfo.ForeColor = System.Drawing.Color.White;
-            this.lblJobInfo.Location = new System.Drawing.Point(982, 47);
+            this.lblJobInfo.Location = new System.Drawing.Point(1049, 47);
             this.lblJobInfo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblJobInfo.Name = "lblJobInfo";
             this.lblJobInfo.Size = new System.Drawing.Size(97, 21);
@@ -185,7 +185,7 @@
             this.lblimgsload.AutoSize = true;
             this.lblimgsload.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblimgsload.ForeColor = System.Drawing.Color.White;
-            this.lblimgsload.Location = new System.Drawing.Point(982, 23);
+            this.lblimgsload.Location = new System.Drawing.Point(1049, 23);
             this.lblimgsload.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblimgsload.Name = "lblimgsload";
             this.lblimgsload.Size = new System.Drawing.Size(121, 21);
@@ -275,6 +275,7 @@
             // 
             // btnRunValidation
             // 
+            this.btnRunValidation.AutoSize = true;
             this.btnRunValidation.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.btnRunValidation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
             this.btnRunValidation.FlatAppearance.BorderSize = 3;
@@ -283,11 +284,11 @@
             this.btnRunValidation.ForeColor = System.Drawing.Color.White;
             this.btnRunValidation.Image = global::WebAPISampleApp.Properties.Resources.icons8_check_mark_28green;
             this.btnRunValidation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRunValidation.Location = new System.Drawing.Point(813, 23);
+            this.btnRunValidation.Location = new System.Drawing.Point(832, 23);
             this.btnRunValidation.Margin = new System.Windows.Forms.Padding(2);
             this.btnRunValidation.Name = "btnRunValidation";
             this.btnRunValidation.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnRunValidation.Size = new System.Drawing.Size(165, 61);
+            this.btnRunValidation.Size = new System.Drawing.Size(203, 67);
             this.btnRunValidation.TabIndex = 7;
             this.btnRunValidation.Text = "Run Validation";
             this.btnRunValidation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -297,6 +298,7 @@
             // 
             // imgsFolderbtn
             // 
+            this.imgsFolderbtn.AutoSize = true;
             this.imgsFolderbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.imgsFolderbtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
             this.imgsFolderbtn.FlatAppearance.BorderSize = 3;
@@ -304,10 +306,10 @@
             this.imgsFolderbtn.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.imgsFolderbtn.ForeColor = System.Drawing.Color.White;
             this.imgsFolderbtn.Image = global::WebAPISampleApp.Properties.Resources.folder;
-            this.imgsFolderbtn.Location = new System.Drawing.Point(632, 29);
+            this.imgsFolderbtn.Location = new System.Drawing.Point(648, 30);
             this.imgsFolderbtn.Margin = new System.Windows.Forms.Padding(2);
             this.imgsFolderbtn.Name = "imgsFolderbtn";
-            this.imgsFolderbtn.Size = new System.Drawing.Size(152, 53);
+            this.imgsFolderbtn.Size = new System.Drawing.Size(168, 53);
             this.imgsFolderbtn.TabIndex = 6;
             this.imgsFolderbtn.Text = "Load Images";
             this.imgsFolderbtn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -317,6 +319,7 @@
             // 
             // btnConnectDisconnect
             // 
+            this.btnConnectDisconnect.AutoSize = true;
             this.btnConnectDisconnect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.btnConnectDisconnect.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
             this.btnConnectDisconnect.FlatAppearance.BorderSize = 3;
@@ -327,7 +330,7 @@
             this.btnConnectDisconnect.Location = new System.Drawing.Point(465, 22);
             this.btnConnectDisconnect.Margin = new System.Windows.Forms.Padding(2);
             this.btnConnectDisconnect.Name = "btnConnectDisconnect";
-            this.btnConnectDisconnect.Size = new System.Drawing.Size(163, 61);
+            this.btnConnectDisconnect.Size = new System.Drawing.Size(179, 61);
             this.btnConnectDisconnect.TabIndex = 5;
             this.btnConnectDisconnect.Text = "Connect";
             this.btnConnectDisconnect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;

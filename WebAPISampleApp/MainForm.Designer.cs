@@ -86,15 +86,18 @@ namespace InSightValidationTool
             this.cvsDisplay = new Cognex.InSight.Web.Controls.CvsDisplay();
             this.cvsSpreadsheet = new Cognex.InSight.Web.Controls.CvsSpreadsheet();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.lblValidationResultBanner = new System.Windows.Forms.Label();
-            this.lblValidationResult = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.controlBox = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
+            this.controlBox = new System.Windows.Forms.Panel();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnRestoreMaximize = new System.Windows.Forms.Button();
             this.btnMinimize = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.insightValidationControl1 = new WebAPISampleApp.InsightValidationControl();
+            this.insightValidationControl2 = new WebAPISampleApp.InsightValidationControl();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgwImageResults)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -104,6 +107,9 @@ namespace InSightValidationTool
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.controlBox.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnConnectDisconnect
@@ -557,7 +563,7 @@ namespace InSightValidationTool
             this.cvsSpreadsheet.AllowDrop = true;
             this.cvsSpreadsheet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.cvsSpreadsheet.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.cvsSpreadsheet.Location = new System.Drawing.Point(3, 123);
+            this.cvsSpreadsheet.Location = new System.Drawing.Point(4, 133);
             this.cvsSpreadsheet.Margin = new System.Windows.Forms.Padding(0);
             this.cvsSpreadsheet.Name = "cvsSpreadsheet";
             this.cvsSpreadsheet.Size = new System.Drawing.Size(846, 781);
@@ -588,29 +594,6 @@ namespace InSightValidationTool
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 26;
             // 
-            // lblValidationResultBanner
-            // 
-            this.lblValidationResultBanner.Font = new System.Drawing.Font("Times New Roman", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblValidationResultBanner.ForeColor = System.Drawing.Color.Blue;
-            this.lblValidationResultBanner.Location = new System.Drawing.Point(1148, 43);
-            this.lblValidationResultBanner.Name = "lblValidationResultBanner";
-            this.lblValidationResultBanner.Size = new System.Drawing.Size(264, 40);
-            this.lblValidationResultBanner.TabIndex = 33;
-            this.lblValidationResultBanner.Text = "Validation Result: ";
-            this.lblValidationResultBanner.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblValidationResult
-            // 
-            this.lblValidationResult.Font = new System.Drawing.Font("Times New Roman", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblValidationResult.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.lblValidationResult.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.lblValidationResult.Location = new System.Drawing.Point(1380, 43);
-            this.lblValidationResult.Name = "lblValidationResult";
-            this.lblValidationResult.Size = new System.Drawing.Size(123, 40);
-            this.lblValidationResult.TabIndex = 34;
-            this.lblValidationResult.Text = "None";
-            this.lblValidationResult.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.panel2);
@@ -634,17 +617,6 @@ namespace InSightValidationTool
             this.panel2.Size = new System.Drawing.Size(337, 30);
             this.panel2.TabIndex = 1;
             // 
-            // controlBox
-            // 
-            this.controlBox.Controls.Add(this.btnClose);
-            this.controlBox.Controls.Add(this.btnRestoreMaximize);
-            this.controlBox.Controls.Add(this.btnMinimize);
-            this.controlBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.controlBox.Location = new System.Drawing.Point(1759, 0);
-            this.controlBox.Name = "controlBox";
-            this.controlBox.Size = new System.Drawing.Size(150, 30);
-            this.controlBox.TabIndex = 0;
-            // 
             // button1
             // 
             this.button1.AutoSize = true;
@@ -663,6 +635,17 @@ namespace InSightValidationTool
             this.button1.Text = "In-Sight Vision Suite Validation Tool";
             this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.button1.UseVisualStyleBackColor = true;
+            // 
+            // controlBox
+            // 
+            this.controlBox.Controls.Add(this.btnClose);
+            this.controlBox.Controls.Add(this.btnRestoreMaximize);
+            this.controlBox.Controls.Add(this.btnMinimize);
+            this.controlBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.controlBox.Location = new System.Drawing.Point(1759, 0);
+            this.controlBox.Name = "controlBox";
+            this.controlBox.Size = new System.Drawing.Size(150, 30);
+            this.controlBox.TabIndex = 0;
             // 
             // btnClose
             // 
@@ -708,6 +691,55 @@ namespace InSightValidationTool
             this.btnMinimize.UseVisualStyleBackColor = true;
             this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(0, 67);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1909, 966);
+            this.tabControl1.TabIndex = 36;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.insightValidationControl1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 29);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1901, 933);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.insightValidationControl2);
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1901, 933);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // insightValidationControl1
+            // 
+            this.insightValidationControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.insightValidationControl1.Location = new System.Drawing.Point(3, 3);
+            this.insightValidationControl1.Name = "insightValidationControl1";
+            this.insightValidationControl1.Size = new System.Drawing.Size(1895, 927);
+            this.insightValidationControl1.TabIndex = 0;
+            // 
+            // insightValidationControl2
+            // 
+            this.insightValidationControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.insightValidationControl2.Location = new System.Drawing.Point(3, 3);
+            this.insightValidationControl2.Name = "insightValidationControl2";
+            this.insightValidationControl2.Size = new System.Drawing.Size(1895, 927);
+            this.insightValidationControl2.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -715,9 +747,8 @@ namespace InSightValidationTool
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.ClientSize = new System.Drawing.Size(1909, 1033);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.lblValidationResult);
-            this.Controls.Add(this.lblValidationResultBanner);
             this.Controls.Add(this.lblJobInfo);
             this.Controls.Add(this.chkAutoConnect);
             this.Controls.Add(this.btnRunValidation);
@@ -756,6 +787,9 @@ namespace InSightValidationTool
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.controlBox.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -811,8 +845,6 @@ namespace InSightValidationTool
         private CvsDisplay cvsDisplay;
         private CvsSpreadsheet cvsSpreadsheet;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.Label lblValidationResultBanner;
-        private System.Windows.Forms.Label lblValidationResult;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel controlBox;
         private System.Windows.Forms.Button btnMinimize;
@@ -820,6 +852,11 @@ namespace InSightValidationTool
         private System.Windows.Forms.Button btnRestoreMaximize;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private WebAPISampleApp.InsightValidationControl insightValidationControl1;
+        private WebAPISampleApp.InsightValidationControl insightValidationControl2;
     }
 }
 

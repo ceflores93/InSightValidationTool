@@ -30,8 +30,9 @@ namespace WebAPISampleApp
         public InsightValidationControl()
         {
             //Create Default Connection
-            inSightSystem = new InSightDevice(tbIpAddressWithPort.Text, tbUsername.Text, tbPassword.Text, false);
+           
             InitializeComponent();
+            inSightSystem = new InSightDevice(tbIpAddressWithPort.Text, tbUsername.Text, tbPassword.Text, false);
             InitializeDataGridView();
 
             cvsSpreadsheet1.SetInSight(inSightSystem._inSight);

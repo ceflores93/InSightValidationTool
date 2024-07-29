@@ -1474,5 +1474,10 @@ namespace InSightValidationTool
         {
             m_mouseDown = false;
         }
+
+        private void insightValidationControl1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
