@@ -29,6 +29,8 @@ using System.Collections.Generic;
 using System.Linq;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.AxHost;
+using WebAPISampleApp.Properties;
+using WebAPISampleApp;
 
 namespace InSightValidationTool
 {
@@ -943,7 +945,8 @@ namespace InSightValidationTool
         /// </summary>
         private void aboutMenuItem_Click(object sender, EventArgs e)
         {
-            CvsCameraInfo info = _inSight.CameraInfo;
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+            CvsCameraInfo info = selectedControl.InSight._inSight.CameraInfo;
            
             if (info != null)
             {
@@ -961,11 +964,12 @@ namespace InSightValidationTool
 
         private async void hmiSettingsMenuItem_Click(object sender, EventArgs e)
         {
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
             try
             {
-                if (_inSight.Connected)
+                if (selectedControl.InSight._inSight.Connected)
                 {
-                    JToken hmiSettingsToken = _inSight.Settings.SelectToken("hmi");
+                    JToken hmiSettingsToken = selectedControl.InSight._inSight.Settings.SelectToken("hmi");
                     string hmiSettingsAsString = hmiSettingsToken.ToString();
                     hmiSettingsAsString = Prompt.ShowDialog("Enter HMI Settings:", hmiSettingsAsString, "HMI Settings");
 
@@ -973,7 +977,7 @@ namespace InSightValidationTool
                     {
                         HmiSettings hmiSettings = CvsInSight.JsonSerializer.DeserializeObject(hmiSettingsAsString) as HmiSettings;
 
-                        await _inSight.SetHmiSettingsAsync(hmiSettings);
+                        await selectedControl.InSight._inSight.SetHmiSettingsAsync(hmiSettings);
                     }
                 }
             }
@@ -986,8 +990,21 @@ namespace InSightValidationTool
         /// <summary>
         /// Handles the click event to go online/offline.
         /// </summary>
-        private async void onlineMenuItem_Click(object sender, EventArgs e)
+        private  void onlineMenuItem_Click(object sender, EventArgs e)
         {
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+
+            if (selectedControl != null) { 
+            
+                selectedControl.OnlineOffline();    
+            }
+            else
+            {
+                MessageBox.Show("No control found in the selected tab.");
+            }
+
+           
+            /*
             if (_inSight.Connected)
             {
                 try
@@ -998,17 +1015,20 @@ namespace InSightValidationTool
                 {
                     MessageBox.Show("Error setting soft online. Verify that ISE is not connected.");
                 }
-            }
+            }*/
+           
+
         }
 
         private async void liveModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_inSight.Connected)
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+            if (selectedControl.InSight._inSight.Connected)
             {
                 try
                 {
-                    bool nextLiveMode = !_inSight.LiveMode;
-                    await _inSight.SetLiveModeAsync(nextLiveMode);
+                    bool nextLiveMode = !selectedControl.InSight._inSight.LiveMode;
+                    await selectedControl.InSight._inSight.SetLiveModeAsync(nextLiveMode);
                     this.showSpreadsheetToolStripMenuItem.Checked = !nextLiveMode;
                 }
                 catch (Exception)
@@ -1063,12 +1083,13 @@ namespace InSightValidationTool
         /// </summary>
         private async void triggerMenuItem_Click(object sender, EventArgs e)
         {
-            if (_inSight.Connected)
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+            if (selectedControl.InSight._inSight.Connected)
             {
                 try
                 {
                     Debug.WriteLine("Manual Acquire Ticks: " + (Environment.TickCount - _startTicks).ToString());
-                    await _inSight.ManualAcquire();
+                    await selectedControl.InSight._inSight.ManualAcquire();
                 }
                 catch (Exception)
                 {
@@ -1079,7 +1100,9 @@ namespace InSightValidationTool
 
         private async void loadJobMenuItem_Click(object sender, EventArgs e)
         {
-            if (_inSight.Connected)
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+
+            if (selectedControl.InSight._inSight.Connected)
             {
                 var filePath = string.Empty;
 
@@ -1097,7 +1120,8 @@ namespace InSightValidationTool
 
                         try
                         {
-                            await _inSight.LoadJobData(filePath).ConfigureAwait(false);
+                            await selectedControl.InSight.LoadJob(filePath);    
+                            //await _inSight.LoadJobData(filePath).ConfigureAwait(false);
                         }
                         catch (Exception ex)
                         {
@@ -1110,13 +1134,13 @@ namespace InSightValidationTool
 
         private async void loadImageMenuItem_Click(object sender, EventArgs e)
         {
-
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
             //ChangeStatetoOffline
-            if (_inSight.Connected)
+            if (selectedControl.InSight._inSight.Connected)
             {
                 try
                 {
-                    await _inSight.SetSoftOnlineAsync(false);
+                    await selectedControl.InSight.SetCameraStatus(false);
                 }
                 catch (Exception)
                 {
@@ -1124,7 +1148,7 @@ namespace InSightValidationTool
                 }
             }
 
-            if (_inSight.Connected)
+            if (selectedControl.InSight._inSight.Connected)
             //if(true)
             {
                 var filePath = string.Empty;
@@ -1143,8 +1167,9 @@ namespace InSightValidationTool
 
                         try
                         {
-                            await _inSight.LoadImage(filePath);
-                            m_imageloadFlag = true;
+                            await selectedControl.InSight.LoadImage(filePath);    
+                            //await _inSight.LoadImage(filePath);
+                            selectedControl.InSight._imageLoaded = true;    
                         }
                         catch (Exception ex)
                         {
@@ -1160,10 +1185,11 @@ namespace InSightValidationTool
 
         private void saveImageMenuItem_Click(object sender, EventArgs e)
         {
-            if (_inSight.Connected)
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+            if (selectedControl.InSight._inSight.Connected)
             //if(true)
             {
-                string imageUrl = _inSight.GetMainImageUrl();
+                string imageUrl = selectedControl.InSight._inSight.GetMainImageUrl();
                 if (imageUrl.Length > 0)
                 {
                     var filePath = string.Empty;
@@ -1212,7 +1238,9 @@ namespace InSightValidationTool
 
         private void loadHmiCellsMenuItem_Click(object sender, EventArgs e)
         {
-            if (_inSight.Connected)
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+
+            if (selectedControl.InSight._inSight.Connected)
             {
                 var filePath = string.Empty;
 
@@ -1250,11 +1278,16 @@ namespace InSightValidationTool
 
         private void showSpreadsheetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_inSight.Connected)
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+
+            if (selectedControl.InSight._inSight.Connected)
             {
+                selectedControl.cvsSpreadsheet1.Visible = showSpreadsheetToolStripMenuItem.Checked;
+                selectedControl.dgwImageResults.Visible = !showSpreadsheetToolStripMenuItem.Checked;
                 // cvsSpreadsheet.Visible = showSpreadsheetToolStripMenuItem.Checked;
                 //dgwImageResults.Visible = !showSpreadsheetToolStripMenuItem.Checked;
-                UpdateState();
+                selectedControl.UpdateState();  
+                //UpdateState();
             }
         }
 
@@ -1351,7 +1384,9 @@ namespace InSightValidationTool
 
         private void loadValidationFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!_inSight.Connected)
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+           
+            if (selectedControl.InSight._inSight.Connected)
             {
                 using (OpenFileDialog openFileDialog = new OpenFileDialog())
                 {
@@ -1368,7 +1403,9 @@ namespace InSightValidationTool
                         using (StreamReader sr = new StreamReader(openFileDialog.FileName))
                         {
                             string jsonfile = sr.ReadToEnd();
-                            m_configuration = JToken.Parse(jsonfile);
+                            selectedControl.InSight.Configuration = JToken.Parse(jsonfile);
+                            
+                            //m_configuration = JToken.Parse(jsonfile);
                             loadValidationConfig();
                         }
 
@@ -1418,6 +1455,8 @@ namespace InSightValidationTool
         /// </summary>
         private void saveValidationFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
                 saveFileDialog.InitialDirectory = ".";
@@ -1431,7 +1470,7 @@ namespace InSightValidationTool
                     // Get the path of specified file
                     string filePath = saveFileDialog.FileName;
                     setupSaveConfiguration();
-                    string json = JsonConvert.SerializeObject(m_configuration,Formatting.Indented);
+                    string json = JsonConvert.SerializeObject(selectedControl.InSight.Configuration,Formatting.Indented);
                     System.IO.File.WriteAllText(filePath, json);
                 }
             }
@@ -1483,5 +1522,101 @@ namespace InSightValidationTool
         {
 
         }
+
+        private void tabPageClick(object sender, EventArgs e) { 
+        
+        UpdateWindowState();    
+
+        }
+
+        private void UpdateWindowState() {
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+
+            if (selectedControl != null)
+            {
+                try
+                {
+                    selectedControl.lblState.Invoke((Action)delegate
+                    {
+                        if (selectedControl.InSight._inSight.Connected)
+                        {
+                            onlineMenuItem.Text = selectedControl.InSight._inSight.Online ? "Go Offline" : "Go Online";
+                            liveModeMenuItem.Checked = selectedControl.InSight._inSight.LiveMode;
+                            CvsCameraInfo info = selectedControl.InSight._inSight.CameraInfo;
+                            tabCtrlContent.SelectedTab.Text = info.HostName;
+                            info = null;
+                        }
+                        else {
+                            onlineMenuItem.Text = "Go Online";
+                            liveModeMenuItem.Checked = false;
+                            tabCtrlContent.SelectedTab.Text = "Default Connection";
+                        }
+                        aboutMenuItem.Enabled = selectedControl.InSight._inSight.Connected;
+
+                        bool connectedButNotBusy = selectedControl.InSight._inSight.Connected && !selectedControl.InSight._inSight.EditorAttached && !selectedControl.InSight._inSight.JobLoading;
+                        bool isOffline = connectedButNotBusy && !selectedControl.InSight._inSight.Online;
+
+                        triggerMenuItem.Enabled = connectedButNotBusy;
+                        onlineMenuItem.Enabled = connectedButNotBusy;
+                        liveModeMenuItem.Enabled = isOffline;
+                        loadImageMenuItem.Enabled = isOffline;
+                        loadImageMenuItem.Enabled = true;
+                        loadHmiCellsMenuItem.Enabled = isOffline;
+                        saveImageMenuItem.Enabled = connectedButNotBusy;
+                        loadJobMenuItem.Enabled = isOffline;
+                        hmiCustomViewMenuItem.Enabled = isOffline;
+                        hmiSettingsMenuItem.Enabled = isOffline;
+                        openHMIMenuItem.Enabled = connectedButNotBusy;
+                        saveQueuedImagesToolStripMenuItem.Enabled = selectedControl.InSight._inSight.Connected;
+
+                       
+
+                    });
+
+
+                }
+                catch (Exception)
+                {
+
+                    //Ignore
+                }
+            }
+
+        }
+
+
+        private void TabCtrlContent_DrawItem(object sender, System.Windows.Forms.DrawItemEventArgs e)
+        {
+            TabControl tabControl = sender as TabControl;
+            if (tabControl != null) {//First time we're drawing it
+               Graphics g = e.Graphics; 
+                TabPage tabPage = tabControl.TabPages[0];
+                Rectangle tabBounds = tabControl.GetTabRect(0);
+
+                //Definir fuente y color
+                Color bakgroundColor = Color.DarkGray;
+                Color textColor = Color.White;  
+                Font tabfont = new Font("Calibri",10.0f,FontStyle.Bold,GraphicsUnit.Pixel);
+                //Dibujar Fondo
+                g.FillRectangle(new SolidBrush(bakgroundColor), tabBounds);
+
+                //Add Image
+                System.Drawing.Image tabImage = Resources.IS2800;
+                Rectangle imageRect = new Rectangle(tabBounds.Left + 5, tabBounds.Top, tabBounds.Width - 25, tabBounds.Height);
+                g.DrawImage(tabImage, imageRect);
+
+                //DrawText
+                Rectangle textRect = new Rectangle(tabBounds.Left + 25, tabBounds.Top, tabBounds.Width - 25, tabBounds.Height);
+                StringFormat stringFlags = new StringFormat
+                {
+                    Alignment = StringAlignment.Near,
+                    LineAlignment = StringAlignment.Center
+                };
+
+                g.DrawString(tabPage.Text, tabfont, new SolidBrush(textColor), textRect, stringFlags);
+            }
+        }
+
+
     }
 }

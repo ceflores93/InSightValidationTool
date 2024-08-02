@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,7 +27,15 @@ namespace WebAPISampleApp
         public List<String> imgspath = null;
 
         private InSightDevice inSightSystem;
+        public delegate void InSightValidationControlEventHandler(object sender, EventArgs e);
 
+        public event InSightValidationControlEventHandler InSightValidationControl_OnUpdate;
+
+        protected virtual void onUpdateEvent(EventArgs e)
+        {
+
+            InSightValidationControl_OnUpdate(this, e); 
+        }
         public InsightValidationControl()
         {
             //Create Default Connection
@@ -49,6 +58,8 @@ namespace WebAPISampleApp
             inSightSystem._inSight.JobInfoChanged += OnJobInfoChanged;
             inSightSystem._inSight.JobLoadingChanged += OnJobLoadingChanged;
             inSightSystem._inSight.EditorAttachedChanged += OnEditorAttachedChanged;
+
+           
         }
 
         ~InsightValidationControl()
@@ -122,7 +133,7 @@ namespace WebAPISampleApp
         /// <summary>
         /// Updates the controls that use the state (i.e.  not connected/connected, offline/online, live mode)
         /// </summary>
-        private void UpdateState()
+        public void UpdateState()
         {
             try
             {
@@ -157,12 +168,14 @@ namespace WebAPISampleApp
                         dgwImageResults.Rows.Clear();
                         inSightSystem._imageEntries.Clear();
                         inSightSystem._imageLoaded = false;
+                        lblValidationResult.Text = "None";
+                        lblValidationResult.ForeColor = Color.Orange;
                     }
 
                     //aboutMenuItem.Enabled = _inSight.Connected;
 
-                    bool connectedButNotBusy = inSightSystem._inSight.Connected && !inSightSystem._inSight.EditorAttached && !inSightSystem._inSight.JobLoading;
-                    bool isOffline = connectedButNotBusy && !inSightSystem._inSight.Online;
+                   // bool connectedButNotBusy = inSightSystem._inSight.Connected && !inSightSystem._inSight.EditorAttached && !inSightSystem._inSight.JobLoading;
+                    //bool isOffline = connectedButNotBusy && !inSightSystem._inSight.Online;
 
                     //triggerMenuItem.Enabled = connectedButNotBusy;
                     //onlineMenuItem.Enabled = connectedButNotBusy;
@@ -192,6 +205,7 @@ namespace WebAPISampleApp
                         CenterCustomView();
                         cvsCustomView1.setCustomViewName(inSightSystem._inSight);
                     }
+                    onUpdateEvent(EventArgs.Empty); 
 
 
                 });
@@ -278,25 +292,28 @@ namespace WebAPISampleApp
 
         public async void OnResultsChanged(object sender, EventArgs e)
         {
-            JToken results = inSightSystem.Results;
-            inSightSystem.Results = results;
+            JToken results = inSightSystem._inSight.Results;
+            //inSightSystem.Results = results;
 
             //If Camera is connected and Images Loaded into GridView retrieve Job Result 
 
-            if (inSightSystem._inSight.Connected && inSightSystem._imageLoaded && currentIndex < inSightSystem._imageEntries.Count)
+            if (inSightSystem._inSight.Connected == true && inSightSystem._imageLoaded == true && (currentIndex < inSightSystem._imageEntries.Count)==true)
             {
-                // MessageBox.Show(m_currentIndex.ToString());
-                if (results["jobStatus"].Value<int>() != 1)
-                {
-                    inSightSystem._imageEntries[currentIndex].ActualResult = false;
-                }
-                else
-                {
-                    inSightSystem._imageEntries[currentIndex].ActualResult = true;
-                }
+                
+                    // MessageBox.Show(m_currentIndex.ToString());
+                    if (results["jobStatus"].Value<int>() != 1)
+                    {
+                        inSightSystem._imageEntries[currentIndex].ActualResult = false;
+                    }
+                    else
+                    {
+                        inSightSystem._imageEntries[currentIndex].ActualResult = true;
+                    }
+                    cvsSpreadsheet1.UpdateResults(results);
+                    cvsCustomView1.UpdateResults(results);
+                
             }
-            cvsSpreadsheet1.UpdateResults(results);
-            cvsCustomView1.UpdateResults(results);
+            
             UpdateDataGridView();
             //UpdateMessages();
             if (inSightSystem._inSight.Connected) UpdateValidationResult();
@@ -320,6 +337,11 @@ namespace WebAPISampleApp
             dgwImageResults.AllowUserToAddRows = false;
             dgwImageResults.AllowUserToDeleteRows = false;
 
+            dgwImageResults.ColumnHeadersDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            dgwImageResults.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgwImageResults.ColumnHeadersDefaultCellStyle.Font = new Font("Calibri", 12.0f, FontStyle.Bold);
+            
+
 
             // Column for Thumbnail
             DataGridViewImageColumn imageColumn = new DataGridViewImageColumn();
@@ -328,6 +350,7 @@ namespace WebAPISampleApp
             imageColumn.Width = ThumbnailSize;
             imageColumn.Name = "ImagePreview";
             imageColumn.DataPropertyName = "Preview"; // DataPropertyName should match the property in ImageEntry
+            
             dgwImageResults.Columns.Add(imageColumn);
 
             // Column for Filename
@@ -633,9 +656,14 @@ namespace WebAPISampleApp
             }
         }
 
-        private async void btnConnectDisconnect_Click(object sender, EventArgs e)
+        private void btnConnectDisconnect_Click(object sender, EventArgs e)
         {
-            await inSightSystem.Connect();  
+              ConnectDisconnect();  
+        }
+
+        public async void ConnectDisconnect() {
+
+           await inSightSystem.Connect();
         }
 
 
@@ -666,8 +694,55 @@ namespace WebAPISampleApp
             }
         }
 
+        public async void OnlineOffline() {
 
+            await inSightSystem.SetCameraStatus();
+        }
 
+        public async void loadValidationConfig() {
+            
+            // Set Camera connection Parameters
+            string ipwithport = String.Empty;
+            
+            JToken cameraConnection = InSight.Configuration["CameraConnection"].Value<JToken>();
+            JToken ImageEntryData = InSight.Configuration["Images"].Value<JToken>();
+            tbIpAddressWithPort.Text = cameraConnection["IPAddressPort"].Value<String>();
+            tbUsername.Text = cameraConnection["User"].Value<String>();
+            tbPassword.Text = cameraConnection["Password"].Value<String>();
 
+            //Connect if specified
+            if (cameraConnection["AutoConnect"].Value<Boolean>())
+            {
+                //  chkAutoConnect.CheckState = CheckState.Checked;
+                await InSight.Connect();
+            }
+
+            //LoadJobFile If neccesary
+            if (InSight.Configuration["JobFile"].Value<String>() != InSight._inSight.JobInfo["name"].Value<String>())
+            {
+                await InSight.LoadJob(InSight.Configuration["JobFile"].Value<String>());
+
+            }
+            //Set Image Folder Parameters and load image
+            InSight._imageEntries.Clear();  
+            InSight._imageLoaded = false;
+            //m_ImagesLoaded = false;
+
+            InSight._imageEntries = JsonConvert.DeserializeObject<List<InSightDevice.ImageEntry>>(ImageEntryData.ToString());
+
+            UpdateDataGridView();
+            UpdateState();
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -10,6 +10,8 @@
 //*******************************************************************************
 
 using Cognex.InSight.Web.Controls;
+using System.Windows.Forms;
+using WebAPISampleApp;
 
 namespace InSightValidationTool
 {
@@ -74,7 +76,7 @@ namespace InSightValidationTool
             this.btnMinimize = new System.Windows.Forms.Button();
             this.tbllyMainWindow = new System.Windows.Forms.TableLayoutPanel();
             this.pnlTopPanel = new System.Windows.Forms.Panel();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabCtrlContent = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.insightValidationControl1 = new WebAPISampleApp.InsightValidationControl();
@@ -82,7 +84,7 @@ namespace InSightValidationTool
             this.controlBox.SuspendLayout();
             this.tbllyMainWindow.SuspendLayout();
             this.pnlTopPanel.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.tabCtrlContent.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -264,7 +266,7 @@ namespace InSightValidationTool
             this.triggerMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.triggerMenuItem.ForeColor = System.Drawing.Color.White;
             this.triggerMenuItem.Name = "triggerMenuItem";
-            this.triggerMenuItem.Size = new System.Drawing.Size(142, 26);
+            this.triggerMenuItem.Size = new System.Drawing.Size(224, 26);
             this.triggerMenuItem.Text = "Trigger";
             this.triggerMenuItem.Click += new System.EventHandler(this.triggerMenuItem_Click);
             // 
@@ -424,7 +426,7 @@ namespace InSightValidationTool
             this.tbllyMainWindow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tbllyMainWindow.Controls.Add(this.menuStrip, 0, 1);
             this.tbllyMainWindow.Controls.Add(this.pnlTopPanel, 0, 0);
-            this.tbllyMainWindow.Controls.Add(this.tabControl1, 0, 2);
+            this.tbllyMainWindow.Controls.Add(this.tabCtrlContent, 0, 2);
             this.tbllyMainWindow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbllyMainWindow.Location = new System.Drawing.Point(0, 0);
             this.tbllyMainWindow.Margin = new System.Windows.Forms.Padding(0);
@@ -449,36 +451,42 @@ namespace InSightValidationTool
             this.pnlTopPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlTopPanel_MouseMove);
             this.pnlTopPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnlTopPanel_MouseUp);
             // 
-            // tabControl1
+            // tabCtrlContent
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(3, 67);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1914, 1010);
-            this.tabControl1.TabIndex = 26;
+            this.tabCtrlContent.Controls.Add(this.tabPage1);
+            this.tabCtrlContent.Controls.Add(this.tabPage2);
+            this.tabCtrlContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabCtrlContent.Location = new System.Drawing.Point(3, 67);
+            this.tabCtrlContent.Name = "tabCtrlContent";
+            this.tabCtrlContent.SelectedIndex = 0;
+            this.tabCtrlContent.Size = new System.Drawing.Size(1914, 1010);
+            this.tabCtrlContent.TabIndex = 26;
+            
+            this.tabCtrlContent.Selected += new TabControlEventHandler(tabPageClick);
             // 
             // tabPage1
             // 
+            this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
             this.tabPage1.Controls.Add(this.insightValidationControl1);
+            this.tabPage1.Font = new System.Drawing.Font("Calibri", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage1.Location = new System.Drawing.Point(4, 26);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(1906, 980);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabPage1.Text = "DefaultConnection";
+            insightValidationControl1.InSightValidationControl_OnUpdate += tabPageClick;
+            
             // 
             // tabPage2
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 26);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(192, 70);
+            this.tabPage2.Size = new System.Drawing.Size(1906, 981);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "+";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // insightValidationControl1
@@ -488,6 +496,7 @@ namespace InSightValidationTool
             this.insightValidationControl1.Name = "insightValidationControl1";
             this.insightValidationControl1.Size = new System.Drawing.Size(1900, 974);
             this.insightValidationControl1.TabIndex = 0;
+           
             // 
             // MainFormWindow
             // 
@@ -512,13 +521,21 @@ namespace InSightValidationTool
             this.tbllyMainWindow.ResumeLayout(false);
             this.tbllyMainWindow.PerformLayout();
             this.pnlTopPanel.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
+            this.tabCtrlContent.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
-           
         }
+
+        private void TabCtrlContent_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
+
+
+
 
 
 
@@ -556,10 +573,10 @@ namespace InSightValidationTool
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TableLayoutPanel tbllyMainWindow;
         private System.Windows.Forms.Panel pnlTopPanel;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabCtrlContent;
         private System.Windows.Forms.TabPage tabPage1;
-        private WebAPISampleApp.InsightValidationControl insightValidationControl1;
         private System.Windows.Forms.TabPage tabPage2;
+        private WebAPISampleApp.InsightValidationControl insightValidationControl1;
     }
 }
 
