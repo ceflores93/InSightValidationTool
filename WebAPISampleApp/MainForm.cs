@@ -181,7 +181,7 @@ namespace InSightValidationTool
             return imageEntries;
         }
 
-        private string ConvertToJson(List<ImageEntry> imageEntries)
+        private string ConvertToJson(List<InSightDevice.ImageEntry> imageEntries)
         {
             return JsonConvert.SerializeObject(imageEntries);
         }
@@ -835,36 +835,36 @@ namespace InSightValidationTool
         /// </summary>
         private async void loadValidationConfig()
         {
-
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
             //Set Camera connection Parameters
             string ipwithport = String.Empty;
-            JToken cameraConnection = m_configuration["CameraConnection"].Value<JToken>();
-            JToken ImageEntryData = m_configuration["Images"].Value<JToken>();
-            //tbIpAddressWithPort.Text = cameraConnection["IPAddressPort"].Value<String>();
-            //tbUsername.Text = cameraConnection["User"].Value<String>();
-            //tbPassword.Text = cameraConnection["Password"].Value<String>();
+            JToken cameraConnection = selectedControl.InSight.Configuration["CameraConnection"].Value<JToken>();
+            JToken ImageEntryData = selectedControl.InSight.Configuration["Images"].Value<JToken>();
+            selectedControl.tbIpAddressWithPort.Text = cameraConnection["IPAddressPort"].Value<String>();
+            selectedControl.tbUsername.Text = cameraConnection["User"].Value<String>();
+            selectedControl.tbPassword.Text = cameraConnection["Password"].Value<String>();
 
             //Connect if specified
             if (cameraConnection["AutoConnect"].Value<Boolean>())
             {
                 //  chkAutoConnect.CheckState = CheckState.Checked;
-                await Connect();
+                await selectedControl.InSight.Connect();
             }
 
             //LoadJobFile If neccesary
-            if (m_configuration["JobFile"].Value<String>() != _inSight.JobInfo["name"].Value<String>())
+            if (selectedControl.InSight.Configuration["JobFile"].Value<String>() != selectedControl.InSight._inSight.JobInfo["name"].Value<String>())
             {
-                await LoadJob(m_configuration["JobFile"].Value<String>());
+                await selectedControl.InSight.LoadJob(selectedControl.InSight.Configuration["JobFile"].Value<String>());
                 
             }
             //Set Image Folder Parameters and load images
-            m_imageEntries.Clear();
-            m_ImagesLoaded = false;
+            selectedControl.InSight._imageEntries.Clear();
+            selectedControl.InSight._imageLoaded= false;
 
-            m_imageEntries = JsonConvert.DeserializeObject<List<ImageEntry>> (ImageEntryData.ToString());
+            selectedControl.InSight._imageEntries = JsonConvert.DeserializeObject<List<InSightDevice.ImageEntry>> (ImageEntryData.ToString());
             
-            UpdateDataGridView();
-            UpdateState();   
+            selectedControl.UpdateDataGridView();
+            selectedControl.UpdateState();   
         }
 
         private async Task Connect()
@@ -1387,8 +1387,7 @@ namespace InSightValidationTool
         {
             InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
            
-            if (selectedControl.InSight._inSight.Connected)
-            {
+            
                 using (OpenFileDialog openFileDialog = new OpenFileDialog())
                 {
                     openFileDialog.InitialDirectory = ".";
@@ -1414,39 +1413,40 @@ namespace InSightValidationTool
 
                 }
 
-            }
+            
         }
         /// <summary>
         /// Handles modifying current configuration to save latest values
         /// </summary>
         private void setupSaveConfiguration() { 
             JObject CameraConnection = new JObject();
-            JObject JobFileName = new JObject();
-            //JObject ImageResultData = new JObject();
+            JObject ImageResultData = new JObject();
             JObject config = new JObject();
 
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
 
 
             //Clear Current Configuration
-            m_configuration = null;
-
+             selectedControl.InSight.Configuration = null;
+              
             //Save Camera connection Parameters
-            //  CameraConnection.Add("IPAddressPort",tbIpAddressWithPort.Text);
-            //CameraConnection.Add("User",tbUsername.Text);
-            //CameraConnection.Add("Password",tbPassword.Text);
-            //CameraConnection.Add("AutoConnect", chkAutoConnect.Checked);
+            CameraConnection.Add("IPAddressPort", selectedControl.tbIpAddressWithPort.Text);
+            CameraConnection.Add("User",selectedControl.tbUsername.Text);
+            CameraConnection.Add("Password",selectedControl.tbPassword.Text);
+            CameraConnection.Add("AutoConnect", selectedControl.chkAutoConnect.Checked);
 
 
             //Save Job FileName
-            //JobFileName.Add("JobFile",lblJobInfo.Text);
+           // JobFileName.Add("JobFile",selectedControl.lblJobInfo.Text);
 
 
-
+            string jobFile = selectedControl.InSight._inSight.JobInfo["name"].Value<String>();
+            jobFile = jobFile.Substring(1, jobFile.Length - 1);
             config.Add("CameraConnection", CameraConnection);
-            config.Add("JobFile", _inSight.JobInfo["name"].Value<String>());
-            config.Add("Images", ConvertToJson(m_imageEntries));    
+            config.Add("JobFile", jobFile);
+            config.Add("Images", ConvertToJson(selectedControl.InSight._imageEntries));
 
-            m_configuration = config;
+            selectedControl.InSight.Configuration = config;
 
 
         }

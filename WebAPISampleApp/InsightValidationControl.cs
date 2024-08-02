@@ -435,7 +435,7 @@ namespace WebAPISampleApp
             }
         }
 
-        private void UpdateDataGridView()
+        public void UpdateDataGridView()
         {
             dgwImageResults.Invoke((Action)delegate
             {
