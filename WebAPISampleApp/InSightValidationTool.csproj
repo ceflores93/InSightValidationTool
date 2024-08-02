@@ -156,6 +156,10 @@
     <None Include="Resources\icons8-images-folder-28.png" />
     <None Include="Resources\connecticon2.png" />
     <None Include="Resources\connecticon1.png" />
+    <None Include="Resources\favicon.png" />
+    <None Include="Resources\IS2800.png" />
+    <None Include="Resources\IS3800.png" />
+    <None Include="Resources\ISD900.png" />
     <Content Include="testing-icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

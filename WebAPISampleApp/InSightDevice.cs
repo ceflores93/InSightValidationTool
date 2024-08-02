@@ -58,7 +58,7 @@ namespace InSightValidationTool
 
         public int _startTicks;
         public string _deviceName;
-        public List<ImageEntry> _imageEntries;
+        public List<ImageEntry> _imageEntries = new List<ImageEntry>();
         public bool _imageLoaded;
         private bool _secuence;
         public TaskCompletionSource<bool> _imageProcessedSignal;
@@ -80,7 +80,7 @@ namespace InSightValidationTool
             _startTicks = Environment.TickCount;    
 
             _inSight = new CvsInSight();
-            _inSight.PreviewMessage += _inSight_PreviewMessage;
+           /* _inSight.PreviewMessage += _inSight_PreviewMessage;
             _inSight.ResultsChanged += _inSight_ResultsChanged;
             _inSight.ConnectedChanged += _inSight_ConnectedChanged;
             _inSight.ConnectingChanged += _inSight_ConnectingChanged;
@@ -89,7 +89,7 @@ namespace InSightValidationTool
             _inSight.JobInfoChanged += _inSight_JobInfoChanged;
             _inSight.JobLoadingChanged += _inSight_JobLoadingChanged;
             _inSight.EditorAttachedChanged += _inSight_EditorAttachedChanged;
-        }
+        */}
 
         private void _inSight_PreviewMessage(object sender, MessagePayloadPreviewEventArgs e)
         {
@@ -199,7 +199,7 @@ namespace InSightValidationTool
 
         private async void UnsubscribeEvents()
         {
-            _inSight.PreviewMessage -= _inSight_PreviewMessage;
+            /*_inSight.PreviewMessage -= _inSight_PreviewMessage;
             _inSight.ResultsChanged -= _inSight_ResultsChanged;
             _inSight.ConnectedChanged -= _inSight_ConnectedChanged;
             _inSight.StateChanged -= _inSight_StateChanged;
@@ -207,7 +207,8 @@ namespace InSightValidationTool
             _inSight.JobInfoChanged -= _inSight_JobInfoChanged;
             _inSight.JobLoadingChanged -= _inSight_JobLoadingChanged;
             _inSight.EditorAttachedChanged -= _inSight_EditorAttachedChanged;
-            await _inSight.Disconnect();
+            
+            */await _inSight.Disconnect();
         }
 
 
@@ -291,6 +292,22 @@ namespace InSightValidationTool
             }
         }
 
+
+        public async Task SetCameraStatus()
+        {
+            if (_inSight.Connected)
+            {
+                try
+                {
+                    await _inSight.SetSoftOnlineAsync(!_inSight.SoftOnline);
+
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Error setting soft Status. Verify that ISE is not connected.");
+                }
+            }
+        }
 
         public async Task SetCameraStatus(bool state)
         {

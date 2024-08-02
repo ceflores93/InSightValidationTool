@@ -29,6 +29,10 @@ using System.Collections.Generic;
 using System.Linq;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.AxHost;
+using WebAPISampleApp.Properties;
+using WebAPISampleApp;
+using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 
 namespace InSightValidationTool
 {
@@ -39,7 +43,7 @@ namespace InSightValidationTool
     /// 
     /// A PictureBox is used to render the current image.
     /// </summary>
-    public partial class MainForm : Form
+    public partial class MainFormWindow : Form
     {
         // Holds the connection to the camera and provides an abstraction for the API
         public class ImageEntry
@@ -71,7 +75,7 @@ namespace InSightValidationTool
 
 
 
-        public MainForm()
+        public MainFormWindow()
         {
             InitializeComponent();
             InitializeDataGridView();    
@@ -90,22 +94,22 @@ namespace InSightValidationTool
 
 
 
-            cvsSpreadsheet.SetInSight(_inSight);
-            cvsCustomView.SetInSight(_inSight);
-            cvsDisplay.SetInSight(_inSight);
+            //cvsSpreadsheet.SetInSight(_inSight);
+            //cvsCustomView.SetInSight(_inSight);
+            //cvsDisplay.SetInSight(_inSight);
             // cvsFilmstrip.SetInSight(_inSight);
 
-            dgwImageResults.CellValueChanged += dgwImageResults_CellValueChanged;
-            dgwImageResults.CellDoubleClick += dgwImageResults_CellDoubleClick; 
+            //dgwImageResults.CellValueChanged += dgwImageResults_CellValueChanged;
+            //dgwImageResults.CellDoubleClick += dgwImageResults_CellDoubleClick; 
         }
 
         private void InitializeDataGridView() {
 
-         
 
-            dgwImageResults.AutoGenerateColumns = false;
-            dgwImageResults.AllowUserToAddRows = false;
-            dgwImageResults.AllowUserToDeleteRows = false;
+
+            //dgwImageResults.AutoGenerateColumns = false;
+            //dgwImageResults.AllowUserToAddRows = false;
+            //dgwImageResults.AllowUserToDeleteRows = false;
 
 
             // Column for Thumbnail
@@ -115,7 +119,7 @@ namespace InSightValidationTool
             imageColumn.Width = ThumbnailSize;
             imageColumn.Name = "ImagePreview";
             imageColumn.DataPropertyName = "Preview"; // DataPropertyName should match the property in ImageEntry
-            dgwImageResults.Columns.Add(imageColumn);
+            //dgwImageResults.Columns.Add(imageColumn);
 
             // Column for Filename
             DataGridViewTextBoxColumn filenameColumn = new DataGridViewTextBoxColumn();
@@ -123,7 +127,7 @@ namespace InSightValidationTool
             filenameColumn.Width = 400;
             filenameColumn.DataPropertyName = "Image Name";
             filenameColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgwImageResults.Columns.Add(filenameColumn);
+            //dgwImageResults.Columns.Add(filenameColumn);
 
 
             // Column for Expected Result (ComboBox)
@@ -140,16 +144,16 @@ namespace InSightValidationTool
         };
             expectedColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             expectedColumn.Name = "ExpectedResult";
-            dgwImageResults.Columns.Add(expectedColumn);
+            //dgwImageResults.Columns.Add(expectedColumn);
 
             // Column for Actual Result
             DataGridViewTextBoxColumn actualColumn = new DataGridViewTextBoxColumn();
             actualColumn.HeaderText = "Actual Result";
             actualColumn.DataPropertyName = "ActualResult";
             actualColumn.Name = "ActualResult";
-            dgwImageResults.Columns.Add(actualColumn);
+            //dgwImageResults.Columns.Add(actualColumn);
 
-            dgwImageResults.RowTemplate.Height = RowHeight;
+            //dgwImageResults.RowTemplate.Height = RowHeight;
         }
 
         private void PopulateGridView() {
@@ -178,7 +182,7 @@ namespace InSightValidationTool
             return imageEntries;
         }
 
-        private string ConvertToJson(List<ImageEntry> imageEntries)
+        private string ConvertToJson(List<InSightDevice.ImageEntry> imageEntries)
         {
             return JsonConvert.SerializeObject(imageEntries);
         }
@@ -201,18 +205,18 @@ namespace InSightValidationTool
         private void AutoResizeRowHeights()
         {
             // Autoresize row heights based on ThumbnailSize + padding
-            foreach (DataGridViewRow row in dgwImageResults.Rows)
+            /*foreach (DataGridViewRow row in dgwImageResults.Rows)
             {
                 int desiredHeight = ThumbnailSize + dgwImageResults.RowTemplate.DefaultCellStyle.Padding.Vertical;
                 row.Height = desiredHeight;
-            }
+            }*/
         }
 
 
         private void AutoResizeColumnWidths()
         {
             // Autoresize column widths to fill DataGridView
-            int totalColumnWidths = dgwImageResults.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
+            /*int totalColumnWidths = dgwImageResults.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
             int dataGridViewWidth = dgwImageResults.ClientSize.Width;
 
             // Adjust only if the total column widths are less than the DataGridView width
@@ -222,7 +226,7 @@ namespace InSightValidationTool
                 {
                     column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
-            }
+            }*/
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -233,7 +237,7 @@ namespace InSightValidationTool
 
 
         private  void UpdateDataGridView()
-        {
+        {/*
             dgwImageResults.Invoke((Action)delegate
             {
                 dgwImageResults.Rows.Clear();
@@ -296,12 +300,12 @@ namespace InSightValidationTool
                 }
             });
 
-            
+           */ 
         }
 
         private void  UpdateValidationResult() {
 
-            m_ValidationResult = true;  
+            /*m_ValidationResult = true;  
             foreach (DataGridViewRow row in dgwImageResults.Rows)
             {
                 bool actual = false;    
@@ -310,7 +314,7 @@ namespace InSightValidationTool
                 if (expected != actual) m_ValidationResult = false;
             }
 
-            lblValidationResult.Invoke((Action)delegate { 
+            /*lblValidationResult.Invoke((Action)delegate { 
 
             if (m_ValidationResult)
             {
@@ -324,13 +328,13 @@ namespace InSightValidationTool
             }
 
             });
-
+            */
         }
         private void dgwImageResults_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
+        {/*
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0) // Ensure valid cell
             {
-                DataGridViewRow row = dgwImageResults.Rows[e.RowIndex];
+                //  DataGridViewRow row = dgwImageResults.Rows[e.RowIndex];
                 ImageEntry entry = m_imageEntries[e.RowIndex];
 
                 // Update ImageEntry object based on DataGridView change
@@ -355,10 +359,10 @@ namespace InSightValidationTool
                 // Update the list if necessary
                 m_imageEntries[e.RowIndex] = entry;
             }
-        }
+        */}
 
         private void dgwImageResults_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+          /*  if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
                 // Check if the double-clicked cell is in the thumbnail column
                 if (dgwImageResults.Columns[e.ColumnIndex].Name == "ImagePreview")
@@ -373,7 +377,7 @@ namespace InSightValidationTool
                 }
             }
 
-        }
+        */}
 
 
         /// <summary>
@@ -408,7 +412,7 @@ namespace InSightValidationTool
         {
             InitForNewJob();
             UpdateState();
-            await cvsDisplay.UpdateResults();
+            //  await cvsDisplay.UpdateResults();
             //cvsFilmstrip.UpdateResults();
         }
 
@@ -494,12 +498,12 @@ namespace InSightValidationTool
 
 
 
-            cvsSpreadsheet.UpdateResults(results);
-            cvsCustomView.UpdateResults(results);
+            //cvsSpreadsheet.UpdateResults(results);
+            //cvsCustomView.UpdateResults(results);
             UpdateDataGridView();   
             UpdateMessages();
             if (_inSight.Connected) UpdateValidationResult();
-            await cvsDisplay.UpdateResults();
+            //await cvsDisplay.UpdateResults();
 
             //cvsFilmstrip.UpdateResults();
             if (m_Secuence && m_currentIndex < m_imageEntries.Count)
@@ -544,7 +548,7 @@ namespace InSightValidationTool
 
 
         private void InitForNewJob()
-        {
+        {/*
             cvsSpreadsheet.Invoke((Action)delegate
             {
                 cvsSpreadsheet.InitSpreadsheet(); // Clear the spreadsheet
@@ -552,14 +556,14 @@ namespace InSightValidationTool
                 cvsDisplay.InitDisplay(); // Clear the graphics
 
             });
-
+            */
         }
 
         /// <summary>
         /// Updates the controls that use the state (i.e.  not connected/connected, offline/online, live mode)
         /// </summary>
         private void UpdateState()
-        {
+        {/*
             try
             {
                 lblState.Invoke((Action)delegate
@@ -590,7 +594,7 @@ namespace InSightValidationTool
                         if(_inSight.Connecting) lblState.ForeColor = Color.Blue; else lblState.ForeColor = Color.Red;
                         onlineMenuItem.Text = "Go Online";
                         liveModeMenuItem.Checked = false;
-                        dgwImageResults.Rows.Clear();
+                        //dgwImageResults.Rows.Clear();
                         m_imageEntries.Clear();
                         m_ImagesLoaded =false;
                     }
@@ -618,9 +622,9 @@ namespace InSightValidationTool
                     //cvsFilmstrip.Enabled = _inSight.Connected && !_inSight.JobLoading;
                     saveQueuedImagesToolStripMenuItem.Enabled = _inSight.Connected;
 
-                   // this.splitContainer1.Panel2Collapsed = !showSpreadsheetToolStripMenuItem.Checked;
+                    // this.splitContainer1.Panel2Collapsed = !showSpreadsheetToolStripMenuItem.Checked;
 
-                    cvsCustomView.Visible = _inSight.Connected && !_inSight.JobLoading && (_inSight.CustomViewSettings.Length > 0) && (_inSight.CustomViewSettings?[0] != null) && showCustomViewToolStripMenuItem.Checked;
+                    /*      cvsCustomView.Visible = _inSight.Connected && !_inSight.JobLoading && (_inSight.CustomViewSettings.Length > 0) && (_inSight.CustomViewSettings?[0] != null) && showCustomViewToolStripMenuItem.Checked;
                     if (cvsCustomView.Visible)
                     {
                         CenterCustomView();
@@ -634,7 +638,7 @@ namespace InSightValidationTool
             {
                 // Ignore
             }
-        }
+        */}
 
         private void CenterCustomView()
         {
@@ -644,28 +648,28 @@ namespace InSightValidationTool
                 if (cvSettings != null)
                 {
                     // Always display it centered for now,
-                    cvsCustomView.SetBounds((cvsDisplay.Width - cvSettings.Width) / 2, (cvsDisplay.Height - cvSettings.Height) / 2, cvSettings.Width, cvSettings.Height);
+                    //cvsCustomView.SetBounds((cvsDisplay.Width - cvSettings.Width) / 2, (cvsDisplay.Height - cvSettings.Height) / 2, cvSettings.Width, cvSettings.Height);
                 }
             }
         }
 
         protected override void OnSizeChanged(EventArgs e)
-        {
+        {/*
             if (cvsCustomView.Visible)
             {
                 CenterCustomView();
             }
             base.OnSizeChanged(e);
-        }
+        */}
 
         protected override void OnClientSizeChanged(EventArgs e)
         {
-            if (cvsCustomView.Visible)
+            /*if (cvsCustomView.Visible)
             {
                 CenterCustomView();
             }
             base.OnClientSizeChanged(e);
-        }
+        */}
 
 
         #region Formatting/Output
@@ -832,36 +836,38 @@ namespace InSightValidationTool
         /// </summary>
         private async void loadValidationConfig()
         {
-
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
             //Set Camera connection Parameters
             string ipwithport = String.Empty;
-            JToken cameraConnection = m_configuration["CameraConnection"].Value<JToken>();
-            JToken ImageEntryData = m_configuration["Images"].Value<JToken>();
-            tbIpAddressWithPort.Text = cameraConnection["IPAddressPort"].Value<String>();
-            tbUsername.Text = cameraConnection["User"].Value<String>();
-            tbPassword.Text = cameraConnection["Password"].Value<String>();
+            JToken cameraConnection = selectedControl.InSight.Configuration["CameraConnection"].Value<JToken>();
+            JToken ImageEntryData = selectedControl.InSight.Configuration["Images"].Value<JToken>();
+            selectedControl.tbIpAddressWithPort.Text = cameraConnection["IPAddressPort"].Value<String>();
+            selectedControl.tbUsername.Text = cameraConnection["User"].Value<String>();
+            selectedControl.tbPassword.Text = cameraConnection["Password"].Value<String>();
 
             //Connect if specified
             if (cameraConnection["AutoConnect"].Value<Boolean>())
             {
-                chkAutoConnect.CheckState = CheckState.Checked;
-                await Connect();
+                //  chkAutoConnect.CheckState = CheckState.Checked;
+                await selectedControl.InSight.Connect();
             }
-
+            string configurationJob = selectedControl.InSight.Configuration["JobFile"].Value<String>();
+            string cameraJob = selectedControl.InSight._inSight.JobInfo["name"].Value<String>();
+            cameraJob = cameraJob.Substring(1, cameraJob.Length - 1);   
             //LoadJobFile If neccesary
-            if (m_configuration["JobFile"].Value<String>() != _inSight.JobInfo["name"].Value<String>())
+            if (configurationJob != cameraJob)
             {
-                await LoadJob(m_configuration["JobFile"].Value<String>());
+                await selectedControl.InSight.LoadJob(selectedControl.InSight.Configuration["JobFile"].Value<String>());
                 
             }
             //Set Image Folder Parameters and load images
-            m_imageEntries.Clear();
-            m_ImagesLoaded = false;
+            selectedControl.InSight._imageEntries.Clear();
+            selectedControl.InSight._imageLoaded= false;
 
-            m_imageEntries = JsonConvert.DeserializeObject<List<ImageEntry>> (ImageEntryData.ToString());
+            selectedControl.InSight._imageEntries = JsonConvert.DeserializeObject<List<InSightDevice.ImageEntry>> (ImageEntryData.ToString());
             
-            UpdateDataGridView();
-            UpdateState();   
+            selectedControl.UpdateDataGridView();
+            selectedControl.UpdateState();   
         }
 
         private async Task Connect()
@@ -882,9 +888,9 @@ namespace InSightValidationTool
                     sessionInfo.CellNames = new string[1] { "A0:Z599" }; // Designating a cell range requires 6.3 or newer firmware
                     sessionInfo.EnableQueuedResults = true; // When the queue is frozen, then show the queued results
                     sessionInfo.IncludeCustomView = true;
-                    await _inSight.Connect(tbIpAddressWithPort.Text, tbUsername.Text, tbPassword.Text, sessionInfo);
+                    ////await _inSight.Connect(tbIpAddressWithPort.Text, tbUsername.Text, tbPassword.Text, sessionInfo);
 
-                    await cvsDisplay.OnConnected();//GUI
+                    //await cvsDisplay.OnConnected();//GUI
                     //cvsFilmstrip.OnConnected();
                 }
 
@@ -943,7 +949,8 @@ namespace InSightValidationTool
         /// </summary>
         private void aboutMenuItem_Click(object sender, EventArgs e)
         {
-            CvsCameraInfo info = _inSight.CameraInfo;
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+            CvsCameraInfo info = selectedControl.InSight._inSight.CameraInfo;
            
             if (info != null)
             {
@@ -961,11 +968,12 @@ namespace InSightValidationTool
 
         private async void hmiSettingsMenuItem_Click(object sender, EventArgs e)
         {
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
             try
             {
-                if (_inSight.Connected)
+                if (selectedControl.InSight._inSight.Connected)
                 {
-                    JToken hmiSettingsToken = _inSight.Settings.SelectToken("hmi");
+                    JToken hmiSettingsToken = selectedControl.InSight._inSight.Settings.SelectToken("hmi");
                     string hmiSettingsAsString = hmiSettingsToken.ToString();
                     hmiSettingsAsString = Prompt.ShowDialog("Enter HMI Settings:", hmiSettingsAsString, "HMI Settings");
 
@@ -973,7 +981,7 @@ namespace InSightValidationTool
                     {
                         HmiSettings hmiSettings = CvsInSight.JsonSerializer.DeserializeObject(hmiSettingsAsString) as HmiSettings;
 
-                        await _inSight.SetHmiSettingsAsync(hmiSettings);
+                        await selectedControl.InSight._inSight.SetHmiSettingsAsync(hmiSettings);
                     }
                 }
             }
@@ -986,8 +994,21 @@ namespace InSightValidationTool
         /// <summary>
         /// Handles the click event to go online/offline.
         /// </summary>
-        private async void onlineMenuItem_Click(object sender, EventArgs e)
+        private  void onlineMenuItem_Click(object sender, EventArgs e)
         {
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+
+            if (selectedControl != null) { 
+            
+                selectedControl.OnlineOffline();    
+            }
+            else
+            {
+                MessageBox.Show("No control found in the selected tab.");
+            }
+
+           
+            /*
             if (_inSight.Connected)
             {
                 try
@@ -998,17 +1019,20 @@ namespace InSightValidationTool
                 {
                     MessageBox.Show("Error setting soft online. Verify that ISE is not connected.");
                 }
-            }
+            }*/
+           
+
         }
 
         private async void liveModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_inSight.Connected)
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+            if (selectedControl.InSight._inSight.Connected)
             {
                 try
                 {
-                    bool nextLiveMode = !_inSight.LiveMode;
-                    await _inSight.SetLiveModeAsync(nextLiveMode);
+                    bool nextLiveMode = !selectedControl.InSight._inSight.LiveMode;
+                    await selectedControl.InSight._inSight.SetLiveModeAsync(nextLiveMode);
                     this.showSpreadsheetToolStripMenuItem.Checked = !nextLiveMode;
                 }
                 catch (Exception)
@@ -1063,12 +1087,13 @@ namespace InSightValidationTool
         /// </summary>
         private async void triggerMenuItem_Click(object sender, EventArgs e)
         {
-            if (_inSight.Connected)
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+            if (selectedControl.InSight._inSight.Connected)
             {
                 try
                 {
                     Debug.WriteLine("Manual Acquire Ticks: " + (Environment.TickCount - _startTicks).ToString());
-                    await _inSight.ManualAcquire();
+                    await selectedControl.InSight._inSight.ManualAcquire();
                 }
                 catch (Exception)
                 {
@@ -1079,7 +1104,9 @@ namespace InSightValidationTool
 
         private async void loadJobMenuItem_Click(object sender, EventArgs e)
         {
-            if (_inSight.Connected)
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+
+            if (selectedControl.InSight._inSight.Connected)
             {
                 var filePath = string.Empty;
 
@@ -1097,7 +1124,8 @@ namespace InSightValidationTool
 
                         try
                         {
-                            await _inSight.LoadJobData(filePath).ConfigureAwait(false);
+                            await selectedControl.InSight.LoadJob(filePath);    
+                            //await _inSight.LoadJobData(filePath).ConfigureAwait(false);
                         }
                         catch (Exception ex)
                         {
@@ -1110,13 +1138,13 @@ namespace InSightValidationTool
 
         private async void loadImageMenuItem_Click(object sender, EventArgs e)
         {
-
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
             //ChangeStatetoOffline
-            if (_inSight.Connected)
+            if (selectedControl.InSight._inSight.Connected)
             {
                 try
                 {
-                    await _inSight.SetSoftOnlineAsync(false);
+                    await selectedControl.InSight.SetCameraStatus(false);
                 }
                 catch (Exception)
                 {
@@ -1124,7 +1152,7 @@ namespace InSightValidationTool
                 }
             }
 
-            if (_inSight.Connected)
+            if (selectedControl.InSight._inSight.Connected)
             //if(true)
             {
                 var filePath = string.Empty;
@@ -1143,8 +1171,9 @@ namespace InSightValidationTool
 
                         try
                         {
-                            await _inSight.LoadImage(filePath);
-                            m_imageloadFlag = true;
+                            await selectedControl.InSight.LoadImage(filePath);    
+                            //await _inSight.LoadImage(filePath);
+                            selectedControl.InSight._imageLoaded = true;    
                         }
                         catch (Exception ex)
                         {
@@ -1160,10 +1189,11 @@ namespace InSightValidationTool
 
         private void saveImageMenuItem_Click(object sender, EventArgs e)
         {
-            if (_inSight.Connected)
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+            if (selectedControl.InSight._inSight.Connected)
             //if(true)
             {
-                string imageUrl = _inSight.GetMainImageUrl();
+                string imageUrl = selectedControl.InSight._inSight.GetMainImageUrl();
                 if (imageUrl.Length > 0)
                 {
                     var filePath = string.Empty;
@@ -1212,7 +1242,9 @@ namespace InSightValidationTool
 
         private void loadHmiCellsMenuItem_Click(object sender, EventArgs e)
         {
-            if (_inSight.Connected)
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+
+            if (selectedControl.InSight._inSight.Connected)
             {
                 var filePath = string.Empty;
 
@@ -1236,8 +1268,8 @@ namespace InSightValidationTool
                             {
                                 hmiCells.FilePath = filePath;
                             }
-                            cvsCustomView.SetHmiSpreadsheetCells(hmiCells);
-                            cvsSpreadsheet.SetHmiSpreadsheetCells(hmiCells);
+                            //cvsCustomView.SetHmiSpreadsheetCells(hmiCells);
+                            //cvsSpreadsheet.SetHmiSpreadsheetCells(hmiCells);
                         }
                         catch (Exception ex)
                         {
@@ -1250,11 +1282,16 @@ namespace InSightValidationTool
 
         private void showSpreadsheetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_inSight.Connected)
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+
+            if (selectedControl.InSight._inSight.Connected)
             {
-                cvsSpreadsheet.Visible = showSpreadsheetToolStripMenuItem.Checked;
-                dgwImageResults.Visible = !showSpreadsheetToolStripMenuItem.Checked;
-                UpdateState();
+                selectedControl.cvsSpreadsheet1.Visible = showSpreadsheetToolStripMenuItem.Checked;
+                selectedControl.dgwImageResults.Visible = !showSpreadsheetToolStripMenuItem.Checked;
+                // cvsSpreadsheet.Visible = showSpreadsheetToolStripMenuItem.Checked;
+                //dgwImageResults.Visible = !showSpreadsheetToolStripMenuItem.Checked;
+                selectedControl.UpdateState();  
+                //UpdateState();
             }
         }
 
@@ -1308,7 +1345,7 @@ namespace InSightValidationTool
 
         private void shwMenuBar_CheckedChanged(object sender, EventArgs e)
         {
-            this.menuStrip.Visible = shwMenuBar.Checked;
+            //  this.menuStrip.Visible = shwMenuBar.Checked;
         }
 
         private void imgsFolderbtn_Click(object sender, EventArgs e)
@@ -1331,7 +1368,7 @@ namespace InSightValidationTool
                         // Get the path of specified file
 
                         imgspath = openFileDialog.FileNames.ToList<String>();
-                        lblimgsload.Text = imgspath.Count.ToString() + "/tImages Loaded";
+                        //lblimgsload.Text = imgspath.Count.ToString() + "/tImages Loaded";
                         PopulateGridView();
                     }
                 }
@@ -1342,17 +1379,18 @@ namespace InSightValidationTool
         {
             if (_inSight.Connected)
             {
-                this.btnRunValidation.Enabled = false;   
+                // this.btnRunValidation.Enabled = false;   
                 LoadImagestoInSight();
-                this.btnRunValidation.Enabled = true;
+                //  this.btnRunValidation.Enabled = true;
 
             }
         }
 
         private void loadValidationFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!_inSight.Connected)
-            {
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+           
+            
                 using (OpenFileDialog openFileDialog = new OpenFileDialog())
                 {
                     openFileDialog.InitialDirectory = ".";
@@ -1368,7 +1406,9 @@ namespace InSightValidationTool
                         using (StreamReader sr = new StreamReader(openFileDialog.FileName))
                         {
                             string jsonfile = sr.ReadToEnd();
-                            m_configuration = JToken.Parse(jsonfile);
+                            selectedControl.InSight.Configuration = JToken.Parse(jsonfile);
+                            
+                            //m_configuration = JToken.Parse(jsonfile);
                             loadValidationConfig();
                         }
 
@@ -1376,39 +1416,40 @@ namespace InSightValidationTool
 
                 }
 
-            }
+            
         }
         /// <summary>
         /// Handles modifying current configuration to save latest values
         /// </summary>
         private void setupSaveConfiguration() { 
             JObject CameraConnection = new JObject();
-            JObject JobFileName = new JObject();
-            //JObject ImageResultData = new JObject();
+            JObject ImageResultData = new JObject();
             JObject config = new JObject();
 
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
 
 
             //Clear Current Configuration
-            m_configuration = null;
-
+             selectedControl.InSight.Configuration = null;
+              
             //Save Camera connection Parameters
-            CameraConnection.Add("IPAddressPort",tbIpAddressWithPort.Text);
-            CameraConnection.Add("User",tbUsername.Text);
-            CameraConnection.Add("Password",tbPassword.Text);
-            CameraConnection.Add("AutoConnect", chkAutoConnect.Checked);
-            
+            CameraConnection.Add("IPAddressPort", selectedControl.tbIpAddressWithPort.Text);
+            CameraConnection.Add("User",selectedControl.tbUsername.Text);
+            CameraConnection.Add("Password",selectedControl.tbPassword.Text);
+            CameraConnection.Add("AutoConnect", selectedControl.chkAutoConnect.Checked);
+
 
             //Save Job FileName
-            JobFileName.Add("JobFile",lblJobInfo.Text);
+           // JobFileName.Add("JobFile",selectedControl.lblJobInfo.Text);
 
 
-
+            string jobFile = selectedControl.InSight._inSight.JobInfo["name"].Value<String>();
+            jobFile = jobFile.Substring(1, jobFile.Length - 1);
             config.Add("CameraConnection", CameraConnection);
-            config.Add("JobFile", _inSight.JobInfo["name"].Value<String>());
-            config.Add("Images", ConvertToJson(m_imageEntries));    
+            config.Add("JobFile", jobFile);
+            config.Add("Images", ConvertToJson(selectedControl.InSight._imageEntries));
 
-            m_configuration = config;
+            selectedControl.InSight.Configuration = config;
 
 
         }
@@ -1418,6 +1459,8 @@ namespace InSightValidationTool
         /// </summary>
         private void saveValidationFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
                 saveFileDialog.InitialDirectory = ".";
@@ -1431,7 +1474,7 @@ namespace InSightValidationTool
                     // Get the path of specified file
                     string filePath = saveFileDialog.FileName;
                     setupSaveConfiguration();
-                    string json = JsonConvert.SerializeObject(m_configuration,Formatting.Indented);
+                    string json = JsonConvert.SerializeObject(selectedControl.InSight.Configuration,Formatting.Indented);
                     System.IO.File.WriteAllText(filePath, json);
                 }
             }
@@ -1445,7 +1488,11 @@ namespace InSightValidationTool
         private void btnRestoreMaximize_Click(object sender, EventArgs e)
         {
             if(WindowState == FormWindowState.Normal) WindowState = FormWindowState.Maximized;
-            else WindowState = FormWindowState.Normal;  
+            else WindowState = FormWindowState.Normal;
+
+            tbllyMainWindow.Width = ClientSize.Width;
+            tbllyMainWindow.Height = ClientSize.Height; 
+
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -1453,13 +1500,13 @@ namespace InSightValidationTool
             System.Windows.Forms.Application.Exit(); 
         }
 
-        private void panel1_MouseDown(object sender, MouseEventArgs e)
+        private void pnlTopPanel_MouseDown(object sender, MouseEventArgs e)
         {
             m_mouseDown = true;
             m_lastLocation = e.Location;
         }
 
-        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        private void pnlTopPanel_MouseMove(object sender, MouseEventArgs e)
         {
             if (m_mouseDown)
             {
@@ -1470,7 +1517,7 @@ namespace InSightValidationTool
             }
         }
 
-        private void panel1_MouseUp(object sender, MouseEventArgs e)
+        private void pnlTopPanel_MouseUp(object sender, MouseEventArgs e)
         {
             m_mouseDown = false;
         }
@@ -1479,5 +1526,238 @@ namespace InSightValidationTool
         {
 
         }
+
+        private void tabPageClick(object sender, EventArgs e) { 
+        
+        TabControl tabControl = (TabControl)sender;
+
+            if (tabControl.SelectedTab.Name == "tabPage2")
+            {
+                //tabCtrlContent.SelectedIndex = tabCtrlContent.TabCount + 1;
+                tabCtrlContent.Controls.RemoveByKey("tabPage2");
+                InitializeNewTab();
+            }
+            else
+            {
+                UpdateWindowState();
+            }
+        }
+
+        private void InSightControlUpdate(object sender, EventArgs e) {
+
+            UpdateWindowState();
+        } 
+
+        private void InitializeNewTab() { 
+            //Create new InSightValidation Control for this tab
+            TabPage tabPage = new TabPage();
+            tabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            tabPage.Font = new System.Drawing.Font("Calibri", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            tabPage.Location = new System.Drawing.Point(4, 26);
+            tabPage.Margin = new System.Windows.Forms.Padding(0);
+            tabPage.Padding = new System.Windows.Forms.Padding(3);
+            tabPage.Size = new System.Drawing.Size(1906, 980);
+            tabPage.TabIndex = 0;
+            tabPage.Text = "DefaultConnection";
+
+            InsightValidationControl insightValidationControl = new InsightValidationControl();
+            insightValidationControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            insightValidationControl.Location = new System.Drawing.Point(3, 3);
+            insightValidationControl.Name = "insightValidationControl1";
+            insightValidationControl.Size = new System.Drawing.Size(1900, 974);
+            insightValidationControl.TabIndex = 0;
+            insightValidationControl.InSightValidationControl_OnUpdate += InSightControlUpdate;
+            tabPage.Controls.Add(insightValidationControl);
+            
+            tabCtrlContent.Controls.Add(tabPage);
+            tabCtrlContent.SelectTab(tabPage);
+            tabCtrlContent.Controls.Add(tabPage2);
+        }
+
+        private void UpdateWindowState() {
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+
+            if (selectedControl != null)
+            {
+                try
+                {
+                    selectedControl.lblState.Invoke((Action)delegate
+                    {
+                        if (selectedControl.InSight._inSight.Connected)
+                        {
+                            onlineMenuItem.Text = selectedControl.InSight._inSight.Online ? "Go Offline" : "Go Online";
+                            liveModeMenuItem.Checked = selectedControl.InSight._inSight.LiveMode;
+                            CvsCameraInfo info = selectedControl.InSight._inSight.CameraInfo;
+                            tabCtrlContent.SelectedTab.Text = info.HostName;
+
+                            
+                            
+
+                            info = null;
+                        }
+                        else {
+                            onlineMenuItem.Text = "Go Online";
+                            liveModeMenuItem.Checked = false;
+                            tabCtrlContent.SelectedTab.Text = "Default Connection";
+                        }
+                        aboutMenuItem.Enabled = selectedControl.InSight._inSight.Connected;
+
+                        bool connectedButNotBusy = selectedControl.InSight._inSight.Connected && !selectedControl.InSight._inSight.EditorAttached && !selectedControl.InSight._inSight.JobLoading;
+                        bool isOffline = connectedButNotBusy && !selectedControl.InSight._inSight.Online;
+
+                        triggerMenuItem.Enabled = connectedButNotBusy;
+                        onlineMenuItem.Enabled = connectedButNotBusy;
+                        liveModeMenuItem.Enabled = isOffline;
+                        loadImageMenuItem.Enabled = isOffline;
+                        loadImageMenuItem.Enabled = true;
+                        loadHmiCellsMenuItem.Enabled = isOffline;
+                        saveImageMenuItem.Enabled = connectedButNotBusy;
+                        loadJobMenuItem.Enabled = isOffline;
+                        hmiCustomViewMenuItem.Enabled = isOffline;
+                        hmiSettingsMenuItem.Enabled = isOffline;
+                        openHMIMenuItem.Enabled = connectedButNotBusy;
+                        saveQueuedImagesToolStripMenuItem.Enabled = selectedControl.InSight._inSight.Connected;
+
+                       
+
+                    });
+
+
+                }
+                catch (Exception)
+                {
+
+                    //Ignore
+                }
+            }
+
+        }
+
+
+        private void TabCtrlContent_DrawItem(object sender, System.Windows.Forms.DrawItemEventArgs e)
+        {
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+            
+            TabPage tabPage = tabCtrlContent.TabPages[e.Index];
+            Rectangle tabRect = tabCtrlContent.GetTabRect(e.Index);
+
+
+            using (Graphics g = e.Graphics)
+            {
+
+                System.Drawing.Image tabImage;
+                Font tabFont = new Font("Calibri", 9.0f, FontStyle.Bold);
+
+                SizeF textSize = g.MeasureString(tabPage.Text, e.Font);
+                int textWidth = (int)textSize.Width;
+                int textHeight = (int)textSize.Height;
+
+                // Define size and position for the close button
+                int buttonSize = 15;
+                Rectangle closeButtonRect = new Rectangle(
+                    tabRect.Right - buttonSize - 5,
+                    tabRect.Top + (tabRect.Height - buttonSize) / 2,
+                    buttonSize, buttonSize);
+
+                // Adjust tabRect width based on text and button size
+                int adjustedTabWidth = textWidth + buttonSize + 20; // Padding
+
+                // Draw the tab header
+                using (Brush backgroundBrush = new SolidBrush(System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))))))
+                {
+                    e.Graphics.FillRectangle(backgroundBrush, tabRect);
+                }
+
+                // Draw the tab header text
+                using (Brush textBrush = new SolidBrush(Color.White))
+                {
+                    e.Graphics.DrawString(tabPage.Text, tabFont, textBrush, tabRect.X + 2, tabRect.Y + 2);
+                }
+                if (selectedControl != null)
+                {
+                    if (selectedControl.InSight._inSight.Connected)
+                    {
+
+                        string Model = selectedControl.InSight._inSight.CameraInfo.ModelNumber;
+                        Model = Model.Substring(0, 3);
+
+                        if (Model == "IS2") tabImage = Resources.IS2800;
+                        else if (Model == "IS3") tabImage = Resources.IS3800;
+                        else if (Model == "ISD") tabImage = Resources.ISD900;
+                        else tabImage = Resources.Cognex_InSightViDiPC_1;
+
+                        int imageWidth = tabImage.Width;
+                        int imageHeight = tabImage.Height;
+                        Rectangle imageRect = new Rectangle(
+                            tabRect.Left + 2,
+                            tabRect.Top + (tabRect.Height - imageHeight) / 2,
+                            imageWidth, imageHeight);
+                        g.DrawImage(tabImage, imageRect);
+                    }
+                }
+
+
+
+
+
+                if (tabPage.Name != "tabPage2")
+                {
+                    DrawCloseButton(e.Graphics, tabRect);
+                }
+
+                e.Graphics.FillRectangle(Brushes.Transparent, tabRect.X + textWidth + buttonSize + 10, tabRect.Y, adjustedTabWidth - textWidth - buttonSize - 20, tabRect.Height); // Ensure clear area
+            }
+        }
+     
+        private void DrawCloseButton(Graphics g, Rectangle tabRect)
+        {
+            int buttonSize = 15;
+            Rectangle closeButtonRect = new Rectangle(tabRect.Right - buttonSize - 5, tabRect.Top + (tabRect.Height - buttonSize) / 2, buttonSize, buttonSize);
+
+            // Create a circular path for the button
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                path.AddEllipse(closeButtonRect);
+
+                // Create a gradient brush for the 3D effect
+                using (LinearGradientBrush brush = new LinearGradientBrush(closeButtonRect, Color.Black, Color.Black, LinearGradientMode.Vertical))
+                {
+                    g.FillPath(brush, path);
+                }
+
+                // Draw the border of the button
+                using (Pen pen = new Pen(Color.Black, 1))
+                {
+                    g.DrawPath(pen, path);
+                }
+
+                // Draw the 'x' symbol
+                using (Pen pen = new Pen(Color.White, 2))
+                {
+                    int padding = 3;
+                    g.DrawLine(pen, closeButtonRect.Left + padding, closeButtonRect.Top + padding, closeButtonRect.Right - padding, closeButtonRect.Bottom - padding);
+                    g.DrawLine(pen, closeButtonRect.Right - padding, closeButtonRect.Top + padding, closeButtonRect.Left + padding, closeButtonRect.Bottom - padding);
+                }
+            }
+        }
+
+        private void TabCtrl_MouseDown(object sender, MouseEventArgs e)
+        {
+            for (int i = 0; i < tabCtrlContent.TabCount; i++)
+            {
+                Rectangle tabRect = tabCtrlContent.GetTabRect(i);
+                Rectangle closeButtonRect = new Rectangle(tabRect.Right - 15, tabRect.Top + 5, 10, 10);
+                if (closeButtonRect.Contains(e.Location))
+                {
+
+                    tabCtrlContent.TabPages.RemoveAt(i);
+                    tabCtrlContent.SelectTab(tabCtrlContent.TabCount-2);
+                    break;
+                }
+            }
+              
+        }
+
+
     }
 }
