@@ -29,33 +29,58 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.tblCameraControls = new System.Windows.Forms.TableLayoutPanel();
+            this.tblControlButtons = new System.Windows.Forms.TableLayoutPanel();
+            this.btnConnectDisconnect = new System.Windows.Forms.Button();
+            this.imgsFolderbtn = new System.Windows.Forms.Button();
+            this.btnRunValidation = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.lblState = new System.Windows.Forms.Label();
-            this.lblValidationResult = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.lblJobInfo = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.tblinfoBanners = new System.Windows.Forms.TableLayoutPanel();
             this.lblimgsload = new System.Windows.Forms.Label();
-            this.tbPassword = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblJobInfo = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblValidationResult = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.tblConnectionParams = new System.Windows.Forms.TableLayoutPanel();
+            this.chkAutoConnect = new System.Windows.Forms.CheckBox();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tbIpAddressWithPort = new System.Windows.Forms.TextBox();
+            this.panel7 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.tbUsername = new System.Windows.Forms.TextBox();
-            this.tbIpAddressWithPort = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.chkAutoConnect = new System.Windows.Forms.CheckBox();
-            this.btnRunValidation = new System.Windows.Forms.Button();
-            this.imgsFolderbtn = new System.Windows.Forms.Button();
-            this.btnConnectDisconnect = new System.Windows.Forms.Button();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.tbPassword = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.cvsCustomView1 = new Cognex.InSight.Web.Controls.CvsCustomView();
             this.cvsDisplay1 = new Cognex.InSight.Web.Controls.CvsDisplay();
-            this.cvsSpreadsheet1 = new Cognex.InSight.Web.Controls.CvsSpreadsheet();
             this.dgwImageResults = new System.Windows.Forms.DataGridView();
+            this.cvsSpreadsheet1 = new Cognex.InSight.Web.Controls.CvsSpreadsheet();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.tblCameraControls.SuspendLayout();
+            this.tblControlButtons.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.tblinfoBanners.SuspendLayout();
+            this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.tblConnectionParams.SuspendLayout();
+            this.panel6.SuspendLayout();
+            this.panel7.SuspendLayout();
+            this.panel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -66,229 +91,121 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
+            this.splitContainer1.Panel1.Controls.Add(this.tblCameraControls);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1600, 800);
-            this.splitContainer1.SplitterDistance = 97;
+            this.splitContainer1.Size = new System.Drawing.Size(1900, 974);
+            this.splitContainer1.SplitterDistance = 94;
             this.splitContainer1.TabIndex = 0;
             // 
-            // groupBox1
+            // tblCameraControls
             // 
-            this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.groupBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.lblState);
-            this.groupBox1.Controls.Add(this.lblValidationResult);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.lblJobInfo);
-            this.groupBox1.Controls.Add(this.lblimgsload);
-            this.groupBox1.Controls.Add(this.tbPassword);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.tbUsername);
-            this.groupBox1.Controls.Add(this.tbIpAddressWithPort);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.chkAutoConnect);
-            this.groupBox1.Controls.Add(this.btnRunValidation);
-            this.groupBox1.Controls.Add(this.imgsFolderbtn);
-            this.groupBox1.Controls.Add(this.btnConnectDisconnect);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(215)))), ((int)(((byte)(215)))));
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1600, 97);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Connection Parameters";
+            this.tblCameraControls.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tblCameraControls.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.tblCameraControls.ColumnCount = 4;
+            this.tblCameraControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tblCameraControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tblCameraControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tblCameraControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tblCameraControls.Controls.Add(this.tblControlButtons, 1, 0);
+            this.tblCameraControls.Controls.Add(this.panel1, 3, 0);
+            this.tblCameraControls.Controls.Add(this.panel2, 2, 0);
+            this.tblCameraControls.Controls.Add(this.panel4, 0, 0);
+            this.tblCameraControls.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tblCameraControls.ForeColor = System.Drawing.Color.White;
+            this.tblCameraControls.Location = new System.Drawing.Point(0, 0);
+            this.tblCameraControls.Margin = new System.Windows.Forms.Padding(0);
+            this.tblCameraControls.Name = "tblCameraControls";
+            this.tblCameraControls.RowCount = 1;
+            this.tblCameraControls.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tblCameraControls.Size = new System.Drawing.Size(1900, 94);
+            this.tblCameraControls.TabIndex = 45;
             // 
-            // label5
+            // tblControlButtons
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(1429, 20);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(171, 24);
-            this.label5.TabIndex = 44;
-            this.label5.Text = "PLC Not Connected";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.tblControlButtons.ColumnCount = 3;
+            this.tblControlButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tblControlButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tblControlButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tblControlButtons.Controls.Add(this.btnConnectDisconnect, 0, 0);
+            this.tblControlButtons.Controls.Add(this.imgsFolderbtn, 1, 0);
+            this.tblControlButtons.Controls.Add(this.btnRunValidation, 2, 0);
+            this.tblControlButtons.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tblControlButtons.Location = new System.Drawing.Point(573, 3);
+            this.tblControlButtons.Name = "tblControlButtons";
+            this.tblControlButtons.RowCount = 1;
+            this.tblControlButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblControlButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tblControlButtons.Size = new System.Drawing.Size(564, 100);
+            this.tblControlButtons.TabIndex = 0;
             // 
-            // lblState
+            // btnConnectDisconnect
             // 
-            this.lblState.AutoSize = true;
-            this.lblState.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblState.ForeColor = System.Drawing.Color.White;
-            this.lblState.Location = new System.Drawing.Point(1459, 66);
-            this.lblState.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblState.Name = "lblState";
-            this.lblState.Size = new System.Drawing.Size(136, 24);
-            this.lblState.TabIndex = 43;
-            this.lblState.Text = "Not Connected";
-            this.lblState.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnConnectDisconnect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.btnConnectDisconnect.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnConnectDisconnect.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
+            this.btnConnectDisconnect.FlatAppearance.BorderSize = 3;
+            this.btnConnectDisconnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConnectDisconnect.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConnectDisconnect.ForeColor = System.Drawing.Color.White;
+            this.btnConnectDisconnect.Image = global::WebAPISampleApp.Properties.Resources.connecticon1;
+            this.btnConnectDisconnect.Location = new System.Drawing.Point(2, 2);
+            this.btnConnectDisconnect.Margin = new System.Windows.Forms.Padding(2);
+            this.btnConnectDisconnect.Name = "btnConnectDisconnect";
+            this.btnConnectDisconnect.Size = new System.Drawing.Size(193, 70);
+            this.btnConnectDisconnect.TabIndex = 5;
+            this.btnConnectDisconnect.Text = "Connect";
+            this.btnConnectDisconnect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnConnectDisconnect.UseVisualStyleBackColor = false;
+            this.btnConnectDisconnect.Click += new System.EventHandler(this.btnConnectDisconnect_Click);
             // 
-            // lblValidationResult
+            // imgsFolderbtn
             // 
-            this.lblValidationResult.AutoSize = true;
-            this.lblValidationResult.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblValidationResult.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblValidationResult.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.lblValidationResult.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.lblValidationResult.Location = new System.Drawing.Point(1224, 66);
-            this.lblValidationResult.Margin = new System.Windows.Forms.Padding(0);
-            this.lblValidationResult.Name = "lblValidationResult";
-            this.lblValidationResult.Size = new System.Drawing.Size(63, 28);
-            this.lblValidationResult.TabIndex = 42;
-            this.lblValidationResult.Text = "None";
-            this.lblValidationResult.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(1049, 66);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(173, 28);
-            this.label4.TabIndex = 41;
-            this.label4.Text = "Validation Result";
-            // 
-            // lblJobInfo
-            // 
-            this.lblJobInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblJobInfo.AutoSize = true;
-            this.lblJobInfo.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblJobInfo.ForeColor = System.Drawing.Color.White;
-            this.lblJobInfo.Location = new System.Drawing.Point(1049, 47);
-            this.lblJobInfo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblJobInfo.Name = "lblJobInfo";
-            this.lblJobInfo.Size = new System.Drawing.Size(97, 21);
-            this.lblJobInfo.TabIndex = 40;
-            this.lblJobInfo.Text = "Current Job:";
-            this.lblJobInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblimgsload
-            // 
-            this.lblimgsload.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblimgsload.AutoSize = true;
-            this.lblimgsload.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblimgsload.ForeColor = System.Drawing.Color.White;
-            this.lblimgsload.Location = new System.Drawing.Point(1049, 23);
-            this.lblimgsload.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblimgsload.Name = "lblimgsload";
-            this.lblimgsload.Size = new System.Drawing.Size(121, 21);
-            this.lblimgsload.TabIndex = 39;
-            this.lblimgsload.Text = "Images Loaded:";
-            this.lblimgsload.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tbPassword
-            // 
-            this.tbPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.tbPassword.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbPassword.ForeColor = System.Drawing.Color.White;
-            this.tbPassword.Location = new System.Drawing.Point(258, 55);
-            this.tbPassword.Margin = new System.Windows.Forms.Padding(2);
-            this.tbPassword.Name = "tbPassword";
-            this.tbPassword.Size = new System.Drawing.Size(124, 23);
-            this.tbPassword.TabIndex = 38;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(254, 28);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 21);
-            this.label2.TabIndex = 37;
-            this.label2.Text = "Password";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(150, 29);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(43, 21);
-            this.label1.TabIndex = 36;
-            this.label1.Text = "User";
-            // 
-            // tbUsername
-            // 
-            this.tbUsername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.tbUsername.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbUsername.ForeColor = System.Drawing.Color.White;
-            this.tbUsername.Location = new System.Drawing.Point(154, 52);
-            this.tbUsername.Margin = new System.Windows.Forms.Padding(2);
-            this.tbUsername.Name = "tbUsername";
-            this.tbUsername.Size = new System.Drawing.Size(82, 28);
-            this.tbUsername.TabIndex = 35;
-            this.tbUsername.Text = "admin";
-            // 
-            // tbIpAddressWithPort
-            // 
-            this.tbIpAddressWithPort.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.tbIpAddressWithPort.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbIpAddressWithPort.ForeColor = System.Drawing.Color.White;
-            this.tbIpAddressWithPort.Location = new System.Drawing.Point(9, 52);
-            this.tbIpAddressWithPort.Margin = new System.Windows.Forms.Padding(2);
-            this.tbIpAddressWithPort.Name = "tbIpAddressWithPort";
-            this.tbIpAddressWithPort.Size = new System.Drawing.Size(132, 28);
-            this.tbIpAddressWithPort.TabIndex = 34;
-            this.tbIpAddressWithPort.Text = "127.0.0.1:80";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(5, 29);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(131, 21);
-            this.label3.TabIndex = 33;
-            this.label3.Text = "Address and port";
-            // 
-            // chkAutoConnect
-            // 
-            this.chkAutoConnect.AutoSize = true;
-            this.chkAutoConnect.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(242)))), ((int)(((byte)(0)))));
-            this.chkAutoConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.chkAutoConnect.Location = new System.Drawing.Point(387, 52);
-            this.chkAutoConnect.Name = "chkAutoConnect";
-            this.chkAutoConnect.Size = new System.Drawing.Size(69, 28);
-            this.chkAutoConnect.TabIndex = 32;
-            this.chkAutoConnect.Text = "Auto";
-            this.chkAutoConnect.UseVisualStyleBackColor = true;
+            this.imgsFolderbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.imgsFolderbtn.Dock = System.Windows.Forms.DockStyle.Top;
+            this.imgsFolderbtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
+            this.imgsFolderbtn.FlatAppearance.BorderSize = 3;
+            this.imgsFolderbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.imgsFolderbtn.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.imgsFolderbtn.ForeColor = System.Drawing.Color.White;
+            this.imgsFolderbtn.Image = global::WebAPISampleApp.Properties.Resources.folder;
+            this.imgsFolderbtn.Location = new System.Drawing.Point(199, 2);
+            this.imgsFolderbtn.Margin = new System.Windows.Forms.Padding(2);
+            this.imgsFolderbtn.Name = "imgsFolderbtn";
+            this.imgsFolderbtn.Size = new System.Drawing.Size(165, 58);
+            this.imgsFolderbtn.TabIndex = 6;
+            this.imgsFolderbtn.Text = "Load Images";
+            this.imgsFolderbtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.imgsFolderbtn.UseVisualStyleBackColor = false;
+            this.imgsFolderbtn.Click += new System.EventHandler(this.imgsFolderbtn_Click);
             // 
             // btnRunValidation
             // 
-            this.btnRunValidation.AutoSize = true;
+            this.btnRunValidation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnRunValidation.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.btnRunValidation.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnRunValidation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
             this.btnRunValidation.FlatAppearance.BorderSize = 3;
             this.btnRunValidation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRunValidation.Font = new System.Drawing.Font("Calibri", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRunValidation.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRunValidation.ForeColor = System.Drawing.Color.White;
             this.btnRunValidation.Image = global::WebAPISampleApp.Properties.Resources.icons8_check_mark_28green;
             this.btnRunValidation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRunValidation.Location = new System.Drawing.Point(832, 23);
+            this.btnRunValidation.Location = new System.Drawing.Point(368, 2);
             this.btnRunValidation.Margin = new System.Windows.Forms.Padding(2);
             this.btnRunValidation.Name = "btnRunValidation";
             this.btnRunValidation.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnRunValidation.Size = new System.Drawing.Size(203, 67);
+            this.btnRunValidation.Size = new System.Drawing.Size(194, 70);
             this.btnRunValidation.TabIndex = 7;
             this.btnRunValidation.Text = "Run Validation";
             this.btnRunValidation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -296,46 +213,302 @@
             this.btnRunValidation.UseVisualStyleBackColor = false;
             this.btnRunValidation.Click += new System.EventHandler(this.btnRunValidation_Click);
             // 
-            // imgsFolderbtn
+            // panel1
             // 
-            this.imgsFolderbtn.AutoSize = true;
-            this.imgsFolderbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.imgsFolderbtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
-            this.imgsFolderbtn.FlatAppearance.BorderSize = 3;
-            this.imgsFolderbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.imgsFolderbtn.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.imgsFolderbtn.ForeColor = System.Drawing.Color.White;
-            this.imgsFolderbtn.Image = global::WebAPISampleApp.Properties.Resources.folder;
-            this.imgsFolderbtn.Location = new System.Drawing.Point(648, 30);
-            this.imgsFolderbtn.Margin = new System.Windows.Forms.Padding(2);
-            this.imgsFolderbtn.Name = "imgsFolderbtn";
-            this.imgsFolderbtn.Size = new System.Drawing.Size(168, 53);
-            this.imgsFolderbtn.TabIndex = 6;
-            this.imgsFolderbtn.Text = "Load Images";
-            this.imgsFolderbtn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.imgsFolderbtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.imgsFolderbtn.UseVisualStyleBackColor = false;
-            this.imgsFolderbtn.Click += new System.EventHandler(this.imgsFolderbtn_Click);
+            this.panel1.Controls.Add(this.lblState);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(1713, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(184, 100);
+            this.panel1.TabIndex = 0;
             // 
-            // btnConnectDisconnect
+            // lblState
             // 
-            this.btnConnectDisconnect.AutoSize = true;
-            this.btnConnectDisconnect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.btnConnectDisconnect.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
-            this.btnConnectDisconnect.FlatAppearance.BorderSize = 3;
-            this.btnConnectDisconnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnConnectDisconnect.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConnectDisconnect.ForeColor = System.Drawing.Color.White;
-            this.btnConnectDisconnect.Image = global::WebAPISampleApp.Properties.Resources.connecticon1;
-            this.btnConnectDisconnect.Location = new System.Drawing.Point(465, 22);
-            this.btnConnectDisconnect.Margin = new System.Windows.Forms.Padding(2);
-            this.btnConnectDisconnect.Name = "btnConnectDisconnect";
-            this.btnConnectDisconnect.Size = new System.Drawing.Size(179, 61);
-            this.btnConnectDisconnect.TabIndex = 5;
-            this.btnConnectDisconnect.Text = "Connect";
-            this.btnConnectDisconnect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnConnectDisconnect.UseVisualStyleBackColor = false;
-            this.btnConnectDisconnect.Click += new System.EventHandler(this.btnConnectDisconnect_Click);
+            this.lblState.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblState.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblState.ForeColor = System.Drawing.Color.White;
+            this.lblState.Location = new System.Drawing.Point(0, 49);
+            this.lblState.Margin = new System.Windows.Forms.Padding(0);
+            this.lblState.Name = "lblState";
+            this.lblState.Size = new System.Drawing.Size(184, 42);
+            this.lblState.TabIndex = 45;
+            this.lblState.Text = "Not Connected";
+            this.lblState.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(2, 3);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(182, 24);
+            this.label5.TabIndex = 44;
+            this.label5.Text = "PLC Not Connected";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.tblinfoBanners);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(1143, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(564, 100);
+            this.panel2.TabIndex = 1;
+            // 
+            // tblinfoBanners
+            // 
+            this.tblinfoBanners.ColumnCount = 1;
+            this.tblinfoBanners.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblinfoBanners.Controls.Add(this.lblimgsload, 0, 0);
+            this.tblinfoBanners.Controls.Add(this.lblJobInfo, 0, 1);
+            this.tblinfoBanners.Controls.Add(this.panel5, 0, 2);
+            this.tblinfoBanners.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tblinfoBanners.Location = new System.Drawing.Point(0, 0);
+            this.tblinfoBanners.Name = "tblinfoBanners";
+            this.tblinfoBanners.RowCount = 3;
+            this.tblinfoBanners.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tblinfoBanners.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tblinfoBanners.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tblinfoBanners.Size = new System.Drawing.Size(564, 100);
+            this.tblinfoBanners.TabIndex = 0;
+            // 
+            // lblimgsload
+            // 
+            this.lblimgsload.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblimgsload.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblimgsload.ForeColor = System.Drawing.Color.White;
+            this.lblimgsload.Location = new System.Drawing.Point(2, 0);
+            this.lblimgsload.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblimgsload.Name = "lblimgsload";
+            this.lblimgsload.Size = new System.Drawing.Size(560, 25);
+            this.lblimgsload.TabIndex = 39;
+            this.lblimgsload.Text = "Images Loaded:";
+            this.lblimgsload.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblJobInfo
+            // 
+            this.lblJobInfo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblJobInfo.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblJobInfo.ForeColor = System.Drawing.Color.White;
+            this.lblJobInfo.Location = new System.Drawing.Point(2, 25);
+            this.lblJobInfo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblJobInfo.Name = "lblJobInfo";
+            this.lblJobInfo.Size = new System.Drawing.Size(560, 25);
+            this.lblJobInfo.TabIndex = 40;
+            this.lblJobInfo.Text = "Current Job:";
+            this.lblJobInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.splitContainer3);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(3, 53);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(558, 44);
+            this.panel5.TabIndex = 0;
+            // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.label4);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.lblValidationResult);
+            this.splitContainer3.Size = new System.Drawing.Size(558, 44);
+            this.splitContainer3.SplitterDistance = 279;
+            this.splitContainer3.TabIndex = 0;
+            // 
+            // label4
+            // 
+            this.label4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label4.Font = new System.Drawing.Font("Calibri", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(0, 0);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(279, 38);
+            this.label4.TabIndex = 41;
+            this.label4.Text = "Validation Result";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // lblValidationResult
+            // 
+            this.lblValidationResult.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblValidationResult.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblValidationResult.Font = new System.Drawing.Font("Calibri", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblValidationResult.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.lblValidationResult.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.lblValidationResult.Location = new System.Drawing.Point(0, 0);
+            this.lblValidationResult.Margin = new System.Windows.Forms.Padding(0);
+            this.lblValidationResult.Name = "lblValidationResult";
+            this.lblValidationResult.Size = new System.Drawing.Size(275, 34);
+            this.lblValidationResult.TabIndex = 42;
+            this.lblValidationResult.Text = "None";
+            this.lblValidationResult.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.tblConnectionParams);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(3, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(564, 100);
+            this.panel4.TabIndex = 3;
+            // 
+            // tblConnectionParams
+            // 
+            this.tblConnectionParams.ColumnCount = 4;
+            this.tblConnectionParams.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tblConnectionParams.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tblConnectionParams.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tblConnectionParams.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tblConnectionParams.Controls.Add(this.chkAutoConnect, 3, 0);
+            this.tblConnectionParams.Controls.Add(this.panel6, 0, 0);
+            this.tblConnectionParams.Controls.Add(this.panel7, 1, 0);
+            this.tblConnectionParams.Controls.Add(this.panel8, 2, 0);
+            this.tblConnectionParams.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tblConnectionParams.Location = new System.Drawing.Point(0, 0);
+            this.tblConnectionParams.Name = "tblConnectionParams";
+            this.tblConnectionParams.RowCount = 1;
+            this.tblConnectionParams.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tblConnectionParams.Size = new System.Drawing.Size(564, 100);
+            this.tblConnectionParams.TabIndex = 0;
+            // 
+            // chkAutoConnect
+            // 
+            this.chkAutoConnect.AutoSize = true;
+            this.chkAutoConnect.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkAutoConnect.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(242)))), ((int)(((byte)(0)))));
+            this.chkAutoConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkAutoConnect.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkAutoConnect.Location = new System.Drawing.Point(453, 3);
+            this.chkAutoConnect.Name = "chkAutoConnect";
+            this.chkAutoConnect.Size = new System.Drawing.Size(108, 100);
+            this.chkAutoConnect.TabIndex = 32;
+            this.chkAutoConnect.Text = "Auto Connect";
+            this.chkAutoConnect.UseVisualStyleBackColor = true;
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.label3);
+            this.panel6.Controls.Add(this.tbIpAddressWithPort);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel6.Location = new System.Drawing.Point(3, 3);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(163, 100);
+            this.panel6.TabIndex = 0;
+            // 
+            // label3
+            // 
+            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label3.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(0, 0);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(163, 57);
+            this.label3.TabIndex = 33;
+            this.label3.Text = "Address and port";
+            // 
+            // tbIpAddressWithPort
+            // 
+            this.tbIpAddressWithPort.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbIpAddressWithPort.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.tbIpAddressWithPort.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbIpAddressWithPort.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbIpAddressWithPort.ForeColor = System.Drawing.Color.White;
+            this.tbIpAddressWithPort.Location = new System.Drawing.Point(5, 59);
+            this.tbIpAddressWithPort.Margin = new System.Windows.Forms.Padding(2);
+            this.tbIpAddressWithPort.Name = "tbIpAddressWithPort";
+            this.tbIpAddressWithPort.Size = new System.Drawing.Size(156, 25);
+            this.tbIpAddressWithPort.TabIndex = 34;
+            this.tbIpAddressWithPort.Text = "192.168.1.25:80";
+            this.tbIpAddressWithPort.TextChanged += TbIpAddressWithPort_TextChanged; 
+            // 
+            // panel7
+            // 
+            this.panel7.Controls.Add(this.label1);
+            this.panel7.Controls.Add(this.tbUsername);
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel7.Location = new System.Drawing.Point(172, 3);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(106, 100);
+            this.panel7.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(106, 53);
+            this.label1.TabIndex = 36;
+            this.label1.Text = "User";
+            // 
+            // tbUsername
+            // 
+            this.tbUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbUsername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.tbUsername.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbUsername.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbUsername.ForeColor = System.Drawing.Color.White;
+            this.tbUsername.Location = new System.Drawing.Point(3, 59);
+            this.tbUsername.Margin = new System.Windows.Forms.Padding(2);
+            this.tbUsername.Name = "tbUsername";
+            this.tbUsername.Size = new System.Drawing.Size(104, 25);
+            this.tbUsername.TabIndex = 35;
+            this.tbUsername.Text = "admin";
+            this.tbUsername.TextChanged += TbUsername_TextChanged;
+            // 
+            // panel8
+            // 
+            this.panel8.Controls.Add(this.tbPassword);
+            this.panel8.Controls.Add(this.label2);
+            this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel8.Location = new System.Drawing.Point(284, 3);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(163, 100);
+            this.panel8.TabIndex = 2;
+            // 
+            // tbPassword
+            // 
+            this.tbPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.tbPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbPassword.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbPassword.ForeColor = System.Drawing.Color.White;
+            this.tbPassword.Location = new System.Drawing.Point(5, 59);
+            this.tbPassword.Margin = new System.Windows.Forms.Padding(2);
+            this.tbPassword.Name = "tbPassword";
+            this.tbPassword.Size = new System.Drawing.Size(156, 25);
+            this.tbPassword.TabIndex = 38;
+            this.tbPassword.TextChanged += TbPassword_TextChanged;
+            // 
+            // label2
+            // 
+            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label2.Font = new System.Drawing.Font("Calibri", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(163, 57);
+            this.label2.TabIndex = 37;
+            this.label2.Text = "Password";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // splitContainer2
             // 
@@ -350,10 +523,10 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.cvsSpreadsheet1);
             this.splitContainer2.Panel2.Controls.Add(this.dgwImageResults);
-            this.splitContainer2.Size = new System.Drawing.Size(1600, 699);
-            this.splitContainer2.SplitterDistance = 800;
+            this.splitContainer2.Panel2.Controls.Add(this.cvsSpreadsheet1);
+            this.splitContainer2.Size = new System.Drawing.Size(1900, 876);
+            this.splitContainer2.SplitterDistance = 950;
             this.splitContainer2.TabIndex = 0;
             // 
             // cvsCustomView1
@@ -374,8 +547,22 @@
             this.cvsDisplay1.Location = new System.Drawing.Point(0, 0);
             this.cvsDisplay1.Margin = new System.Windows.Forms.Padding(0);
             this.cvsDisplay1.Name = "cvsDisplay1";
-            this.cvsDisplay1.Size = new System.Drawing.Size(800, 699);
+            this.cvsDisplay1.Size = new System.Drawing.Size(950, 876);
             this.cvsDisplay1.TabIndex = 0;
+            // 
+            // dgwImageResults
+            // 
+            this.dgwImageResults.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgwImageResults.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            this.dgwImageResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgwImageResults.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgwImageResults.Location = new System.Drawing.Point(0, 0);
+            this.dgwImageResults.Margin = new System.Windows.Forms.Padding(4);
+            this.dgwImageResults.Name = "dgwImageResults";
+            this.dgwImageResults.RowHeadersWidth = 51;
+            this.dgwImageResults.RowTemplate.Height = 24;
+            this.dgwImageResults.Size = new System.Drawing.Size(946, 876);
+            this.dgwImageResults.TabIndex = 34;
             // 
             // cvsSpreadsheet1
             // 
@@ -387,20 +574,8 @@
             this.cvsSpreadsheet1.Location = new System.Drawing.Point(0, 0);
             this.cvsSpreadsheet1.Margin = new System.Windows.Forms.Padding(0);
             this.cvsSpreadsheet1.Name = "cvsSpreadsheet1";
-            this.cvsSpreadsheet1.Size = new System.Drawing.Size(796, 699);
+            this.cvsSpreadsheet1.Size = new System.Drawing.Size(946, 876);
             this.cvsSpreadsheet1.TabIndex = 35;
-            // 
-            // dgwImageResults
-            // 
-            this.dgwImageResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgwImageResults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgwImageResults.Location = new System.Drawing.Point(0, 0);
-            this.dgwImageResults.Margin = new System.Windows.Forms.Padding(4);
-            this.dgwImageResults.Name = "dgwImageResults";
-            this.dgwImageResults.RowHeadersWidth = 51;
-            this.dgwImageResults.RowTemplate.Height = 24;
-            this.dgwImageResults.Size = new System.Drawing.Size(796, 699);
-            this.dgwImageResults.TabIndex = 34;
             // 
             // InsightValidationControl
             // 
@@ -408,13 +583,30 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Name = "InsightValidationControl";
-            this.Size = new System.Drawing.Size(1600, 800);
+            this.Size = new System.Drawing.Size(1900, 974);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.tblCameraControls.ResumeLayout(false);
+            this.tblControlButtons.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.tblinfoBanners.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.tblConnectionParams.ResumeLayout(false);
+            this.tblConnectionParams.PerformLayout();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
+            this.panel8.ResumeLayout(false);
+            this.panel8.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -424,30 +616,47 @@
 
         }
 
+
+
+
+
+
+
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private Cognex.InSight.Web.Controls.CvsDisplay cvsDisplay1;
-        private Cognex.InSight.Web.Controls.CvsCustomView cvsCustomView1;
-        private Cognex.InSight.Web.Controls.CvsSpreadsheet cvsSpreadsheet1;
-        private System.Windows.Forms.DataGridView dgwImageResults;
-        private System.Windows.Forms.GroupBox groupBox1;
+        public Cognex.InSight.Web.Controls.CvsCustomView cvsCustomView1;
+        public Cognex.InSight.Web.Controls.CvsSpreadsheet cvsSpreadsheet1;
+        public System.Windows.Forms.DataGridView dgwImageResults;
         private System.Windows.Forms.Button btnConnectDisconnect;
         private System.Windows.Forms.Button imgsFolderbtn;
         private System.Windows.Forms.Button btnRunValidation;
-        private System.Windows.Forms.CheckBox chkAutoConnect;
+        public System.Windows.Forms.CheckBox chkAutoConnect;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox tbIpAddressWithPort;
-        private System.Windows.Forms.TextBox tbUsername;
+        public System.Windows.Forms.TextBox tbIpAddressWithPort;
+        public System.Windows.Forms.TextBox tbUsername;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox tbPassword;
+        public System.Windows.Forms.TextBox tbPassword;
         private System.Windows.Forms.Label lblimgsload;
-        private System.Windows.Forms.Label lblJobInfo;
+        public System.Windows.Forms.Label lblJobInfo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblValidationResult;
-        private System.Windows.Forms.Label lblState;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TableLayoutPanel tblCameraControls;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.TableLayoutPanel tblinfoBanners;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.TableLayoutPanel tblControlButtons;
+        private System.Windows.Forms.TableLayoutPanel tblConnectionParams;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Panel panel8;
+        public System.Windows.Forms.Label lblState;
     }
 }
