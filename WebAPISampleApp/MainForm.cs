@@ -1569,6 +1569,7 @@ namespace InSightValidationTool
             tabPage.Controls.Add(insightValidationControl);
             
             tabCtrlContent.Controls.Add(tabPage);
+            tabCtrlContent.SelectTab(tabPage);
             tabCtrlContent.Controls.Add(tabPage2);
         }
 
@@ -1716,13 +1717,15 @@ namespace InSightValidationTool
             {
                 Rectangle tabRect = tabCtrlContent.GetTabRect(i);
                 Rectangle closeButtonRect = new Rectangle(tabRect.Right - 15, tabRect.Top + 5, 10, 10);
-
                 if (closeButtonRect.Contains(e.Location))
                 {
+
                     tabCtrlContent.TabPages.RemoveAt(i);
+                    tabCtrlContent.SelectTab(tabCtrlContent.TabCount-2);
                     break;
                 }
             }
+              
         }
 
 
