@@ -39,7 +39,7 @@ namespace InSightValidationTool
     /// 
     /// A PictureBox is used to render the current image.
     /// </summary>
-    public partial class MainForm : Form
+    public partial class MainFormWindow : Form
     {
         // Holds the connection to the camera and provides an abstraction for the API
         public class ImageEntry
@@ -71,7 +71,7 @@ namespace InSightValidationTool
 
 
 
-        public MainForm()
+        public MainFormWindow()
         {
             InitializeComponent();
             InitializeDataGridView();    
@@ -90,22 +90,22 @@ namespace InSightValidationTool
 
 
 
-            cvsSpreadsheet.SetInSight(_inSight);
-            cvsCustomView.SetInSight(_inSight);
-            cvsDisplay.SetInSight(_inSight);
+            //cvsSpreadsheet.SetInSight(_inSight);
+            //cvsCustomView.SetInSight(_inSight);
+            //cvsDisplay.SetInSight(_inSight);
             // cvsFilmstrip.SetInSight(_inSight);
 
-            dgwImageResults.CellValueChanged += dgwImageResults_CellValueChanged;
-            dgwImageResults.CellDoubleClick += dgwImageResults_CellDoubleClick; 
+            //dgwImageResults.CellValueChanged += dgwImageResults_CellValueChanged;
+            //dgwImageResults.CellDoubleClick += dgwImageResults_CellDoubleClick; 
         }
 
         private void InitializeDataGridView() {
 
-         
 
-            dgwImageResults.AutoGenerateColumns = false;
-            dgwImageResults.AllowUserToAddRows = false;
-            dgwImageResults.AllowUserToDeleteRows = false;
+
+            //dgwImageResults.AutoGenerateColumns = false;
+            //dgwImageResults.AllowUserToAddRows = false;
+            //dgwImageResults.AllowUserToDeleteRows = false;
 
 
             // Column for Thumbnail
@@ -115,7 +115,7 @@ namespace InSightValidationTool
             imageColumn.Width = ThumbnailSize;
             imageColumn.Name = "ImagePreview";
             imageColumn.DataPropertyName = "Preview"; // DataPropertyName should match the property in ImageEntry
-            dgwImageResults.Columns.Add(imageColumn);
+            //dgwImageResults.Columns.Add(imageColumn);
 
             // Column for Filename
             DataGridViewTextBoxColumn filenameColumn = new DataGridViewTextBoxColumn();
@@ -123,7 +123,7 @@ namespace InSightValidationTool
             filenameColumn.Width = 400;
             filenameColumn.DataPropertyName = "Image Name";
             filenameColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgwImageResults.Columns.Add(filenameColumn);
+            //dgwImageResults.Columns.Add(filenameColumn);
 
 
             // Column for Expected Result (ComboBox)
@@ -140,16 +140,16 @@ namespace InSightValidationTool
         };
             expectedColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             expectedColumn.Name = "ExpectedResult";
-            dgwImageResults.Columns.Add(expectedColumn);
+            //dgwImageResults.Columns.Add(expectedColumn);
 
             // Column for Actual Result
             DataGridViewTextBoxColumn actualColumn = new DataGridViewTextBoxColumn();
             actualColumn.HeaderText = "Actual Result";
             actualColumn.DataPropertyName = "ActualResult";
             actualColumn.Name = "ActualResult";
-            dgwImageResults.Columns.Add(actualColumn);
+            //dgwImageResults.Columns.Add(actualColumn);
 
-            dgwImageResults.RowTemplate.Height = RowHeight;
+            //dgwImageResults.RowTemplate.Height = RowHeight;
         }
 
         private void PopulateGridView() {
@@ -201,18 +201,18 @@ namespace InSightValidationTool
         private void AutoResizeRowHeights()
         {
             // Autoresize row heights based on ThumbnailSize + padding
-            foreach (DataGridViewRow row in dgwImageResults.Rows)
+            /*foreach (DataGridViewRow row in dgwImageResults.Rows)
             {
                 int desiredHeight = ThumbnailSize + dgwImageResults.RowTemplate.DefaultCellStyle.Padding.Vertical;
                 row.Height = desiredHeight;
-            }
+            }*/
         }
 
 
         private void AutoResizeColumnWidths()
         {
             // Autoresize column widths to fill DataGridView
-            int totalColumnWidths = dgwImageResults.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
+            /*int totalColumnWidths = dgwImageResults.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
             int dataGridViewWidth = dgwImageResults.ClientSize.Width;
 
             // Adjust only if the total column widths are less than the DataGridView width
@@ -222,7 +222,7 @@ namespace InSightValidationTool
                 {
                     column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
-            }
+            }*/
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -233,7 +233,7 @@ namespace InSightValidationTool
 
 
         private  void UpdateDataGridView()
-        {
+        {/*
             dgwImageResults.Invoke((Action)delegate
             {
                 dgwImageResults.Rows.Clear();
@@ -296,12 +296,12 @@ namespace InSightValidationTool
                 }
             });
 
-            
+           */ 
         }
 
         private void  UpdateValidationResult() {
 
-            m_ValidationResult = true;  
+            /*m_ValidationResult = true;  
             foreach (DataGridViewRow row in dgwImageResults.Rows)
             {
                 bool actual = false;    
@@ -310,7 +310,7 @@ namespace InSightValidationTool
                 if (expected != actual) m_ValidationResult = false;
             }
 
-            lblValidationResult.Invoke((Action)delegate { 
+            /*lblValidationResult.Invoke((Action)delegate { 
 
             if (m_ValidationResult)
             {
@@ -324,13 +324,13 @@ namespace InSightValidationTool
             }
 
             });
-
+            */
         }
         private void dgwImageResults_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
+        {/*
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0) // Ensure valid cell
             {
-                DataGridViewRow row = dgwImageResults.Rows[e.RowIndex];
+                //  DataGridViewRow row = dgwImageResults.Rows[e.RowIndex];
                 ImageEntry entry = m_imageEntries[e.RowIndex];
 
                 // Update ImageEntry object based on DataGridView change
@@ -355,10 +355,10 @@ namespace InSightValidationTool
                 // Update the list if necessary
                 m_imageEntries[e.RowIndex] = entry;
             }
-        }
+        */}
 
         private void dgwImageResults_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+          /*  if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
                 // Check if the double-clicked cell is in the thumbnail column
                 if (dgwImageResults.Columns[e.ColumnIndex].Name == "ImagePreview")
@@ -373,7 +373,7 @@ namespace InSightValidationTool
                 }
             }
 
-        }
+        */}
 
 
         /// <summary>
@@ -408,7 +408,7 @@ namespace InSightValidationTool
         {
             InitForNewJob();
             UpdateState();
-            await cvsDisplay.UpdateResults();
+            //  await cvsDisplay.UpdateResults();
             //cvsFilmstrip.UpdateResults();
         }
 
@@ -494,12 +494,12 @@ namespace InSightValidationTool
 
 
 
-            cvsSpreadsheet.UpdateResults(results);
-            cvsCustomView.UpdateResults(results);
+            //cvsSpreadsheet.UpdateResults(results);
+            //cvsCustomView.UpdateResults(results);
             UpdateDataGridView();   
             UpdateMessages();
             if (_inSight.Connected) UpdateValidationResult();
-            await cvsDisplay.UpdateResults();
+            //await cvsDisplay.UpdateResults();
 
             //cvsFilmstrip.UpdateResults();
             if (m_Secuence && m_currentIndex < m_imageEntries.Count)
@@ -544,7 +544,7 @@ namespace InSightValidationTool
 
 
         private void InitForNewJob()
-        {
+        {/*
             cvsSpreadsheet.Invoke((Action)delegate
             {
                 cvsSpreadsheet.InitSpreadsheet(); // Clear the spreadsheet
@@ -552,14 +552,14 @@ namespace InSightValidationTool
                 cvsDisplay.InitDisplay(); // Clear the graphics
 
             });
-
+            */
         }
 
         /// <summary>
         /// Updates the controls that use the state (i.e.  not connected/connected, offline/online, live mode)
         /// </summary>
         private void UpdateState()
-        {
+        {/*
             try
             {
                 lblState.Invoke((Action)delegate
@@ -590,7 +590,7 @@ namespace InSightValidationTool
                         if(_inSight.Connecting) lblState.ForeColor = Color.Blue; else lblState.ForeColor = Color.Red;
                         onlineMenuItem.Text = "Go Online";
                         liveModeMenuItem.Checked = false;
-                        dgwImageResults.Rows.Clear();
+                        //dgwImageResults.Rows.Clear();
                         m_imageEntries.Clear();
                         m_ImagesLoaded =false;
                     }
@@ -618,9 +618,9 @@ namespace InSightValidationTool
                     //cvsFilmstrip.Enabled = _inSight.Connected && !_inSight.JobLoading;
                     saveQueuedImagesToolStripMenuItem.Enabled = _inSight.Connected;
 
-                   // this.splitContainer1.Panel2Collapsed = !showSpreadsheetToolStripMenuItem.Checked;
+                    // this.splitContainer1.Panel2Collapsed = !showSpreadsheetToolStripMenuItem.Checked;
 
-                    cvsCustomView.Visible = _inSight.Connected && !_inSight.JobLoading && (_inSight.CustomViewSettings.Length > 0) && (_inSight.CustomViewSettings?[0] != null) && showCustomViewToolStripMenuItem.Checked;
+                    /*      cvsCustomView.Visible = _inSight.Connected && !_inSight.JobLoading && (_inSight.CustomViewSettings.Length > 0) && (_inSight.CustomViewSettings?[0] != null) && showCustomViewToolStripMenuItem.Checked;
                     if (cvsCustomView.Visible)
                     {
                         CenterCustomView();
@@ -634,7 +634,7 @@ namespace InSightValidationTool
             {
                 // Ignore
             }
-        }
+        */}
 
         private void CenterCustomView()
         {
@@ -644,28 +644,28 @@ namespace InSightValidationTool
                 if (cvSettings != null)
                 {
                     // Always display it centered for now,
-                    cvsCustomView.SetBounds((cvsDisplay.Width - cvSettings.Width) / 2, (cvsDisplay.Height - cvSettings.Height) / 2, cvSettings.Width, cvSettings.Height);
+                    //cvsCustomView.SetBounds((cvsDisplay.Width - cvSettings.Width) / 2, (cvsDisplay.Height - cvSettings.Height) / 2, cvSettings.Width, cvSettings.Height);
                 }
             }
         }
 
         protected override void OnSizeChanged(EventArgs e)
-        {
+        {/*
             if (cvsCustomView.Visible)
             {
                 CenterCustomView();
             }
             base.OnSizeChanged(e);
-        }
+        */}
 
         protected override void OnClientSizeChanged(EventArgs e)
         {
-            if (cvsCustomView.Visible)
+            /*if (cvsCustomView.Visible)
             {
                 CenterCustomView();
             }
             base.OnClientSizeChanged(e);
-        }
+        */}
 
 
         #region Formatting/Output
@@ -837,14 +837,14 @@ namespace InSightValidationTool
             string ipwithport = String.Empty;
             JToken cameraConnection = m_configuration["CameraConnection"].Value<JToken>();
             JToken ImageEntryData = m_configuration["Images"].Value<JToken>();
-            tbIpAddressWithPort.Text = cameraConnection["IPAddressPort"].Value<String>();
-            tbUsername.Text = cameraConnection["User"].Value<String>();
-            tbPassword.Text = cameraConnection["Password"].Value<String>();
+            //tbIpAddressWithPort.Text = cameraConnection["IPAddressPort"].Value<String>();
+            //tbUsername.Text = cameraConnection["User"].Value<String>();
+            //tbPassword.Text = cameraConnection["Password"].Value<String>();
 
             //Connect if specified
             if (cameraConnection["AutoConnect"].Value<Boolean>())
             {
-                chkAutoConnect.CheckState = CheckState.Checked;
+                //  chkAutoConnect.CheckState = CheckState.Checked;
                 await Connect();
             }
 
@@ -882,9 +882,9 @@ namespace InSightValidationTool
                     sessionInfo.CellNames = new string[1] { "A0:Z599" }; // Designating a cell range requires 6.3 or newer firmware
                     sessionInfo.EnableQueuedResults = true; // When the queue is frozen, then show the queued results
                     sessionInfo.IncludeCustomView = true;
-                    await _inSight.Connect(tbIpAddressWithPort.Text, tbUsername.Text, tbPassword.Text, sessionInfo);
+                    ////await _inSight.Connect(tbIpAddressWithPort.Text, tbUsername.Text, tbPassword.Text, sessionInfo);
 
-                    await cvsDisplay.OnConnected();//GUI
+                    //await cvsDisplay.OnConnected();//GUI
                     //cvsFilmstrip.OnConnected();
                 }
 
@@ -1236,8 +1236,8 @@ namespace InSightValidationTool
                             {
                                 hmiCells.FilePath = filePath;
                             }
-                            cvsCustomView.SetHmiSpreadsheetCells(hmiCells);
-                            cvsSpreadsheet.SetHmiSpreadsheetCells(hmiCells);
+                            //cvsCustomView.SetHmiSpreadsheetCells(hmiCells);
+                            //cvsSpreadsheet.SetHmiSpreadsheetCells(hmiCells);
                         }
                         catch (Exception ex)
                         {
@@ -1252,8 +1252,8 @@ namespace InSightValidationTool
         {
             if (_inSight.Connected)
             {
-                cvsSpreadsheet.Visible = showSpreadsheetToolStripMenuItem.Checked;
-                dgwImageResults.Visible = !showSpreadsheetToolStripMenuItem.Checked;
+                // cvsSpreadsheet.Visible = showSpreadsheetToolStripMenuItem.Checked;
+                //dgwImageResults.Visible = !showSpreadsheetToolStripMenuItem.Checked;
                 UpdateState();
             }
         }
@@ -1308,7 +1308,7 @@ namespace InSightValidationTool
 
         private void shwMenuBar_CheckedChanged(object sender, EventArgs e)
         {
-            this.menuStrip.Visible = shwMenuBar.Checked;
+            //  this.menuStrip.Visible = shwMenuBar.Checked;
         }
 
         private void imgsFolderbtn_Click(object sender, EventArgs e)
@@ -1331,7 +1331,7 @@ namespace InSightValidationTool
                         // Get the path of specified file
 
                         imgspath = openFileDialog.FileNames.ToList<String>();
-                        lblimgsload.Text = imgspath.Count.ToString() + "/tImages Loaded";
+                        //lblimgsload.Text = imgspath.Count.ToString() + "/tImages Loaded";
                         PopulateGridView();
                     }
                 }
@@ -1342,9 +1342,9 @@ namespace InSightValidationTool
         {
             if (_inSight.Connected)
             {
-                this.btnRunValidation.Enabled = false;   
+                // this.btnRunValidation.Enabled = false;   
                 LoadImagestoInSight();
-                this.btnRunValidation.Enabled = true;
+                //  this.btnRunValidation.Enabled = true;
 
             }
         }
@@ -1393,14 +1393,14 @@ namespace InSightValidationTool
             m_configuration = null;
 
             //Save Camera connection Parameters
-            CameraConnection.Add("IPAddressPort",tbIpAddressWithPort.Text);
-            CameraConnection.Add("User",tbUsername.Text);
-            CameraConnection.Add("Password",tbPassword.Text);
-            CameraConnection.Add("AutoConnect", chkAutoConnect.Checked);
-            
+            //  CameraConnection.Add("IPAddressPort",tbIpAddressWithPort.Text);
+            //CameraConnection.Add("User",tbUsername.Text);
+            //CameraConnection.Add("Password",tbPassword.Text);
+            //CameraConnection.Add("AutoConnect", chkAutoConnect.Checked);
+
 
             //Save Job FileName
-            JobFileName.Add("JobFile",lblJobInfo.Text);
+            //JobFileName.Add("JobFile",lblJobInfo.Text);
 
 
 
@@ -1445,7 +1445,11 @@ namespace InSightValidationTool
         private void btnRestoreMaximize_Click(object sender, EventArgs e)
         {
             if(WindowState == FormWindowState.Normal) WindowState = FormWindowState.Maximized;
-            else WindowState = FormWindowState.Normal;  
+            else WindowState = FormWindowState.Normal;
+
+            tbllyMainWindow.Width = ClientSize.Width;
+            tbllyMainWindow.Height = ClientSize.Height; 
+
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -1453,13 +1457,13 @@ namespace InSightValidationTool
             System.Windows.Forms.Application.Exit(); 
         }
 
-        private void panel1_MouseDown(object sender, MouseEventArgs e)
+        private void pnlTopPanel_MouseDown(object sender, MouseEventArgs e)
         {
             m_mouseDown = true;
             m_lastLocation = e.Location;
         }
 
-        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        private void pnlTopPanel_MouseMove(object sender, MouseEventArgs e)
         {
             if (m_mouseDown)
             {
@@ -1470,7 +1474,7 @@ namespace InSightValidationTool
             }
         }
 
-        private void panel1_MouseUp(object sender, MouseEventArgs e)
+        private void pnlTopPanel_MouseUp(object sender, MouseEventArgs e)
         {
             m_mouseDown = false;
         }
