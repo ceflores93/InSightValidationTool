@@ -31,6 +31,7 @@ using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.AxHost;
 using WebAPISampleApp.Properties;
 using WebAPISampleApp;
+using System.Drawing.Drawing2D;
 
 namespace InSightValidationTool
 {
@@ -1525,8 +1526,48 @@ namespace InSightValidationTool
 
         private void tabPageClick(object sender, EventArgs e) { 
         
-        UpdateWindowState();    
+        TabControl tabControl = (TabControl)sender;
 
+            if (tabControl.SelectedTab.Name == "tabPage2")
+            {
+                //tabCtrlContent.SelectedIndex = tabCtrlContent.TabCount + 1;
+                tabCtrlContent.Controls.RemoveByKey("tabPage2");
+                InitializeNewTab();
+            }
+            else
+            {
+                UpdateWindowState();
+            }
+        }
+
+        private void InSightControlUpdate(object sender, EventArgs e) {
+
+            UpdateWindowState();
+        } 
+
+        private void InitializeNewTab() { 
+            //Create new InSightValidation Control for this tab
+            TabPage tabPage = new TabPage();
+            tabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            tabPage.Font = new System.Drawing.Font("Calibri", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            tabPage.Location = new System.Drawing.Point(4, 26);
+            tabPage.Margin = new System.Windows.Forms.Padding(0);
+            tabPage.Padding = new System.Windows.Forms.Padding(3);
+            tabPage.Size = new System.Drawing.Size(1906, 980);
+            tabPage.TabIndex = 0;
+            tabPage.Text = "DefaultConnection";
+
+            InsightValidationControl insightValidationControl = new InsightValidationControl();
+            insightValidationControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            insightValidationControl.Location = new System.Drawing.Point(3, 3);
+            insightValidationControl.Name = "insightValidationControl1";
+            insightValidationControl.Size = new System.Drawing.Size(1900, 974);
+            insightValidationControl.TabIndex = 0;
+            insightValidationControl.InSightValidationControl_OnUpdate += InSightControlUpdate;
+            tabPage.Controls.Add(insightValidationControl);
+            
+            tabCtrlContent.Controls.Add(tabPage);
+            tabCtrlContent.Controls.Add(tabPage2);
         }
 
         private void UpdateWindowState() {
@@ -1587,33 +1628,98 @@ namespace InSightValidationTool
 
         private void TabCtrlContent_DrawItem(object sender, System.Windows.Forms.DrawItemEventArgs e)
         {
-            TabControl tabControl = sender as TabControl;
-            if (tabControl != null) {//First time we're drawing it
-               Graphics g = e.Graphics; 
-                TabPage tabPage = tabControl.TabPages[0];
-                Rectangle tabBounds = tabControl.GetTabRect(0);
+            TabPage tabPage = tabCtrlContent.TabPages[e.Index];
+            Rectangle tabRect = tabCtrlContent.GetTabRect(e.Index);
 
-                //Definir fuente y color
-                Color bakgroundColor = Color.DarkGray;
-                Color textColor = Color.White;  
-                Font tabfont = new Font("Calibri",10.0f,FontStyle.Bold,GraphicsUnit.Pixel);
-                //Dibujar Fondo
-                g.FillRectangle(new SolidBrush(bakgroundColor), tabBounds);
+            using (Graphics g = e.Graphics)
+            {
+                Font tabFont = new Font("Calibri", 9.0f, FontStyle.Bold);
 
-                //Add Image
-                System.Drawing.Image tabImage = Resources.IS2800;
-                Rectangle imageRect = new Rectangle(tabBounds.Left + 5, tabBounds.Top, tabBounds.Width - 25, tabBounds.Height);
-                g.DrawImage(tabImage, imageRect);
+                SizeF textSize = g.MeasureString(tabPage.Text, e.Font);
+                int textWidth = (int)textSize.Width;
+                int textHeight = (int)textSize.Height;
 
-                //DrawText
-                Rectangle textRect = new Rectangle(tabBounds.Left + 25, tabBounds.Top, tabBounds.Width - 25, tabBounds.Height);
-                StringFormat stringFlags = new StringFormat
+                // Define size and position for the close button
+                int buttonSize = 15;
+                Rectangle closeButtonRect = new Rectangle(
+                    tabRect.Right - buttonSize - 5,
+                    tabRect.Top + (tabRect.Height - buttonSize) / 2,
+                    buttonSize, buttonSize);
+
+                // Adjust tabRect width based on text and button size
+                int adjustedTabWidth = textWidth + buttonSize + 20; // Padding
+
+                // Draw the tab header
+                using (Brush backgroundBrush = new SolidBrush(System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))))))
                 {
-                    Alignment = StringAlignment.Near,
-                    LineAlignment = StringAlignment.Center
-                };
+                    e.Graphics.FillRectangle(backgroundBrush, tabRect);
+                }
 
-                g.DrawString(tabPage.Text, tabfont, new SolidBrush(textColor), textRect, stringFlags);
+                // Draw the tab header text
+                using (Brush textBrush = new SolidBrush(Color.White))
+                {
+                    e.Graphics.DrawString(tabPage.Text, tabFont, textBrush, tabRect.X + 2, tabRect.Y + 2);
+                }
+
+
+
+
+
+
+
+                if (tabPage.Name != "tabPage2")
+                {
+                    DrawCloseButton(e.Graphics, tabRect);
+                }
+
+                e.Graphics.FillRectangle(Brushes.Transparent, tabRect.X + textWidth + buttonSize + 10, tabRect.Y, adjustedTabWidth - textWidth - buttonSize - 20, tabRect.Height); // Ensure clear area
+            }
+        }
+     
+        private void DrawCloseButton(Graphics g, Rectangle tabRect)
+        {
+            int buttonSize = 15;
+            Rectangle closeButtonRect = new Rectangle(tabRect.Right - buttonSize - 5, tabRect.Top + (tabRect.Height - buttonSize) / 2, buttonSize, buttonSize);
+
+            // Create a circular path for the button
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                path.AddEllipse(closeButtonRect);
+
+                // Create a gradient brush for the 3D effect
+                using (LinearGradientBrush brush = new LinearGradientBrush(closeButtonRect, Color.Black, Color.Black, LinearGradientMode.Vertical))
+                {
+                    g.FillPath(brush, path);
+                }
+
+                // Draw the border of the button
+                using (Pen pen = new Pen(Color.Black, 1))
+                {
+                    g.DrawPath(pen, path);
+                }
+
+                // Draw the 'x' symbol
+                using (Pen pen = new Pen(Color.White, 2))
+                {
+                    int padding = 3;
+                    g.DrawLine(pen, closeButtonRect.Left + padding, closeButtonRect.Top + padding, closeButtonRect.Right - padding, closeButtonRect.Bottom - padding);
+                    g.DrawLine(pen, closeButtonRect.Right - padding, closeButtonRect.Top + padding, closeButtonRect.Left + padding, closeButtonRect.Bottom - padding);
+                }
+            }
+        }
+
+        private void TabCtrl_MouseDown(object sender, MouseEventArgs e)
+        {
+            for (int i = 0; i < tabCtrlContent.TabCount; i++)
+            {
+                Rectangle tabRect = tabCtrlContent.GetTabRect(i);
+                Rectangle closeButtonRect = new Rectangle(tabRect.Right - 15, tabRect.Top + 5, 10, 10);
+
+                if (closeButtonRect.Contains(e.Location))
+                {
+                    tabCtrlContent.TabPages.RemoveAt(i);
+                    break;
+                }
             }
         }
 

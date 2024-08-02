@@ -10,6 +10,7 @@
 //*******************************************************************************
 
 using Cognex.InSight.Web.Controls;
+using System.Drawing;
 using System.Windows.Forms;
 using WebAPISampleApp;
 
@@ -76,10 +77,10 @@ namespace InSightValidationTool
             this.btnMinimize = new System.Windows.Forms.Button();
             this.tbllyMainWindow = new System.Windows.Forms.TableLayoutPanel();
             this.pnlTopPanel = new System.Windows.Forms.Panel();
-            this.tabCtrlContent = new System.Windows.Forms.TabControl();
+            this.tabCtrlContent = new System.Windows.Forms.TabControl(); 
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.insightValidationControl1 = new WebAPISampleApp.InsightValidationControl();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.menuStrip.SuspendLayout();
             this.controlBox.SuspendLayout();
             this.tbllyMainWindow.SuspendLayout();
@@ -266,7 +267,7 @@ namespace InSightValidationTool
             this.triggerMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.triggerMenuItem.ForeColor = System.Drawing.Color.White;
             this.triggerMenuItem.Name = "triggerMenuItem";
-            this.triggerMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.triggerMenuItem.Size = new System.Drawing.Size(142, 26);
             this.triggerMenuItem.Text = "Trigger";
             this.triggerMenuItem.Click += new System.EventHandler(this.triggerMenuItem_Click);
             // 
@@ -456,19 +457,25 @@ namespace InSightValidationTool
             this.tabCtrlContent.Controls.Add(this.tabPage1);
             this.tabCtrlContent.Controls.Add(this.tabPage2);
             this.tabCtrlContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabCtrlContent.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.tabCtrlContent.Location = new System.Drawing.Point(3, 67);
             this.tabCtrlContent.Name = "tabCtrlContent";
             this.tabCtrlContent.SelectedIndex = 0;
             this.tabCtrlContent.Size = new System.Drawing.Size(1914, 1010);
             this.tabCtrlContent.TabIndex = 26;
-            
-            this.tabCtrlContent.Selected += new TabControlEventHandler(tabPageClick);
+            this.tabCtrlContent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.tabCtrlContent.Padding = new Point(0, 0);
+            this.tabCtrlContent.Multiline = true;   
+            this.tabCtrlContent.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabPageClick);
+            this.tabCtrlContent.DrawItem += TabCtrlContent_DrawItem;
+            this.tabCtrlContent.MouseDown += TabCtrl_MouseDown;
+
             // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
             this.tabPage1.Controls.Add(this.insightValidationControl1);
-            this.tabPage1.Font = new System.Drawing.Font("Calibri", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabPage1.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage1.Location = new System.Drawing.Point(4, 26);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage1.Name = "tabPage1";
@@ -476,18 +483,6 @@ namespace InSightValidationTool
             this.tabPage1.Size = new System.Drawing.Size(1906, 980);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "DefaultConnection";
-            insightValidationControl1.InSightValidationControl_OnUpdate += tabPageClick;
-            
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1906, 981);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "+";
-            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // insightValidationControl1
             // 
@@ -496,7 +491,17 @@ namespace InSightValidationTool
             this.insightValidationControl1.Name = "insightValidationControl1";
             this.insightValidationControl1.Size = new System.Drawing.Size(1900, 974);
             this.insightValidationControl1.TabIndex = 0;
-           
+            this.insightValidationControl1.InSightValidationControl_OnUpdate += InSightControlUpdate;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 26);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1906, 980);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "+";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // MainFormWindow
             // 
