@@ -199,34 +199,32 @@ namespace WebAPISampleApp.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        internal static System.Drawing.Bitmap favicon
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("favicon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        internal static System.Drawing.Bitmap IS2800
-        {
-            get
-            {
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap IS2800 {
+            get {
                 object obj = ResourceManager.GetObject("IS2800", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        internal static System.Drawing.Bitmap IS3800
-        {
-            get
-            {
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap IS3800 {
+            get {
                 object obj = ResourceManager.GetObject("IS3800", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        internal static System.Drawing.Bitmap ISD900
-        {
-            get
-            {
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ISD900 {
+            get {
                 object obj = ResourceManager.GetObject("ISD900", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }

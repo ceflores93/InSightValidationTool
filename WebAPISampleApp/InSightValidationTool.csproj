@@ -157,11 +157,9 @@
     <None Include="Resources\connecticon2.png" />
     <None Include="Resources\connecticon1.png" />
     <None Include="Resources\favicon.png" />
-    <Resource Include="Resources\ISD900.png" />
-    <Resource Include="Resources\IS3800.png" />
-    <Resource Include="Resources\IS2800.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="Resources\IS2800.png" />
+    <None Include="Resources\IS3800.png" />
+    <None Include="Resources\ISD900.png" />
     <Content Include="testing-icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

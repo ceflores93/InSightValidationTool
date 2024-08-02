@@ -32,6 +32,7 @@ using static System.Windows.Forms.AxHost;
 using WebAPISampleApp.Properties;
 using WebAPISampleApp;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 
 namespace InSightValidationTool
 {
@@ -1588,6 +1589,10 @@ namespace InSightValidationTool
                             liveModeMenuItem.Checked = selectedControl.InSight._inSight.LiveMode;
                             CvsCameraInfo info = selectedControl.InSight._inSight.CameraInfo;
                             tabCtrlContent.SelectedTab.Text = info.HostName;
+
+                            
+                            
+
                             info = null;
                         }
                         else {
@@ -1631,11 +1636,16 @@ namespace InSightValidationTool
 
         private void TabCtrlContent_DrawItem(object sender, System.Windows.Forms.DrawItemEventArgs e)
         {
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+            
             TabPage tabPage = tabCtrlContent.TabPages[e.Index];
             Rectangle tabRect = tabCtrlContent.GetTabRect(e.Index);
 
+
             using (Graphics g = e.Graphics)
             {
+
+                System.Drawing.Image tabImage;
                 Font tabFont = new Font("Calibri", 9.0f, FontStyle.Bold);
 
                 SizeF textSize = g.MeasureString(tabPage.Text, e.Font);
@@ -1663,8 +1673,28 @@ namespace InSightValidationTool
                 {
                     e.Graphics.DrawString(tabPage.Text, tabFont, textBrush, tabRect.X + 2, tabRect.Y + 2);
                 }
+                if (selectedControl != null)
+                {
+                    if (selectedControl.InSight._inSight.Connected)
+                    {
 
+                        string Model = selectedControl.InSight._inSight.CameraInfo.ModelNumber;
+                        Model = Model.Substring(0, 3);
 
+                        if (Model == "IS2") tabImage = Resources.IS2800;
+                        else if (Model == "IS3") tabImage = Resources.IS3800;
+                        else if (Model == "ISD") tabImage = Resources.ISD900;
+                        else tabImage = Resources.Cognex_InSightViDiPC_1;
+
+                        int imageWidth = tabImage.Width;
+                        int imageHeight = tabImage.Height;
+                        Rectangle imageRect = new Rectangle(
+                            tabRect.Left + 2,
+                            tabRect.Top + (tabRect.Height - imageHeight) / 2,
+                            imageWidth, imageHeight);
+                        g.DrawImage(tabImage, imageRect);
+                    }
+                }
 
 
 
