@@ -434,6 +434,7 @@
             this.tbIpAddressWithPort.Size = new System.Drawing.Size(156, 25);
             this.tbIpAddressWithPort.TabIndex = 34;
             this.tbIpAddressWithPort.Text = "192.168.1.25:80";
+            this.tbIpAddressWithPort.TextChanged += TbIpAddressWithPort_TextChanged; 
             // 
             // panel7
             // 
@@ -470,6 +471,7 @@
             this.tbUsername.Size = new System.Drawing.Size(104, 25);
             this.tbUsername.TabIndex = 35;
             this.tbUsername.Text = "admin";
+            this.tbUsername.TextChanged += TbUsername_TextChanged;
             // 
             // panel8
             // 
@@ -494,6 +496,7 @@
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.Size = new System.Drawing.Size(156, 25);
             this.tbPassword.TabIndex = 38;
+            this.tbPassword.TextChanged += TbPassword_TextChanged;
             // 
             // label2
             // 
@@ -612,6 +615,12 @@
             this.ResumeLayout(false);
 
         }
+
+
+
+
+
+
 
         #endregion
 

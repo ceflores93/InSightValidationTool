@@ -850,9 +850,11 @@ namespace InSightValidationTool
                 //  chkAutoConnect.CheckState = CheckState.Checked;
                 await selectedControl.InSight.Connect();
             }
-
+            string configurationJob = selectedControl.InSight.Configuration["JobFile"].Value<String>();
+            string cameraJob = selectedControl.InSight._inSight.JobInfo["name"].Value<String>();
+            cameraJob = cameraJob.Substring(1, cameraJob.Length - 1);   
             //LoadJobFile If neccesary
-            if (selectedControl.InSight.Configuration["JobFile"].Value<String>() != selectedControl.InSight._inSight.JobInfo["name"].Value<String>())
+            if (configurationJob != cameraJob)
             {
                 await selectedControl.InSight.LoadJob(selectedControl.InSight.Configuration["JobFile"].Value<String>());
                 

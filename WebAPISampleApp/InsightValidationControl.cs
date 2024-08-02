@@ -154,7 +154,10 @@ namespace WebAPISampleApp
                         lblState.Text = stateText;
                         //onlineMenuItem.Text = inSightSystem._inSight.Online ? "Go Offline" : "Go Online";
                         //liveModeMenuItem.Checked = _inSight.LiveMode;
-                        lblJobInfo.Text = "Current Job: " + inSightSystem._inSight.JobInfo["name"].Value<String>();
+                        string jobName = inSightSystem._inSight.JobInfo["name"].Value<String>();
+                        jobName = jobName.Substring(1, jobName.Length - 1);
+                        lblJobInfo.Text = "Current Job: " + jobName;
+                        jobName = String.Empty;
 
 
                     }
@@ -639,6 +642,8 @@ namespace WebAPISampleApp
                 }
 
                 await inSightSystem.SetCameraStatus(true);
+                this.btnRunValidation.Enabled = true;
+                this.btnRunValidation.Text = "Run Validation";
                 secuence = false;
             }
         }
@@ -650,15 +655,16 @@ namespace WebAPISampleApp
             if (inSightSystem._inSight.Connected)
             {
                 this.btnRunValidation.Enabled = false;
+                this.btnRunValidation.Text = "Validation In Process";
                 LoadImagestoInSight();
-                this.btnRunValidation.Enabled = true;
+                
 
             }
         }
 
         private void btnConnectDisconnect_Click(object sender, EventArgs e)
         {
-              ConnectDisconnect();  
+              this.ConnectDisconnect();  
         }
 
         public async void ConnectDisconnect() {
@@ -743,6 +749,20 @@ namespace WebAPISampleApp
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void TbIpAddressWithPort_TextChanged(object sender, System.EventArgs e)
+        {
+            this.InSight.IpAddressWithPort = tbIpAddressWithPort.Text;   
+        }
+        private void TbUsername_TextChanged(object sender, System.EventArgs e)
+        {
+            this.InSight.UserName = tbUsername.Text; 
+        }
+
+        private void TbPassword_TextChanged(object sender, System.EventArgs e)
+        {
+            this.InSight.Password = tbPassword.Text; 
         }
     }
 }
