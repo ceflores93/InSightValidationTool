@@ -24,6 +24,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using MinimalisticTelnet;
 using System.Threading;
+using System.Diagnostics.Eventing.Reader;
+using System.Net.NetworkInformation;
 
 namespace InSightValidationTool
 {
@@ -35,9 +37,61 @@ namespace InSightValidationTool
 
     internal class InSightDevice
     {
+
+
+        public class NativeResponse {
+            public enum StatusCode {
+                CommandExecutedSuccessfully = 1,
+                UnrecognizedCommand = 0,
+                InvalidCellName = -1,
+                CommandCouldNotBeExecuted = -2
+            }
+            public NativeResponse(StatusCode status, string result)
+            {
+                Status = status;
+                Result = result;
+            }
+
+            public NativeResponse(StatusCode status) { 
+            Status = status;
+            Result = "0.00";
+            }
+
+            public NativeResponse() { } 
+
+            public StatusCode Status { get; set; }
+            public string Result { get; set; }
+
+            public static NativeResponse Parse(string input)
+            {
+                if (input != String.Empty)
+                {
+                    var parts = input.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    if (parts.Length > 4)
+                    {
+                        throw new ArgumentException("Input string is not in the expected format.");
+                    }
+
+                    if (!Enum.TryParse(parts[0], out StatusCode status))
+                    {
+                        //throw new ArgumentException("Invalid status code.");
+                    }
+
+                    if (parts.Length > 1)
+                    {
+
+                        return new NativeResponse
+                        {
+                            Status = status,
+
+                            Result = parts[1]
+                        };
+                    }
+                    else return new NativeResponse { Status = status };
+                } else return new NativeResponse(); 
+            }
+        }
         
-
-
         
         public class ImageEntry
         {
@@ -75,15 +129,16 @@ namespace InSightValidationTool
         //Telnet Variables
         private int telnetPort = 23;
         public TelnetConnection _nativeConnection;
+        public TelnetConnection _ResultsConnection;
         private Thread _nativeThread;
         public event Action<string> DataRecieved;
-        private bool _isConnected;
+        private bool _isConnected = false;
 
-        public delegate void InSightDeviceEventHandler(object sender, EventArgs e);
+        public delegate void InSightDeviceEventHandler(object sender, NativeResponse e);
 
         public event InSightDeviceEventHandler InSightDevice_NativeDataRecieved;
 
-        protected virtual void onDataRecieved(EventArgs e) {
+        protected virtual void onDataRecieved(NativeResponse e) {
 
             InSightDevice_NativeDataRecieved(this, e);
         }
@@ -234,6 +289,8 @@ namespace InSightValidationTool
         ~InSightDevice()
         {
             UnsubscribeEvents();
+            _nativeConnection.Disconnect();
+            _nativeConnection = null;   
 
         }
 
@@ -245,6 +302,9 @@ namespace InSightValidationTool
                 if (_inSight.Connected)
                 {
                     await _inSight.Disconnect();
+                    _isConnected = false;
+                    _nativeConnection.Disconnect(); 
+                    _nativeConnection = null;   
                 }
                 else
                 {
@@ -263,12 +323,12 @@ namespace InSightValidationTool
 
                     string nativeLogIn = _nativeConnection.Login(UserName, Password,100);
 
-                    string prompt = nativeLogIn.TrimEnd();
-                    prompt = nativeLogIn.Substring(prompt.Length - 1, 1);
-                    if (prompt != ":")
+                    string prompt = nativeLogIn.Replace("\r\n",String.Empty);
+                    
+                    if (prompt == "User Logged In")
+                        _isConnected = true;    
+                    else
                         throw new Exception("Connection failed");
-
-                    prompt = "Native Connection Sucesfull";
 
                     if (_isConnected)
                     {
@@ -402,16 +462,58 @@ namespace InSightValidationTool
         }
 
         private void pollInSightNative() {
-          /*  while (_isConnected) {
+           while (_isConnected) {
                 _nativeConnection.WriteLine("GVInSightValidation.A1");
                 string response = _nativeConnection.Read();
 
-                if (response != null)
+                NativeResponse responseNative = NativeResponse.Parse(response);
+
+                if (responseNative != null)
                 {
-                   // onDataRecieved(EventArgs.Empty);
+                   onDataRecieved(responseNative);
                 }
                 Thread.Sleep(1000);
-            }*/
+            }
+        }
+
+        public void WriteValidationResult(string validationResult)
+        {
+            bool sendResults=false; 
+            //Send Validation Result and close its connection 
+
+            Uri uri = new Uri("http://" + IpAddressWithPort);
+            _ResultsConnection = new TelnetConnection(uri.Host.ToString(), telnetPort);
+
+            string resultsWrite= _ResultsConnection.Login(UserName, Password,100);
+
+            string prompt = resultsWrite.Replace("\r\n", String.Empty);
+
+            if (prompt == "User Logged In")
+                sendResults = true;
+            else
+                throw new Exception("Connection Results failed");
+
+            if (sendResults)
+            {
+
+                _ResultsConnection.WriteLine("SSInSightValidation.B1 " + validationResult);
+
+                string response = _ResultsConnection.Read();
+                NativeResponse responseNative = NativeResponse.Parse(response);
+                if (responseNative.Status == NativeResponse.StatusCode.CommandExecutedSuccessfully)
+                {
+
+                    Console.WriteLine("Validation Result Write Successful");
+                    _ResultsConnection.Disconnect();
+                    _ResultsConnection = null;
+                }
+                else
+                {
+                    Console.WriteLine("Validation Result Write Not Successful");
+                    _ResultsConnection.Disconnect();
+                    _ResultsConnection = null;
+                }
+            }
         }
     }
 }

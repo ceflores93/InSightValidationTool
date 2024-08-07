@@ -65,11 +65,21 @@ namespace WebAPISampleApp
            
         }
 
-        private void InSightSystem_InSightDevice_NativeDataRecieved(object sender, EventArgs e)
-        {
-            Random rnd = new Random();
-            int id = rnd.Next(1,10000000);
-            lblNativeStatus.Text = "Datos Recibidos " + id.ToString();
+        private void InSightSystem_InSightDevice_NativeDataRecieved(object sender, InSightDevice.NativeResponse e)
+       {
+            if (lblNativeStatus != null)
+            {
+                lblNativeStatus.Invoke((Action)delegate
+                {
+                    if (e.Status == InSightDevice.NativeResponse.StatusCode.CommandExecutedSuccessfully)
+                    {
+                        lblNativeStatus.Text = "Native Online";
+                    }
+                    else { lblNativeStatus.Text = e.Status.ToString(); }
+                });
+            }
+
+                        
         }
 
         ~InsightValidationControl()
@@ -519,6 +529,7 @@ namespace WebAPISampleApp
 
         private void UpdateValidationResult()
         {
+            Console.WriteLine("Results to Update");
 
             inSightSystem._validationResult = true;
             foreach (DataGridViewRow row in dgwImageResults.Rows)
@@ -528,6 +539,8 @@ namespace WebAPISampleApp
                 if (row.Cells["ActualResult"].Value.ToString() == "Pass") actual = true; else actual = false;
                 if (expected != actual) inSightSystem._validationResult = false;
             }
+
+            //if (inSightSystem._validationResult) InSight.WriteValidationResult("Pass"); else InSight.WriteValidationResult("Fail");
 
             lblValidationResult.Invoke((Action)delegate
             {
@@ -591,6 +604,7 @@ namespace WebAPISampleApp
                     currentIndex = e.RowIndex;
                     // Call LoadImage async method
                     await inSightSystem.LoadImage(filename);
+                    InSight.WriteValidationResult(lblValidationResult.Text);
 
                 }
             }
@@ -654,6 +668,8 @@ namespace WebAPISampleApp
                 await inSightSystem.SetCameraStatus(true);
                 this.btnRunValidation.Enabled = true;
                 this.btnRunValidation.Text = "Run Validation";
+                InSight.WriteValidationResult(lblValidationResult.Text);
+
                 secuence = false;
             }
         }

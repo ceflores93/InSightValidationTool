@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace MinimalisticTelnet
 {
@@ -42,17 +43,18 @@ namespace MinimalisticTelnet
             int oldTimeOutMs = TimeOutMs;
             TimeOutMs = LoginTimeOutMs;
             string s = Read();
-            if (!s.TrimEnd().StartsWith("Welcome"))
+            if (!s.StartsWith("Welcome"))
                throw new Exception("Failed to connect : no login prompt");
             WriteLine(Username);
 
-            s += Read();
-            if (!s.TrimEnd().EndsWith(":"))
+            s = Read();
+            if (s != "Password: ")
                 throw new Exception("Failed to connect : no password prompt");
             WriteLine(Password);
 
-            s += Read();
+            s = Read();
             TimeOutMs = oldTimeOutMs;
+
             return s;
         }
 
@@ -83,6 +85,11 @@ namespace MinimalisticTelnet
         public bool IsConnected
         {
             get { return tcpSocket.Connected; }
+        }
+
+        public void Disconnect()
+        {
+            tcpSocket.Close();
         }
 
         void ParseTelnet(StringBuilder sb)
