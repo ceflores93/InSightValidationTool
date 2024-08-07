@@ -27,6 +27,7 @@ namespace WebAPISampleApp
         public List<String> imgspath = null;
 
         private InSightDevice inSightSystem;
+
         public delegate void InSightValidationControlEventHandler(object sender, EventArgs e);
 
         public event InSightValidationControlEventHandler InSightValidationControl_OnUpdate;
@@ -42,6 +43,8 @@ namespace WebAPISampleApp
            
             InitializeComponent();
             inSightSystem = new InSightDevice(tbIpAddressWithPort.Text, tbUsername.Text, tbPassword.Text, false);
+            inSightSystem.InSightDevice_NativeDataRecieved += InSightSystem_InSightDevice_NativeDataRecieved;
+
             InitializeDataGridView();
 
             cvsSpreadsheet1.SetInSight(inSightSystem._inSight);
@@ -60,6 +63,13 @@ namespace WebAPISampleApp
             inSightSystem._inSight.EditorAttachedChanged += OnEditorAttachedChanged;
 
            
+        }
+
+        private void InSightSystem_InSightDevice_NativeDataRecieved(object sender, EventArgs e)
+        {
+            Random rnd = new Random();
+            int id = rnd.Next(1,10000000);
+            lblNativeStatus.Text = "Datos Recibidos " + id.ToString();
         }
 
         ~InsightValidationControl()

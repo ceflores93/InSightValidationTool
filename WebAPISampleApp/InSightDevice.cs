@@ -22,6 +22,8 @@ using System.Web;
 using System.Xml.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using MinimalisticTelnet;
+using System.Threading;
 
 namespace InSightValidationTool
 {
@@ -33,6 +35,10 @@ namespace InSightValidationTool
 
     internal class InSightDevice
     {
+        
+
+
+        
         public class ImageEntry
         {
             public string Path { get; set; }
@@ -66,8 +72,21 @@ namespace InSightValidationTool
         private bool _Ignore;
         private string _loggedMessages = "";
 
+        //Telnet Variables
+        private int telnetPort = 23;
+        public TelnetConnection _nativeConnection;
+        private Thread _nativeThread;
+        public event Action<string> DataRecieved;
+        private bool _isConnected;
 
+        public delegate void InSightDeviceEventHandler(object sender, EventArgs e);
 
+        public event InSightDeviceEventHandler InSightDevice_NativeDataRecieved;
+
+        protected virtual void onDataRecieved(EventArgs e) {
+
+            InSightDevice_NativeDataRecieved(this, e);
+        }
 
 
         public InSightDevice(string IPwPort,string username, string password, bool autoConnect)
@@ -235,6 +254,28 @@ namespace InSightValidationTool
                     sessionInfo.EnableQueuedResults = true; // When the queue is frozen, then show the queued results
                     sessionInfo.IncludeCustomView = true;
                     await _inSight.Connect(IpAddressWithPort, UserName, Password, sessionInfo);
+
+
+                    //Connect to Native Server
+
+                    Uri uri = new Uri("http://" + IpAddressWithPort);
+                    _nativeConnection = new TelnetConnection(uri.Host.ToString(), telnetPort);
+
+                    string nativeLogIn = _nativeConnection.Login(UserName, Password,100);
+
+                    string prompt = nativeLogIn.TrimEnd();
+                    prompt = nativeLogIn.Substring(prompt.Length - 1, 1);
+                    if (prompt != ":")
+                        throw new Exception("Connection failed");
+
+                    prompt = "Native Connection Sucesfull";
+
+                    if (_isConnected)
+                    {
+                        _nativeThread = new Thread(pollInSightNative);
+                        _nativeThread.IsBackground = true;  
+                        _nativeThread.Start();  
+                    }
                 }
 
             }
@@ -358,6 +399,19 @@ namespace InSightValidationTool
                     MessageBox.Show($"Live Mode Exception: {ex.Message}");
                 }
             }
+        }
+
+        private void pollInSightNative() {
+          /*  while (_isConnected) {
+                _nativeConnection.WriteLine("GVInSightValidation.A1");
+                string response = _nativeConnection.Read();
+
+                if (response != null)
+                {
+                   // onDataRecieved(EventArgs.Empty);
+                }
+                Thread.Sleep(1000);
+            }*/
         }
     }
 }

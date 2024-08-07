@@ -34,9 +34,8 @@
             this.btnConnectDisconnect = new System.Windows.Forms.Button();
             this.imgsFolderbtn = new System.Windows.Forms.Button();
             this.btnRunValidation = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.lblState = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblPLCStatus = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tblinfoBanners = new System.Windows.Forms.TableLayoutPanel();
             this.lblimgsload = new System.Windows.Forms.Label();
@@ -62,13 +61,14 @@
             this.cvsDisplay1 = new Cognex.InSight.Web.Controls.CvsDisplay();
             this.dgwImageResults = new System.Windows.Forms.DataGridView();
             this.cvsSpreadsheet1 = new Cognex.InSight.Web.Controls.CvsSpreadsheet();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.lblNativeStatus = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tblCameraControls.SuspendLayout();
             this.tblControlButtons.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tblinfoBanners.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -86,6 +86,7 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgwImageResults)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -118,9 +119,9 @@
             this.tblCameraControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tblCameraControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tblCameraControls.Controls.Add(this.tblControlButtons, 1, 0);
-            this.tblCameraControls.Controls.Add(this.panel1, 3, 0);
             this.tblCameraControls.Controls.Add(this.panel2, 2, 0);
             this.tblCameraControls.Controls.Add(this.panel4, 0, 0);
+            this.tblCameraControls.Controls.Add(this.tableLayoutPanel1, 3, 0);
             this.tblCameraControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tblCameraControls.ForeColor = System.Drawing.Color.White;
             this.tblCameraControls.Location = new System.Drawing.Point(0, 0);
@@ -213,43 +214,31 @@
             this.btnRunValidation.UseVisualStyleBackColor = false;
             this.btnRunValidation.Click += new System.EventHandler(this.btnRunValidation_Click);
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.lblState);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(1713, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(184, 100);
-            this.panel1.TabIndex = 0;
-            // 
             // lblState
             // 
-            this.lblState.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblState.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblState.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblState.ForeColor = System.Drawing.Color.White;
-            this.lblState.Location = new System.Drawing.Point(0, 49);
+            this.lblState.Location = new System.Drawing.Point(0, 58);
             this.lblState.Margin = new System.Windows.Forms.Padding(0);
             this.lblState.Name = "lblState";
-            this.lblState.Size = new System.Drawing.Size(184, 42);
+            this.lblState.Size = new System.Drawing.Size(184, 30);
             this.lblState.TabIndex = 45;
             this.lblState.Text = "Not Connected";
             this.lblState.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label5
+            // lblPLCStatus
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(2, 3);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(182, 24);
-            this.label5.TabIndex = 44;
-            this.label5.Text = "PLC Not Connected";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblPLCStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblPLCStatus.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPLCStatus.ForeColor = System.Drawing.Color.White;
+            this.lblPLCStatus.Location = new System.Drawing.Point(2, 0);
+            this.lblPLCStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblPLCStatus.Name = "lblPLCStatus";
+            this.lblPLCStatus.Size = new System.Drawing.Size(180, 29);
+            this.lblPLCStatus.TabIndex = 44;
+            this.lblPLCStatus.Text = "PLC Not Connected";
+            this.lblPLCStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panel2
             // 
@@ -434,7 +423,7 @@
             this.tbIpAddressWithPort.Size = new System.Drawing.Size(156, 25);
             this.tbIpAddressWithPort.TabIndex = 34;
             this.tbIpAddressWithPort.Text = "192.168.1.25:80";
-            this.tbIpAddressWithPort.TextChanged += TbIpAddressWithPort_TextChanged; 
+            this.tbIpAddressWithPort.TextChanged += TbIpAddressWithPort_TextChanged;
             // 
             // panel7
             // 
@@ -577,6 +566,37 @@
             this.cvsSpreadsheet1.Size = new System.Drawing.Size(946, 876);
             this.cvsSpreadsheet1.TabIndex = 35;
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.lblNativeStatus, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.lblState, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.lblPLCStatus, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(1713, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(184, 88);
+            this.tableLayoutPanel1.TabIndex = 4;
+            // 
+            // lblNativeStatus
+            // 
+            this.lblNativeStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblNativeStatus.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNativeStatus.ForeColor = System.Drawing.Color.White;
+            this.lblNativeStatus.Location = new System.Drawing.Point(2, 29);
+            this.lblNativeStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblNativeStatus.Name = "lblNativeStatus";
+            this.lblNativeStatus.Size = new System.Drawing.Size(180, 29);
+            this.lblNativeStatus.TabIndex = 46;
+            this.lblNativeStatus.Text = "Native Not Connected";
+            this.lblNativeStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // InsightValidationControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -590,7 +610,6 @@
             this.splitContainer1.ResumeLayout(false);
             this.tblCameraControls.ResumeLayout(false);
             this.tblControlButtons.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.tblinfoBanners.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
@@ -612,6 +631,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgwImageResults)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -644,9 +664,8 @@
         public System.Windows.Forms.Label lblJobInfo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblValidationResult;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblPLCStatus;
         private System.Windows.Forms.TableLayoutPanel tblCameraControls;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.TableLayoutPanel tblinfoBanners;
@@ -658,5 +677,7 @@
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Panel panel8;
         public System.Windows.Forms.Label lblState;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label lblNativeStatus;
     }
 }
