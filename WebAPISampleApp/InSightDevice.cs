@@ -289,9 +289,8 @@ namespace InSightValidationTool
         ~InSightDevice()
         {
             UnsubscribeEvents();
-            _nativeConnection.Disconnect();
+            _nativeConnection?.Disconnect();
             _nativeConnection = null;   
-
         }
 
         public async Task Connect()
