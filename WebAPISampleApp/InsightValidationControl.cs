@@ -81,7 +81,7 @@ namespace WebAPISampleApp
 
             cvsSpreadsheet1.SetInSight(inSightSystem._inSight);
             cvsDisplay1.SetInSight(inSightSystem._inSight);
-            cvsCustomView1.SetInSight(inSightSystem._inSight);
+           // cvsCustomView1.SetInSight(inSightSystem._inSight);
 
             //Suscribe to InSight Events
             inSightSystem._inSight.ResultsChanged += OnResultsChanged;
@@ -112,19 +112,32 @@ namespace WebAPISampleApp
                 
                     previousState = false;  
                 }
-
-                lblNativeStatus.Invoke((Action)delegate
+                try
                 {
-                    if (e.Status == InSightDevice.NativeResponse.StatusCode.CommandExecutedSuccessfully)
+                    if (lblNativeStatus.IsHandleCreated)
                     {
-                        lblNativeStatus.Text = "Native Online";
-                        lblNativeStatus.ForeColor = Color.Green;
+                        lblNativeStatus.BeginInvoke((Action)delegate
+                        {
+                            if (lblNativeStatus != null)
+                            {
+                                if (e.Status == InSightDevice.NativeResponse.StatusCode.CommandExecutedSuccessfully)
+                                {
+                                    lblNativeStatus.Text = "Native Online";
+                                    lblNativeStatus.ForeColor = Color.Green;
+                                }
+                                else
+                                {
+                                    lblNativeStatus.Text = e.Status.ToString();
+                                    lblNativeStatus.ForeColor = Color.Red;
+                                }
+                            }
+                        });
                     }
-                    else {
-                        lblNativeStatus.Text = e.Status.ToString();
-                        lblNativeStatus.ForeColor = Color.Red;
-                    }
-                });
+                }
+                catch (InvalidOperationException ex)
+                {
+                    // Handle exception (log it, display a message, etc.)
+                }
             }
 
                         
@@ -132,7 +145,8 @@ namespace WebAPISampleApp
 
         ~InsightValidationControl()
         {
-            UnsubscribeEvents();    
+            UnsubscribeEvents();
+            ConnectDisconnect();
         }
 
         /// <summary>
@@ -192,7 +206,7 @@ namespace WebAPISampleApp
             cvsSpreadsheet1.Invoke((Action)delegate
             {
                 cvsSpreadsheet1.InitSpreadsheet(); // Clear the spreadsheet
-                cvsCustomView1.InitSpreadsheet(); // Clear the custom View
+                //cvsCustomView1.InitSpreadsheet(); // Clear the custom View
                 cvsDisplay1.InitDisplay(); // Clear the graphics
 
             });
@@ -289,12 +303,12 @@ namespace WebAPISampleApp
                     // this.splitContainer1.Panel2Collapsed = !showSpreadsheetToolStripMenuItem.Checked;
 
                     // cvsCustomView1.Visible = inSightSystem._inSight.Connected && !inSightSystem._inSight.JobLoading && (inSightSystem._inSight.CustomViewSettings.Length > 0) && (inSightSystem._inSight.CustomViewSettings?[0] != null) && showCustomViewToolStripMenuItem.Checked;
-                    cvsCustomView1.Visible = cvsCustomView1.Visible = inSightSystem._inSight.Connected && !inSightSystem._inSight.JobLoading && (inSightSystem._inSight.CustomViewSettings.Length > 0) && (inSightSystem._inSight.CustomViewSettings?[0] != null);
-                    if (cvsCustomView1.Visible)
-                    {
-                        CenterCustomView();
-                        cvsCustomView1.setCustomViewName(inSightSystem._inSight);
-                    }
+                    //cvsCustomView1.Visible = cvsCustomView1.Visible = inSightSystem._inSight.Connected && !inSightSystem._inSight.JobLoading && (inSightSystem._inSight.CustomViewSettings.Length > 0) && (inSightSystem._inSight.CustomViewSettings?[0] != null);
+                    //if (cvsCustomView1.Visible)
+                    //{
+                      //  CenterCustomView();
+                       // cvsCustomView1.setCustomViewName(inSightSystem._inSight);
+                    //}
                     onUpdateEvent(EventArgs.Empty); 
 
 
@@ -314,7 +328,7 @@ namespace WebAPISampleApp
                 if (cvSettings != null)
                 {
                     // Always display it centered for now,
-                    this.cvsCustomView1.SetBounds((cvsDisplay1.Width - cvSettings.Width) / 2, (cvsDisplay1.Height - cvSettings.Height) / 2, cvSettings.Width, cvSettings.Height);
+                  //  this.cvsCustomView1.SetBounds((cvsDisplay1.Width - cvSettings.Width) / 2, (cvsDisplay1.Height - cvSettings.Height) / 2, cvSettings.Width, cvSettings.Height);
                 }
             }
         }
@@ -408,11 +422,11 @@ namespace WebAPISampleApp
                         inSightSystem._imageEntries[currentIndex].ActualResult = true;
                     }
                     cvsSpreadsheet1.UpdateResults(results);
-                    cvsCustomView1.UpdateResults(results);
+                    //cvsCustomView1.UpdateResults(results);
                 
             }
             
-            UpdateDataGridView();
+           // UpdateDataGridView();
             //UpdateMessages();
             if (inSightSystem._inSight.Connected) UpdateValidationResult();
             await this.cvsDisplay1.UpdateResults();
@@ -435,57 +449,66 @@ namespace WebAPISampleApp
             dgwImageResults.AllowUserToAddRows = false;
             dgwImageResults.AllowUserToDeleteRows = false;
 
-            dgwImageResults.ColumnHeadersDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            // Use a more efficient color initialization
+            dgwImageResults.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(50, 50, 50);
             dgwImageResults.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dgwImageResults.ColumnHeadersDefaultCellStyle.Font = new Font("Calibri", 12.0f, FontStyle.Bold);
-            
-
 
             // Column for Thumbnail
-            DataGridViewImageColumn imageColumn = new DataGridViewImageColumn();
-            imageColumn.HeaderText = "Image Preview";
-            imageColumn.ImageLayout = DataGridViewImageCellLayout.Zoom; // Zoom to fit cell size
-            imageColumn.Width = ThumbnailSize;
-            imageColumn.Name = "ImagePreview";
-            imageColumn.DataPropertyName = "Preview"; // DataPropertyName should match the property in ImageEntry
-            
+            var imageColumn = new DataGridViewImageColumn
+            {
+                HeaderText = "Image Preview",
+                ImageLayout = DataGridViewImageCellLayout.Zoom, // Zoom to fit cell size
+                Width = ThumbnailSize,
+                Name = "ImagePreview",
+                DataPropertyName = "Preview" // DataPropertyName should match the property in ImageEntry
+            };
             dgwImageResults.Columns.Add(imageColumn);
 
             // Column for Filename
-            DataGridViewTextBoxColumn filenameColumn = new DataGridViewTextBoxColumn();
-            filenameColumn.HeaderText = "Image Name";
-            filenameColumn.Width = 400;
-            filenameColumn.DataPropertyName = "Image Name";
-            filenameColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            var filenameColumn = new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Image Name",
+                Width = 400,
+                DataPropertyName = "Filename", // Corrected to match the property name
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            };
             dgwImageResults.Columns.Add(filenameColumn);
 
-
             // Column for Expected Result (ComboBox)
-            DataGridViewComboBoxColumn expectedColumn = new DataGridViewComboBoxColumn();
-            expectedColumn.HeaderText = "Expected Result";
-            expectedColumn.Width = 100;
-            expectedColumn.DataPropertyName = "ExpectedResult";
-            expectedColumn.DisplayMember = "Text"; // Display member for the combo box
-            expectedColumn.ValueMember = "Value"; // Value member for the combo box
-            expectedColumn.DataSource = new List<object>
+            var expectedColumn = new DataGridViewComboBoxColumn
+            {
+                HeaderText = "Expected Result",
+                Width = 100,
+                DataPropertyName = "ExpectedResult",
+                DisplayMember = "Text",
+                ValueMember = "Value",
+                DataSource = new List<object>
         {
             new { Text = "Pass", Value = true },
             new { Text = "Fail", Value = false }
-        };
-            expectedColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            expectedColumn.Name = "ExpectedResult";
+        },
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
+                Name = "ExpectedResult"
+            };
             dgwImageResults.Columns.Add(expectedColumn);
 
             // Column for Actual Result
-            DataGridViewTextBoxColumn actualColumn = new DataGridViewTextBoxColumn();
-            actualColumn.HeaderText = "Actual Result";
-            actualColumn.DataPropertyName = "ActualResult";
-            actualColumn.Name = "ActualResult";
+            var actualColumn = new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Actual Result",
+                DataPropertyName = "ActualResult",
+                Name = "ActualResult"
+            };
             dgwImageResults.Columns.Add(actualColumn);
 
             dgwImageResults.RowTemplate.Height = RowHeight;
 
+            // Manage event subscriptions
+            dgwImageResults.CellValueChanged -= dgwImageResults_CellValueChanged; // Avoid duplicate subscriptions
             dgwImageResults.CellValueChanged += dgwImageResults_CellValueChanged;
+
+            dgwImageResults.CellDoubleClick -= dgwImageResults_CellDoubleClick; // Avoid duplicate subscriptions
             dgwImageResults.CellDoubleClick += dgwImageResults_CellDoubleClick;
         }
 
@@ -538,68 +561,79 @@ namespace WebAPISampleApp
 
         public void UpdateDataGridView()
         {
+            // Avoid invoking on the UI thread if not necessary
             dgwImageResults.Invoke((Action)delegate
             {
                 dgwImageResults.Rows.Clear();
-                if (inSightSystem._imageEntries.Count > 0) { inSightSystem._imageLoaded = true; }
+
+                if (inSightSystem._imageEntries.Count > 0)
+                {
+                    inSightSystem._imageLoaded = true;
+                }
+
+                // Prepare data for batch update to avoid excessive UI updates
+                var rows = new List<DataGridViewRow>();
 
                 foreach (var entry in inSightSystem._imageEntries)
                 {
-                    DataGridViewRow row = new DataGridViewRow();
+                    // Create and configure a new row
+                    var row = new DataGridViewRow();
 
-
-                    // Add Thumbnail (Image) column
-                    DataGridViewImageCell imageCell = new DataGridViewImageCell();
-                    System.Drawing.Image image = System.Drawing.Image.FromFile(entry.Path);
-                    imageCell.Value = ResizeImage(image, ThumbnailSize, ThumbnailSize); // Resize image
+                    // Add Thumbnail (Image) cell
+                    var imageCell = new DataGridViewImageCell
+                    {
+                        Value = ResizeImage(System.Drawing.Image.FromFile(entry.Path), ThumbnailSize, ThumbnailSize)
+                    };
                     row.Cells.Add(imageCell);
 
-                    // Add Filename column
-                    DataGridViewTextBoxCell filenameCell = new DataGridViewTextBoxCell();
-                    filenameCell.Value = entry.Filename;
-                    filenameCell.Style.ForeColor = System.Drawing.Color.White;
-                    filenameCell.Style.Font = new Font("Times New Roman", 16.0f, FontStyle.Bold);
+                    // Add Filename cell
+                    var filenameCell = new DataGridViewTextBoxCell
+                    {
+                        Value = entry.Filename,
+                        Style = { ForeColor = Color.White, Font = new Font("Times New Roman", 16.0f, FontStyle.Bold) }
+                    };
                     row.Cells.Add(filenameCell);
 
-                    // Add Expected Result (ComboBox) column
-                    DataGridViewComboBoxCell expectedCell = new DataGridViewComboBoxCell();
-                    expectedCell.DisplayMember = "Text";
-                    expectedCell.ValueMember = "Value";
-                    expectedCell.DataSource = new List<object>
-                        {
-                            new { Text = "Pass", Value = true },
-                           new { Text = "Fail", Value = false }
-                         };
-                    expectedCell.Value = entry.ExpectedResult;
-                    expectedCell.ReadOnly = false;
-                    expectedCell.Style.ForeColor = System.Drawing.Color.White;
-                    expectedCell.Style.Font = new Font("Times New Roman", 16.0f, FontStyle.Bold);
-
-
+                    // Add Expected Result (ComboBox) cell
+                    var expectedCell = new DataGridViewComboBoxCell
+                    {
+                        DisplayMember = "Text",
+                        ValueMember = "Value",
+                        DataSource = new List<object>
+                {
+                    new { Text = "Pass", Value = true },
+                    new { Text = "Fail", Value = false }
+                },
+                        Value = entry.ExpectedResult,
+                        ReadOnly = false,
+                        Style = { ForeColor = Color.White, Font = new Font("Times New Roman", 16.0f, FontStyle.Bold) }
+                    };
                     row.Cells.Add(expectedCell);
 
-                    // Add Actual Result (CheckBox) column
+                    // Add Actual Result (TextBox) cell
+                    var actualCell = new DataGridViewTextBoxCell
+                    {
+                        Value = entry.ActualResult ? "Pass" : "Fail",
+                        Style = { ForeColor = Color.White, Font = new Font("Times New Roman", 16.0f, FontStyle.Bold) }
+                    };
 
-                    DataGridViewTextBoxCell actualCell = new DataGridViewTextBoxCell();
-                    actualCell.Value = entry.ActualResult ? "Pass" : "Fail";
-                    actualCell.Style.ForeColor = System.Drawing.Color.White;
-                    actualCell.Style.Font = new Font("Times New Roman", 16.0f, FontStyle.Bold);
-
-                    //Color Background based on results
-                    if ((bool)expectedCell.Value != entry.ActualResult) row.DefaultCellStyle.BackColor = Color.Red; else row.DefaultCellStyle.BackColor = Color.Green;
-
+                    // Color Background based on results
+                    row.DefaultCellStyle.BackColor = (bool)expectedCell.Value != entry.ActualResult ? Color.Red : Color.Green;
                     row.Cells.Add(actualCell);
 
-                    // Add the row to the DataGridView
-                    dgwImageResults.Rows.Add(row);
-                    AutoResizeRowHeights();
-                    AutoResizeColumnWidths();
-                    UpdateValidationResult();
-
-                    
-
-
+                    // Add the row to the list
+                    rows.Add(row);
                 }
+
+                // Add all rows in one go to avoid multiple UI updates
+                dgwImageResults.Rows.AddRange(rows.ToArray());
+
+                // Auto-resize row heights and column widths
+                AutoResizeRowHeights();
+                AutoResizeColumnWidths();
+
+                // Update the validation result
+                UpdateValidationResult();
             });
         }
 
@@ -618,25 +652,32 @@ namespace WebAPISampleApp
             }
 
             //if (inSightSystem._validationResult) InSight.WriteValidationResult("Pass"); else InSight.WriteValidationResult("Fail");
-
-            lblValidationResult.Invoke((Action)delegate
+            try
             {
-
-                if (inSightSystem._validationResult)
+                if (lblValidationResult.IsHandleCreated)
                 {
-                    lblValidationResult.Text = "Pass";
-                    lblValidationResult.ForeColor = Color.Green;
-                }
-                else
-                {
-                    lblValidationResult.Text = "Fail";
-                    lblValidationResult.ForeColor = Color.Red;
+                    lblValidationResult.BeginInvoke((Action)delegate
+                     {
 
-                }
+                         if (inSightSystem._validationResult)
+                         {
+                             lblValidationResult.Text = "Pass";
+                             lblValidationResult.ForeColor = Color.Green;
+                         }
+                         else
+                         {
+                             lblValidationResult.Text = "Fail";
+                             lblValidationResult.ForeColor = Color.Red;
 
-            });
+                         }
+
+                     });
+                }
+            }
+            catch (Exception ex) { 
+            
+            }
         }
-
         private void dgwImageResults_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0) // Ensure valid cell
@@ -720,18 +761,17 @@ namespace WebAPISampleApp
         {
             if (inSightSystem._inSight.Connected && inSightSystem._imageLoaded)
             {
-
-                //m_Ignore = true;
-                this.btnRunValidation.Invoke((Action)delegate
+                // Disable validation button
+                btnRunValidation.Invoke((Action)delegate
                 {
-                    this.btnRunValidation.Enabled = false;
-                    this.btnRunValidation.Text = "Validation In Process from " + this.validationSecuenceSender;
+                    btnRunValidation.Enabled = false;
+                    btnRunValidation.Text = $"Validation In Process from {validationSecuenceSender}";
                 });
-
 
                 await inSightSystem.SetCameraStatus(false);
 
-                currentIndex = 0; //Start from begining 
+                // Start from beginning
+                currentIndex = 0;
                 secuence = true;
                 previousState = true;
 
@@ -739,32 +779,39 @@ namespace WebAPISampleApp
                 {
                     try
                     {
-                        //m_Ignore = false;
+                        // Send image and wait
                         await inSightSystem.SendImageAndWait(entry.Path);
 
+                        // Explicitly clear unused image resources
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
                     }
                     catch (Exception e)
                     {
                         MessageBox.Show($"LoadImage Exception: {e.Message}");
-
                     }
                 }
 
                 await inSightSystem.SetCameraStatus(true);
-                this.btnRunValidation.Invoke((Action)delegate
-                {
-                    this.btnRunValidation.Enabled = true;
-                    this.btnRunValidation.Text = "Run Validation";
-                    this.lblimgsload.Text = "Images Loaded: " + inSightSystem._imageEntries.Count.ToString();
-                });
-                InSight.WriteValidationResult(lblValidationResult.Text);
-                await InSight.ManualTrigger();
-               
 
-                //dispose data
-                this.validationSecuenceSender = string.Empty; 
-               // InSight.ResetValidationTrigger();   
-             
+                // Re-enable validation button
+                btnRunValidation.Invoke((Action)delegate
+                {
+                    btnRunValidation.Enabled = true;
+                    btnRunValidation.Text = "Run Validation";
+                    lblimgsload.Text = $"Images Loaded: {inSightSystem._imageEntries.Count}";
+                });
+
+                // Write validation result
+                InSight.WriteValidationResult(lblValidationResult.Text);
+
+                // Perform manual trigger
+                await InSight.ManualTrigger();
+
+                // Dispose resources
+                validationSecuenceSender = string.Empty;
+
+                // Optional: Reset validation trigger if needed
             }
         }
 

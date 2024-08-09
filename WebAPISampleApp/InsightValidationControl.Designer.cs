@@ -58,7 +58,6 @@
             this.lblNativeStatus = new System.Windows.Forms.Label();
             this.lblState = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.cvsCustomView1 = new Cognex.InSight.Web.Controls.CvsCustomView();
             this.cvsDisplay1 = new Cognex.InSight.Web.Controls.CvsDisplay();
             this.dgwImageResults = new System.Windows.Forms.DataGridView();
             this.cvsSpreadsheet1 = new Cognex.InSight.Web.Controls.CvsSpreadsheet();
@@ -489,7 +488,7 @@
             // lblNativeStatus
             // 
             this.lblNativeStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblNativeStatus.Font = new System.Drawing.Font("Calibri", 12.0F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNativeStatus.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNativeStatus.ForeColor = System.Drawing.Color.White;
             this.lblNativeStatus.Location = new System.Drawing.Point(2, 29);
             this.lblNativeStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -521,7 +520,6 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.cvsCustomView1);
             this.splitContainer2.Panel1.Controls.Add(this.cvsDisplay1);
             // 
             // splitContainer2.Panel2
@@ -531,17 +529,6 @@
             this.splitContainer2.Size = new System.Drawing.Size(1900, 876);
             this.splitContainer2.SplitterDistance = 950;
             this.splitContainer2.TabIndex = 0;
-            // 
-            // cvsCustomView1
-            // 
-            this.cvsCustomView1.AllowDrop = true;
-            this.cvsCustomView1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.cvsCustomView1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.cvsCustomView1.Location = new System.Drawing.Point(0, 13);
-            this.cvsCustomView1.Margin = new System.Windows.Forms.Padding(0);
-            this.cvsCustomView1.Name = "cvsCustomView1";
-            this.cvsCustomView1.Size = new System.Drawing.Size(200, 199);
-            this.cvsCustomView1.TabIndex = 1;
             // 
             // cvsDisplay1
             // 
@@ -631,7 +618,6 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private Cognex.InSight.Web.Controls.CvsDisplay cvsDisplay1;
-        public Cognex.InSight.Web.Controls.CvsCustomView cvsCustomView1;
         public Cognex.InSight.Web.Controls.CvsSpreadsheet cvsSpreadsheet1;
         public System.Windows.Forms.DataGridView dgwImageResults;
         private System.Windows.Forms.Button btnConnectDisconnect;

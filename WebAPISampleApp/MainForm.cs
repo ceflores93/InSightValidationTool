@@ -1828,12 +1828,31 @@ namespace InSightValidationTool
                 if (closeButtonRect.Contains(e.Location))
                 {
 
-                    tabCtrlContent.TabPages.RemoveAt(i);
+                    
+                    CleanUpTabPage(tabCtrlContent.TabPages[i]);
                     tabCtrlContent.SelectTab(tabCtrlContent.TabCount-2);
                     break;
                 }
             }
               
+        }
+
+        private void CleanUpTabPage(TabPage tabPage)
+        {
+            // Detach any event handlers associated with controls on the TabPage
+            foreach (Control control in tabPage.Controls)
+            {
+                control.Dispose(); // Dispose of control resources
+            }
+
+            // Optionally, clear any remaining controls from the TabPage
+            tabPage.Controls.Clear();
+
+            // Remove the TabPage from the TabControl
+            tabCtrlContent.TabPages.Remove(tabPage);
+
+            // Dispose of the TabPage itself if necessary
+            tabPage.Dispose();
         }
 
 
