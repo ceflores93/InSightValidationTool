@@ -33,6 +33,8 @@ using WebAPISampleApp.Properties;
 using WebAPISampleApp;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
+using Application = System.Windows.Forms.Application;
+using System.Runtime.CompilerServices;
 
 namespace InSightValidationTool
 {
@@ -855,18 +857,24 @@ namespace InSightValidationTool
             if (cameraConnection["AutoConnect"].Value<Boolean>())
             {
                 //  chkAutoConnect.CheckState = CheckState.Checked;
-                await selectedControl.InSight.Connect();
+                if(!selectedControl.InSight._inSight.Connected) await selectedControl.InSight.Connect();
             }
             string configurationJob = selectedControl.InSight.Configuration["JobFile"].Value<String>();
-            string cameraJob = selectedControl.InSight._inSight.JobInfo["name"].Value<String>();
-            cameraJob = cameraJob.Replace("/", "").Replace("\\", "");
-
-            //LoadJobFile If neccesary
-            if (configurationJob != cameraJob)
+            
+            if (selectedControl.InSight._inSight.Connected)
             {
-                await selectedControl.InSight.LoadJob(selectedControl.InSight.Configuration["JobFile"].Value<String>());
-                
+                string cameraJob = selectedControl.InSight._inSight.JobInfo["name"].Value<String>();
+                cameraJob = cameraJob.Replace("/", "").Replace("\\", "");
+
+                //LoadJobFile If neccesary
+                if (configurationJob != cameraJob)
+                {
+                    await selectedControl.InSight.LoadJob(selectedControl.InSight.Configuration["JobFile"].Value<String>());
+
+                }
+
             }
+
             //Set Image Folder Parameters and load images
             selectedControl.InSight._imageEntries.Clear();
             selectedControl.InSight._imageLoaded= false;
@@ -1131,8 +1139,8 @@ namespace InSightValidationTool
 
                         try
                         {
-                            await selectedControl.InSight.LoadJob(filePath);    
-                            //await _inSight.LoadJobData(filePath).ConfigureAwait(false);
+                                
+                            await _inSight.LoadJobData(filePath).ConfigureAwait(false);
                         }
                         catch (Exception ex)
                         {
@@ -1395,12 +1403,15 @@ namespace InSightValidationTool
 
         private void loadValidationFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //GrabCurrent Tab control
             InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
-           
             
+            //Make Sure Recipes Folder Exists
+            CheckCreateForRecipeFolder();
+
                 using (OpenFileDialog openFileDialog = new OpenFileDialog())
                 {
-                    openFileDialog.InitialDirectory = ".";
+                    openFileDialog.InitialDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath),"ValidationRecipes"); ;
                     openFileDialog.Filter = "JSON files (*.json)|*.json";
                     openFileDialog.FilterIndex = 1;
                     openFileDialog.RestoreDirectory = true;
@@ -1468,13 +1479,17 @@ namespace InSightValidationTool
         {
             InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
 
+            CheckCreateForRecipeFolder();
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
-                saveFileDialog.InitialDirectory = ".";
+
+                saveFileDialog.InitialDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath),"ValidationRecipes"); ;
                 saveFileDialog.Filter = "JSON files (*.json)|*.json";
                 saveFileDialog.FilterIndex = 1;
                 saveFileDialog.RestoreDirectory = true;
                 saveFileDialog.Title = "Save Validation File...";
+                saveFileDialog.FileName = Path.GetFileNameWithoutExtension( selectedControl.InSight._inSight.JobInfo["name"].Value<String>());
+
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -1553,7 +1568,57 @@ namespace InSightValidationTool
         private void InSightControlUpdate(object sender, EventArgs e) {
 
             UpdateWindowState();
-        } 
+        }
+
+        private void InSightControlJobLoad(object sender, EventArgs e) {
+            CheckCreateForRecipeFolder();
+            LoadConfigurationFromFolder();
+        }
+
+        private void InSightControlConnected(object sender, EventArgs e) { 
+            CheckCreateForRecipeFolder();
+            LoadConfigurationFromFolder();
+            
+
+        }
+
+        private void LoadConfigurationFromFolder()
+        {
+            //GrabCurrentJobFileName
+
+            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+
+            string jobFileName = selectedControl.InSight._inSight.JobInfo["name"].Value<String>();
+            jobFileName = jobFileName.Replace("/", "").Replace("\\", "").Replace(".jobx",".json");
+            
+            //Check if configuration File Already Exists for this JobFile
+            string validationPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "ValidationRecipes",jobFileName);
+
+
+            if (!File.Exists(validationPath))
+            {
+                //If the Recipe doesn't Exists yet let user know
+                MessageBox.Show("Validation Recipe for this JobFile not yet Created");
+            }
+            else {
+                using (StreamReader sr = new StreamReader(validationPath))
+                {
+                    //Automatically load configuration if configuration exists
+                    string jsonfile = sr.ReadToEnd();
+                    selectedControl.InSight.Configuration = JToken.Parse(jsonfile);
+                    loadValidationConfig();
+                }
+
+            }
+        }
+        private void CheckCreateForRecipeFolder() { 
+            string folderPath =  Path.GetDirectoryName(Application.ExecutablePath);
+            //If Recipe Folder doesn't exist create it 
+            if (!Directory.Exists(Path.Combine(folderPath,"ValidationRecipes"))) { 
+            
+                Directory.CreateDirectory(Path.Combine(folderPath,"ValidationRecipes"));
+            }
+        }
 
         private void InitializeNewTab() { 
             //Create new InSightValidation Control for this tab
@@ -1574,6 +1639,9 @@ namespace InSightValidationTool
             insightValidationControl.Size = new System.Drawing.Size(1900, 974);
             insightValidationControl.TabIndex = 0;
             insightValidationControl.InSightValidationControl_OnUpdate += InSightControlUpdate;
+            insightValidationControl.InSightValidationControl_OnJobLoad += InSightControlJobLoad;
+            insightValidationControl.InSightValidationControl_OnConnected += InSightControlConnected;   
+            
             tabPage.Controls.Add(insightValidationControl);
             
             tabCtrlContent.Controls.Add(tabPage);

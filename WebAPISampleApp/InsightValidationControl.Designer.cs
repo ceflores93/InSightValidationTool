@@ -57,7 +57,6 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lblNativeStatus = new System.Windows.Forms.Label();
             this.lblState = new System.Windows.Forms.Label();
-            this.lblPLCStatus = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.cvsCustomView1 = new Cognex.InSight.Web.Controls.CvsCustomView();
             this.cvsDisplay1 = new Cognex.InSight.Web.Controls.CvsDisplay();
@@ -477,7 +476,6 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Controls.Add(this.lblNativeStatus, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.lblState, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.lblPLCStatus, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(1713, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -514,19 +512,6 @@
             this.lblState.TabIndex = 45;
             this.lblState.Text = "Not Connected";
             this.lblState.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblPLCStatus
-            // 
-            this.lblPLCStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblPLCStatus.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPLCStatus.ForeColor = System.Drawing.Color.White;
-            this.lblPLCStatus.Location = new System.Drawing.Point(2, 0);
-            this.lblPLCStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblPLCStatus.Name = "lblPLCStatus";
-            this.lblPLCStatus.Size = new System.Drawing.Size(180, 29);
-            this.lblPLCStatus.TabIndex = 44;
-            this.lblPLCStatus.Text = "PLC Not Connected";
-            this.lblPLCStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // splitContainer2
             // 
@@ -663,7 +648,6 @@
         public System.Windows.Forms.Label lblJobInfo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblValidationResult;
-        private System.Windows.Forms.Label lblPLCStatus;
         private System.Windows.Forms.TableLayoutPanel tblCameraControls;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel4;

@@ -37,11 +37,29 @@ namespace WebAPISampleApp
 
         public event InSightValidationControlEventHandler InSightValidationControl_OnUpdate;
 
+        public event InSightValidationControlEventHandler InSightValidationControl_OnJobLoad;
+
+        public event InSightValidationControlEventHandler InSightValidationControl_OnConnected;
+
         protected virtual void onUpdateEvent(EventArgs e)
         {
 
             InSightValidationControl_OnUpdate(this, e); 
         }
+
+        public virtual void onJobLoad(EventArgs e) {
+
+            InSightValidationControl_OnJobLoad(this, e);
+        }
+
+        protected virtual void onConnected(EventArgs e)
+        {
+
+            InSightValidationControl_OnConnected(this, e);
+        }
+
+
+
         public InsightValidationControl()
         {
             //Create Default Connection
@@ -98,8 +116,12 @@ namespace WebAPISampleApp
                     if (e.Status == InSightDevice.NativeResponse.StatusCode.CommandExecutedSuccessfully)
                     {
                         lblNativeStatus.Text = "Native Online";
+                        lblNativeStatus.ForeColor = Color.Green;
                     }
-                    else { lblNativeStatus.Text = e.Status.ToString(); }
+                    else {
+                        lblNativeStatus.Text = e.Status.ToString();
+                        lblNativeStatus.ForeColor = Color.Red;
+                    }
                 });
             }
 
@@ -136,7 +158,8 @@ namespace WebAPISampleApp
 
         private void OnJobLoadingChanged(object sender, EventArgs e)
         {
-            InitForNewJob();    
+            InitForNewJob();  
+            onJobLoad(e);
         }
 
         private void OnJobInfoChanged(object sender, EventArgs e)
@@ -191,24 +214,34 @@ namespace WebAPISampleApp
                     {
                         string stateText = inSightSystem._inSight.Online ? "Online" : "Offline";
                         if (inSightSystem._inSight.EditorAttached)
-                            stateText = "Editor Attached, " + stateText;
+                            stateText = "ISVS Connected, " + stateText;
 
                         if (inSightSystem._inSight.Online) lblState.ForeColor = Color.Green; else lblState.ForeColor = Color.Yellow;
-                        lblState.Font = new Font("Times New Roman", 16.0f, FontStyle.Bold);
+                        lblState.Font = new Font("Times New Roman", 12.0f, FontStyle.Bold);
                         lblState.Text = stateText;
+
+
                         //onlineMenuItem.Text = inSightSystem._inSight.Online ? "Go Offline" : "Go Online";
                         //liveModeMenuItem.Checked = _inSight.LiveMode;
                         string jobName = inSightSystem._inSight.JobInfo["name"].Value<String>();
                         jobName = jobName.Replace("/", "").Replace("\\", ""); ;
                         lblJobInfo.Text = "Current Job: " + jobName;
                         jobName = String.Empty;
+                        lblimgsload.Text ="Images Loaded: " + inSightSystem._imageEntries.Count.ToString();
+                        
+                        if (!this.btnRunValidation.Text.Contains("Validation In Process from"))
+                        {
+                            this.btnRunValidation.Enabled = true;
+                            this.imgsFolderbtn.Enabled = true;
+                        }
+
 
 
                     }
                     else
                     {
                         lblState.Text = inSightSystem._inSight.Connecting ? "Connecting..." : "Not Connected";
-                        lblState.Font = new Font("Times New Roman", 16.0f, FontStyle.Bold);
+                        lblState.Font = new Font("Times New Roman", 12.0f, FontStyle.Bold);
                         if (inSightSystem._inSight.Connecting) lblState.ForeColor = Color.Blue; else lblState.ForeColor = Color.Red;
                         //onlineMenuItem.Text = "Go Online";
                         //liveModeMenuItem.Checked = false;
@@ -217,6 +250,14 @@ namespace WebAPISampleApp
                         inSightSystem._imageLoaded = false;
                         lblValidationResult.Text = "None";
                         lblValidationResult.ForeColor = Color.Orange;
+                        this.lblNativeStatus.ForeColor = Color.Red;
+
+                        this.btnRunValidation.Enabled = false;
+                        this.imgsFolderbtn.Enabled = false;
+                        this.lblimgsload.Text = "Images Loaded : 0";
+                        this.lblJobInfo.Text = "Current Job";
+                        this.lblNativeStatus.Text = "Native Not Connected";
+                        //this.lblPLCStatus.Text = "PLC Not Connected";
                     }
 
                     //aboutMenuItem.Enabled = _inSight.Connected;
@@ -344,9 +385,17 @@ namespace WebAPISampleApp
 
             //If Camera is connected and Images Loaded into GridView retrieve Job Result 
 
+            
+
             if (inSightSystem._inSight.Connected == true && inSightSystem._imageLoaded == true && (currentIndex < inSightSystem._imageEntries.Count)==true)
             {
-                
+                this.lblState.Invoke((Action)delegate {
+                    this.lblimgsload.Text = "Images Sent To Validation: " + currentIndex + "/" + inSightSystem._imageEntries.Count.ToString();
+
+                });
+
+
+               
                     // MessageBox.Show(m_currentIndex.ToString());
                     if (results["jobStatus"].Value<int>() != 1)
                     {
@@ -553,7 +602,7 @@ namespace WebAPISampleApp
 
         private void UpdateValidationResult()
         {
-            Console.WriteLine("Results to Update");
+            //Console.WriteLine("Results to Update");
 
             inSightSystem._validationResult = true;
             foreach (DataGridViewRow row in dgwImageResults.Rows)
@@ -702,6 +751,7 @@ namespace WebAPISampleApp
                 {
                     this.btnRunValidation.Enabled = true;
                     this.btnRunValidation.Text = "Run Validation";
+                    this.lblimgsload.Text = "Images Loaded: " + inSightSystem._imageEntries.Count.ToString();
                 });
                 InSight.WriteValidationResult(lblValidationResult.Text);
                 await InSight.ManualTrigger();
@@ -735,10 +785,8 @@ namespace WebAPISampleApp
             if (InSight._inSight.Connected)
             {
                 await this.cvsDisplay1.OnConnected();
+                onConnected(e); 
             }
-            
-            
-
         }
 
         public async void ConnectDisconnect() {

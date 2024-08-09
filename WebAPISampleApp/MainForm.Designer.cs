@@ -491,6 +491,8 @@ namespace InSightValidationTool
             this.insightValidationControl1.Size = new System.Drawing.Size(1900, 974);
             this.insightValidationControl1.TabIndex = 0;
             this.insightValidationControl1.InSightValidationControl_OnUpdate += InSightControlUpdate;
+            this.insightValidationControl1.InSightValidationControl_OnJobLoad += InSightControlJobLoad;
+            this.insightValidationControl1.InSightValidationControl_OnConnected += InSightControlConnected;
             // 
             // tabPage2
             // 

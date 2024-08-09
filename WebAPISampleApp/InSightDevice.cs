@@ -26,6 +26,7 @@ using MinimalisticTelnet;
 using System.Threading;
 using System.Diagnostics.Eventing.Reader;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace InSightValidationTool
 {
@@ -359,6 +360,10 @@ namespace InSightValidationTool
             }
 
         }
+
+
+
+
 
         public async Task LoadImage(string imgpath)
         {
