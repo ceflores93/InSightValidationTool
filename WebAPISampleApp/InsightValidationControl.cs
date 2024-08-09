@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,8 +24,12 @@ namespace WebAPISampleApp
         private const int ThumbnailSize = 200; // Desired thumbnail size (width and height)
         private const int RowHeight = 100; // Desired row height
         public int currentIndex = 0;
-        public bool secuence = false;
+        
         public List<String> imgspath = null;
+
+        private bool previousState = false;
+        private bool secuence = false;
+        private string validationSecuenceSender = String.Empty;
 
         private InSightDevice inSightSystem;
 
@@ -42,6 +47,13 @@ namespace WebAPISampleApp
             //Create Default Connection
            
             InitializeComponent();
+            
+            //Make Sure important events are declared 
+            this.tbIpAddressWithPort.TextChanged += TbIpAddressWithPort_TextChanged;
+            this.tbUsername.TextChanged += TbUsername_TextChanged;
+            this.tbPassword.TextChanged += TbPassword_TextChanged;
+
+
             inSightSystem = new InSightDevice(tbIpAddressWithPort.Text, tbUsername.Text, tbPassword.Text, false);
             inSightSystem.InSightDevice_NativeDataRecieved += InSightSystem_InSightDevice_NativeDataRecieved;
 
@@ -69,6 +81,18 @@ namespace WebAPISampleApp
        {
             if (lblNativeStatus != null)
             {
+
+                if (e.Result == "1.000" && !previousState)
+                {
+                    this.validationSecuenceSender = "PLC";
+
+                    LoadImagestoInSight();
+                }
+                else if (e.Result == "0.000") { 
+                
+                    previousState = false;  
+                }
+
                 lblNativeStatus.Invoke((Action)delegate
                 {
                     if (e.Status == InSightDevice.NativeResponse.StatusCode.CommandExecutedSuccessfully)
@@ -175,7 +199,7 @@ namespace WebAPISampleApp
                         //onlineMenuItem.Text = inSightSystem._inSight.Online ? "Go Offline" : "Go Online";
                         //liveModeMenuItem.Checked = _inSight.LiveMode;
                         string jobName = inSightSystem._inSight.JobInfo["name"].Value<String>();
-                        jobName = jobName.Substring(1, jobName.Length - 1);
+                        jobName = jobName.Replace("/", "").Replace("\\", ""); ;
                         lblJobInfo.Text = "Current Job: " + jobName;
                         jobName = String.Empty;
 
@@ -247,7 +271,7 @@ namespace WebAPISampleApp
                 if (cvSettings != null)
                 {
                     // Always display it centered for now,
-                    cvsCustomView1.SetBounds((cvsDisplay1.Width - cvSettings.Width) / 2, (cvsDisplay1.Height - cvSettings.Height) / 2, cvSettings.Width, cvSettings.Height);
+                    this.cvsCustomView1.SetBounds((cvsDisplay1.Width - cvSettings.Width) / 2, (cvsDisplay1.Height - cvSettings.Height) / 2, cvSettings.Width, cvSettings.Height);
                 }
             }
         }
@@ -340,7 +364,7 @@ namespace WebAPISampleApp
             UpdateDataGridView();
             //UpdateMessages();
             if (inSightSystem._inSight.Connected) UpdateValidationResult();
-            await cvsDisplay1.UpdateResults();
+            await this.cvsDisplay1.UpdateResults();
 
             //cvsFilmstrip.UpdateResults();
             if (secuence && (currentIndex < inSightSystem._imageEntries.Count))
@@ -645,10 +669,18 @@ namespace WebAPISampleApp
             {
 
                 //m_Ignore = true;
+                this.btnRunValidation.Invoke((Action)delegate
+                {
+                    this.btnRunValidation.Enabled = false;
+                    this.btnRunValidation.Text = "Validation In Process from " + this.validationSecuenceSender;
+                });
+
+
                 await inSightSystem.SetCameraStatus(false);
 
                 currentIndex = 0; //Start from begining 
                 secuence = true;
+                previousState = true;
 
                 foreach (var entry in inSightSystem._imageEntries)
                 {
@@ -666,11 +698,19 @@ namespace WebAPISampleApp
                 }
 
                 await inSightSystem.SetCameraStatus(true);
-                this.btnRunValidation.Enabled = true;
-                this.btnRunValidation.Text = "Run Validation";
+                this.btnRunValidation.Invoke((Action)delegate
+                {
+                    this.btnRunValidation.Enabled = true;
+                    this.btnRunValidation.Text = "Run Validation";
+                });
                 InSight.WriteValidationResult(lblValidationResult.Text);
+                await InSight.ManualTrigger();
+               
 
-                secuence = false;
+                //dispose data
+                this.validationSecuenceSender = string.Empty; 
+               // InSight.ResetValidationTrigger();   
+             
             }
         }
 
@@ -680,17 +720,25 @@ namespace WebAPISampleApp
         {
             if (inSightSystem._inSight.Connected)
             {
-                this.btnRunValidation.Enabled = false;
-                this.btnRunValidation.Text = "Validation In Process";
+                this.validationSecuenceSender = "GUI";
                 LoadImagestoInSight();
                 
 
             }
         }
 
-        private void btnConnectDisconnect_Click(object sender, EventArgs e)
+        private async void btnConnectDisconnect_Click(object sender, EventArgs e)
         {
-              this.ConnectDisconnect();  
+            
+            await InSight.Connect();
+
+            if (InSight._inSight.Connected)
+            {
+                await this.cvsDisplay1.OnConnected();
+            }
+            
+            
+
         }
 
         public async void ConnectDisconnect() {
@@ -719,7 +767,7 @@ namespace WebAPISampleApp
                         // Get the path of specified file
 
                         imgspath = openFileDialog.FileNames.ToList<String>();
-                        lblimgsload.Text = imgspath.Count.ToString() + "/tImages Loaded";
+                        lblimgsload.Text ="Images Loaded: " + imgspath.Count.ToString();
                         PopulateGridView();
                     }
                 }

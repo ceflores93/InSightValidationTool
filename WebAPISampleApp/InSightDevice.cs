@@ -514,5 +514,45 @@ namespace InSightValidationTool
                 }
             }
         }
+
+        public void ResetValidationTrigger()
+        {
+            bool sendResults = false;
+            //Send Validation Result and close its connection 
+
+            Uri uri = new Uri("http://" + IpAddressWithPort);
+            _ResultsConnection = new TelnetConnection(uri.Host.ToString(), telnetPort);
+
+            string resultsWrite = _ResultsConnection.Login(UserName, Password, 100);
+
+            string prompt = resultsWrite.Replace("\r\n", String.Empty);
+
+            if (prompt == "User Logged In")
+                sendResults = true;
+            else
+                throw new Exception("Connection Results failed");
+
+            if (sendResults)
+            {
+
+                _ResultsConnection.WriteLine("SFInSightValidation.A1 " + "0.000");
+
+                string response = _ResultsConnection.Read();
+                NativeResponse responseNative = NativeResponse.Parse(response);
+                if (responseNative.Status == NativeResponse.StatusCode.CommandExecutedSuccessfully)
+                {
+
+                    Console.WriteLine("Validation Result Write Successful");
+                    _ResultsConnection.Disconnect();
+                    _ResultsConnection = null;
+                }
+                else
+                {
+                    Console.WriteLine("Validation Result Write Not Successful");
+                    _ResultsConnection.Disconnect();
+                    _ResultsConnection = null;
+                }
+            }
+        }
     }
 }

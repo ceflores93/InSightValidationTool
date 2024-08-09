@@ -78,6 +78,12 @@ namespace InSightValidationTool
         public MainFormWindow()
         {
             InitializeComponent();
+
+            //Make sure important events are declared 
+            this.tabCtrlContent.DrawItem += TabCtrlContent_DrawItem;
+            this.tabCtrlContent.MouseDown += TabCtrl_MouseDown;
+
+
             InitializeDataGridView();    
             _startTicks = Environment.TickCount;
 
@@ -853,7 +859,8 @@ namespace InSightValidationTool
             }
             string configurationJob = selectedControl.InSight.Configuration["JobFile"].Value<String>();
             string cameraJob = selectedControl.InSight._inSight.JobInfo["name"].Value<String>();
-            cameraJob = cameraJob.Substring(1, cameraJob.Length - 1);   
+            cameraJob = cameraJob.Replace("/", "").Replace("\\", "");
+
             //LoadJobFile If neccesary
             if (configurationJob != cameraJob)
             {
@@ -1444,7 +1451,7 @@ namespace InSightValidationTool
 
 
             string jobFile = selectedControl.InSight._inSight.JobInfo["name"].Value<String>();
-            jobFile = jobFile.Substring(1, jobFile.Length - 1);
+            jobFile = jobFile.Replace("/", "").Replace("\\", "");
             config.Add("CameraConnection", CameraConnection);
             config.Add("JobFile", jobFile);
             config.Add("Images", ConvertToJson(selectedControl.InSight._imageEntries));

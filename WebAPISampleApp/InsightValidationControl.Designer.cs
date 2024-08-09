@@ -34,8 +34,6 @@
             this.btnConnectDisconnect = new System.Windows.Forms.Button();
             this.imgsFolderbtn = new System.Windows.Forms.Button();
             this.btnRunValidation = new System.Windows.Forms.Button();
-            this.lblState = new System.Windows.Forms.Label();
-            this.lblPLCStatus = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tblinfoBanners = new System.Windows.Forms.TableLayoutPanel();
             this.lblimgsload = new System.Windows.Forms.Label();
@@ -56,13 +54,15 @@
             this.panel8 = new System.Windows.Forms.Panel();
             this.tbPassword = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.lblNativeStatus = new System.Windows.Forms.Label();
+            this.lblState = new System.Windows.Forms.Label();
+            this.lblPLCStatus = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.cvsCustomView1 = new Cognex.InSight.Web.Controls.CvsCustomView();
             this.cvsDisplay1 = new Cognex.InSight.Web.Controls.CvsDisplay();
             this.dgwImageResults = new System.Windows.Forms.DataGridView();
             this.cvsSpreadsheet1 = new Cognex.InSight.Web.Controls.CvsSpreadsheet();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.lblNativeStatus = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -81,12 +81,12 @@
             this.panel6.SuspendLayout();
             this.panel7.SuspendLayout();
             this.panel8.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgwImageResults)).BeginInit();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -213,32 +213,6 @@
             this.btnRunValidation.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnRunValidation.UseVisualStyleBackColor = false;
             this.btnRunValidation.Click += new System.EventHandler(this.btnRunValidation_Click);
-            // 
-            // lblState
-            // 
-            this.lblState.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblState.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblState.ForeColor = System.Drawing.Color.White;
-            this.lblState.Location = new System.Drawing.Point(0, 58);
-            this.lblState.Margin = new System.Windows.Forms.Padding(0);
-            this.lblState.Name = "lblState";
-            this.lblState.Size = new System.Drawing.Size(184, 30);
-            this.lblState.TabIndex = 45;
-            this.lblState.Text = "Not Connected";
-            this.lblState.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblPLCStatus
-            // 
-            this.lblPLCStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblPLCStatus.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPLCStatus.ForeColor = System.Drawing.Color.White;
-            this.lblPLCStatus.Location = new System.Drawing.Point(2, 0);
-            this.lblPLCStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblPLCStatus.Name = "lblPLCStatus";
-            this.lblPLCStatus.Size = new System.Drawing.Size(180, 29);
-            this.lblPLCStatus.TabIndex = 44;
-            this.lblPLCStatus.Text = "PLC Not Connected";
-            this.lblPLCStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panel2
             // 
@@ -422,8 +396,7 @@
             this.tbIpAddressWithPort.Name = "tbIpAddressWithPort";
             this.tbIpAddressWithPort.Size = new System.Drawing.Size(156, 25);
             this.tbIpAddressWithPort.TabIndex = 34;
-            this.tbIpAddressWithPort.Text = "192.168.1.25:80";
-            this.tbIpAddressWithPort.TextChanged += TbIpAddressWithPort_TextChanged;
+            this.tbIpAddressWithPort.Text = "192.168.1.5:80";
             // 
             // panel7
             // 
@@ -460,7 +433,6 @@
             this.tbUsername.Size = new System.Drawing.Size(104, 25);
             this.tbUsername.TabIndex = 35;
             this.tbUsername.Text = "admin";
-            this.tbUsername.TextChanged += TbUsername_TextChanged;
             // 
             // panel8
             // 
@@ -485,7 +457,6 @@
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.Size = new System.Drawing.Size(156, 25);
             this.tbPassword.TabIndex = 38;
-            this.tbPassword.TextChanged += TbPassword_TextChanged;
             // 
             // label2
             // 
@@ -498,6 +469,64 @@
             this.label2.TabIndex = 37;
             this.label2.Text = "Password";
             this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.lblNativeStatus, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.lblState, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.lblPLCStatus, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(1713, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(184, 88);
+            this.tableLayoutPanel1.TabIndex = 4;
+            // 
+            // lblNativeStatus
+            // 
+            this.lblNativeStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblNativeStatus.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNativeStatus.ForeColor = System.Drawing.Color.White;
+            this.lblNativeStatus.Location = new System.Drawing.Point(2, 29);
+            this.lblNativeStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblNativeStatus.Name = "lblNativeStatus";
+            this.lblNativeStatus.Size = new System.Drawing.Size(180, 29);
+            this.lblNativeStatus.TabIndex = 46;
+            this.lblNativeStatus.Text = "Native Not Connected";
+            this.lblNativeStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblState
+            // 
+            this.lblState.AutoSize = true;
+            this.lblState.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblState.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblState.ForeColor = System.Drawing.Color.White;
+            this.lblState.Location = new System.Drawing.Point(0, 58);
+            this.lblState.Margin = new System.Windows.Forms.Padding(0);
+            this.lblState.Name = "lblState";
+            this.lblState.Size = new System.Drawing.Size(184, 30);
+            this.lblState.TabIndex = 45;
+            this.lblState.Text = "Not Connected";
+            this.lblState.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblPLCStatus
+            // 
+            this.lblPLCStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblPLCStatus.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPLCStatus.ForeColor = System.Drawing.Color.White;
+            this.lblPLCStatus.Location = new System.Drawing.Point(2, 0);
+            this.lblPLCStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblPLCStatus.Name = "lblPLCStatus";
+            this.lblPLCStatus.Size = new System.Drawing.Size(180, 29);
+            this.lblPLCStatus.TabIndex = 44;
+            this.lblPLCStatus.Text = "PLC Not Connected";
+            this.lblPLCStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // splitContainer2
             // 
@@ -566,37 +595,6 @@
             this.cvsSpreadsheet1.Size = new System.Drawing.Size(946, 876);
             this.cvsSpreadsheet1.TabIndex = 35;
             // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Controls.Add(this.lblNativeStatus, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.lblState, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.lblPLCStatus, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(1713, 3);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(184, 88);
-            this.tableLayoutPanel1.TabIndex = 4;
-            // 
-            // lblNativeStatus
-            // 
-            this.lblNativeStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblNativeStatus.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNativeStatus.ForeColor = System.Drawing.Color.White;
-            this.lblNativeStatus.Location = new System.Drawing.Point(2, 29);
-            this.lblNativeStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblNativeStatus.Name = "lblNativeStatus";
-            this.lblNativeStatus.Size = new System.Drawing.Size(180, 29);
-            this.lblNativeStatus.TabIndex = 46;
-            this.lblNativeStatus.Text = "Native Not Connected";
-            this.lblNativeStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // InsightValidationControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -626,12 +624,13 @@
             this.panel7.PerformLayout();
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgwImageResults)).EndInit();
-            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

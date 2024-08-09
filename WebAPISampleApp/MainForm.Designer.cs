@@ -467,8 +467,7 @@ namespace InSightValidationTool
             this.tabCtrlContent.Padding = new Point(0, 0);
             this.tabCtrlContent.Multiline = true;   
             this.tabCtrlContent.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabPageClick);
-            this.tabCtrlContent.DrawItem += TabCtrlContent_DrawItem;
-            this.tabCtrlContent.MouseDown += TabCtrl_MouseDown;
+            
 
             // 
             // tabPage1
