@@ -1723,7 +1723,7 @@ namespace InSightValidationTool
             using (Graphics g = e.Graphics)
             {
 
-                System.Drawing.Image tabImage;
+               // System.Drawing.Image tabImage;
                 Font tabFont = new Font("Calibri", 9.0f, FontStyle.Bold);
 
                 SizeF textSize = g.MeasureString(tabPage.Text, e.Font);
@@ -1751,6 +1751,8 @@ namespace InSightValidationTool
                 {
                     e.Graphics.DrawString(tabPage.Text, tabFont, textBrush, tabRect.X + 2, tabRect.Y + 2);
                 }
+                //Draw Image Icon
+                /*
                 if (selectedControl != null)
                 {
                     if (selectedControl.InSight._inSight.Connected)
@@ -1774,7 +1776,7 @@ namespace InSightValidationTool
                     }
                 }
 
-
+                */
 
 
 

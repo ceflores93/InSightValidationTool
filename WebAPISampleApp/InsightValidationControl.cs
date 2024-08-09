@@ -46,7 +46,18 @@ namespace WebAPISampleApp
         protected virtual void onUpdateEvent(EventArgs e)
         {
 
-            InSightValidationControl_OnUpdate(this, e); 
+            try
+            {
+                InSightValidationControl_OnUpdate?.Invoke(this, e);
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception as needed
+                // Example: Log the exception to a file or display a message
+                Console.WriteLine("Error invoking update event: " + ex.Message);
+
+            }
+
         }
 
         public virtual void onJobLoad(EventArgs e) {
@@ -405,7 +416,7 @@ namespace WebAPISampleApp
 
             if (inSightSystem._inSight.Connected == true && inSightSystem._imageLoaded == true && (currentIndex < inSightSystem._imageEntries.Count)==true)
             {
-                this.lblState.Invoke((Action)delegate {
+                lblState.Invoke((Action)delegate {
                     this.lblimgsload.Text = "Images Sent To Validation: " + currentIndex + "/" + inSightSystem._imageEntries.Count.ToString();
 
                 });
@@ -426,7 +437,7 @@ namespace WebAPISampleApp
                 
             }
             
-           // UpdateDataGridView();
+           UpdateDataGridView();
             //UpdateMessages();
             if (inSightSystem._inSight.Connected) UpdateValidationResult();
             await this.cvsDisplay1.UpdateResults();
@@ -768,8 +779,18 @@ namespace WebAPISampleApp
                     btnRunValidation.Text = $"Validation In Process from {validationSecuenceSender}";
                 });
 
-                await inSightSystem.SetCameraStatus(false);
-
+                try
+                {
+                    await inSightSystem.SetCameraStatus(false);
+                }
+                catch (Exception ex) {
+                    MessageBox.Show("Error setting soft Status. Verify that ISVS is not connected.");
+                    btnRunValidation.Invoke((Action)delegate
+                    {
+                        btnRunValidation.Enabled = true;
+                        btnRunValidation.Text = "Run Validation";
+                    });
+                }   
                 // Start from beginning
                 currentIndex = 0;
                 secuence = true;
@@ -792,7 +813,15 @@ namespace WebAPISampleApp
                     }
                 }
 
-                await inSightSystem.SetCameraStatus(true);
+                try
+                {
+                    await inSightSystem.SetCameraStatus(true);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error setting soft Status. Verify that ISVS is not connected.");
+                    
+                }
 
                 // Re-enable validation button
                 btnRunValidation.Invoke((Action)delegate
@@ -811,7 +840,7 @@ namespace WebAPISampleApp
                 // Dispose resources
                 validationSecuenceSender = string.Empty;
 
-                // Optional: Reset validation trigger if needed
+              
             }
         }
 
@@ -875,7 +904,7 @@ namespace WebAPISampleApp
 
         public async void OnlineOffline() {
 
-            await inSightSystem.SetCameraStatus();
+            await inSightSystem.SetCameraStatus(!inSightSystem._inSight.Online);
         }
 
         public async void loadValidationConfig() {

@@ -267,19 +267,17 @@ namespace InSightValidationTool
             }
         }
 
-        public async Task SetCameraStatus(bool state = false)
+        public async Task SetCameraStatus(bool state)
         {
-            if (_inSight.Connected)
-            {
-                try
-                {
+                
+                
                     await _inSight.SetSoftOnlineAsync(state);
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Error setting soft Status. Verify that ISE is not connected.");
-                }
-            }
+                
+                
+                
+                    
+                
+            
         }
 
         public async Task SetLiveMode(bool state)
