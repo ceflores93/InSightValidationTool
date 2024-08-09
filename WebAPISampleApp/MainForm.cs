@@ -1519,6 +1519,8 @@ namespace InSightValidationTool
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            tabCtrlContent.Dispose();
+            menuStrip.Dispose();
             System.Windows.Forms.Application.Exit(); 
         }
 
@@ -1573,12 +1575,13 @@ namespace InSightValidationTool
         private void InSightControlJobLoad(object sender, EventArgs e) {
             CheckCreateForRecipeFolder();
             LoadConfigurationFromFolder();
+            UpdateWindowState();
         }
 
         private void InSightControlConnected(object sender, EventArgs e) { 
             CheckCreateForRecipeFolder();
             LoadConfigurationFromFolder();
-            
+            UpdateWindowState();
 
         }
 

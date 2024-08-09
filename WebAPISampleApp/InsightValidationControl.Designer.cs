@@ -489,7 +489,7 @@
             // lblNativeStatus
             // 
             this.lblNativeStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblNativeStatus.Font = new System.Drawing.Font("Calibri", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNativeStatus.Font = new System.Drawing.Font("Calibri", 12.0F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNativeStatus.ForeColor = System.Drawing.Color.White;
             this.lblNativeStatus.Location = new System.Drawing.Point(2, 29);
             this.lblNativeStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);

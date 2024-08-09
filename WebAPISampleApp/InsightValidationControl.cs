@@ -217,7 +217,7 @@ namespace WebAPISampleApp
                             stateText = "ISVS Connected, " + stateText;
 
                         if (inSightSystem._inSight.Online) lblState.ForeColor = Color.Green; else lblState.ForeColor = Color.Yellow;
-                        lblState.Font = new Font("Times New Roman", 12.0f, FontStyle.Bold);
+                        lblState.Font = new Font("Times New Roman", 14.0f, FontStyle.Bold);
                         lblState.Text = stateText;
 
 
@@ -241,7 +241,7 @@ namespace WebAPISampleApp
                     else
                     {
                         lblState.Text = inSightSystem._inSight.Connecting ? "Connecting..." : "Not Connected";
-                        lblState.Font = new Font("Times New Roman", 12.0f, FontStyle.Bold);
+                        lblState.Font = new Font("Times New Roman", 14.0f, FontStyle.Bold);
                         if (inSightSystem._inSight.Connecting) lblState.ForeColor = Color.Blue; else lblState.ForeColor = Color.Red;
                         //onlineMenuItem.Text = "Go Online";
                         //liveModeMenuItem.Checked = false;
@@ -482,6 +482,9 @@ namespace WebAPISampleApp
             dgwImageResults.Columns.Add(actualColumn);
 
             dgwImageResults.RowTemplate.Height = RowHeight;
+
+            dgwImageResults.CellValueChanged += dgwImageResults_CellValueChanged;
+            dgwImageResults.CellDoubleClick += dgwImageResults_CellDoubleClick;
         }
 
 
@@ -591,8 +594,7 @@ namespace WebAPISampleApp
                     AutoResizeColumnWidths();
                     UpdateValidationResult();
 
-                    dgwImageResults.CellValueChanged += dgwImageResults_CellValueChanged;
-                    dgwImageResults.CellDoubleClick += dgwImageResults_CellDoubleClick;
+                    
 
 
                 }
