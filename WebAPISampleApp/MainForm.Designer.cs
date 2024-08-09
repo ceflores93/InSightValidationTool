@@ -467,8 +467,7 @@ namespace InSightValidationTool
             this.tabCtrlContent.Padding = new Point(0, 0);
             this.tabCtrlContent.Multiline = true;   
             this.tabCtrlContent.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabPageClick);
-            this.tabCtrlContent.DrawItem += TabCtrlContent_DrawItem;
-            this.tabCtrlContent.MouseDown += TabCtrl_MouseDown;
+            
 
             // 
             // tabPage1
@@ -492,6 +491,8 @@ namespace InSightValidationTool
             this.insightValidationControl1.Size = new System.Drawing.Size(1900, 974);
             this.insightValidationControl1.TabIndex = 0;
             this.insightValidationControl1.InSightValidationControl_OnUpdate += InSightControlUpdate;
+            this.insightValidationControl1.InSightValidationControl_OnJobLoad += InSightControlJobLoad;
+            this.insightValidationControl1.InSightValidationControl_OnConnected += InSightControlConnected;
             // 
             // tabPage2
             // 

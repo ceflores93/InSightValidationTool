@@ -21,66 +21,70 @@ namespace Cognex.InSight.Web.Controls
         // Render each graphic that is part the result...
         foreach (var graphic in graphics)
         {
-          if (graphic is CvsCogRegion)
-          {
-            CvsCogRegion region = graphic as CvsCogRegion;
-            DrawRegion(gr, region, dc);
-          }
-          else if (graphic is CvsCogBlobChain)
-          {
-            CvsCogBlobChain blobChain = graphic as CvsCogBlobChain;
-            DrawBlobChain(gr, blobChain, dc);
-          }
-          else if (graphic is CvsCogCircle)
-          {
-            CvsCogCircle circle = graphic as CvsCogCircle;
-            DrawCircle(gr, circle, dc);
-          }
-          else if (graphic is CvsCogAnnulus)
-          {
-            CvsCogAnnulus ann = graphic as CvsCogAnnulus;
-            DrawAnnulus(gr, ann, dc);
-          }
-          else if (graphic is CvsCogPolygon)
-          {
-            CvsCogPolygon polygon = graphic as CvsCogPolygon;
-            DrawPolygon(gr, polygon, dc);
-          }
-          else if (graphic is CvsCogText)
-          {
-            CvsCogText text = graphic as CvsCogText;
-            DrawText(gr, text, dc, text.Color, text.BackgroundColor);
-          }
-          else if (graphic is CvsCogLine)
-          {
-            CvsCogLine line = graphic as CvsCogLine;
-            DrawLine(gr, line, dc);
-          }
-          else if (graphic is CvsCogLineList)
-          {
-            CvsCogLineList lineList = graphic as CvsCogLineList;
-            DrawLineList(gr, lineList, dc);
-          }
-          else if (graphic is CvsCogFixture)
-          {
-            CvsCogFixture fixture = graphic as CvsCogFixture;
-            DrawFixture(gr, fixture, dc);
-          }
-          else if (graphic is CvsCogPoint)
-          {
-            CvsCogPoint point = graphic as CvsCogPoint;
-            DrawPoint(gr, point, dc);
-          }
-          else if (graphic is CvsCogCompositeRegion)
-          {
-            CvsCogCompositeRegion cr = graphic as CvsCogCompositeRegion;
-            DrawCompositeRegion(gr, cr, dc);
-          }
-          else if (graphic is CvsCogFilledBox)
-          {
-            CvsCogFilledBox box = graphic as CvsCogFilledBox;
-            DrawFilledBox(gr, box, dc);
-          }
+                    if (graphic is CvsCogRegion)
+                    {
+                        CvsCogRegion region = graphic as CvsCogRegion;
+                        DrawRegion(gr, region, dc);
+                    }
+                    else if (graphic is CvsCogBlobChain)
+                    {
+                        CvsCogBlobChain blobChain = graphic as CvsCogBlobChain;
+                        DrawBlobChain(gr, blobChain, dc);
+                    }
+                    else if (graphic is CvsCogCircle)
+                    {
+                        CvsCogCircle circle = graphic as CvsCogCircle;
+                        DrawCircle(gr, circle, dc);
+                    }
+                    else if (graphic is CvsCogAnnulus)
+                    {
+                        CvsCogAnnulus ann = graphic as CvsCogAnnulus;
+                        DrawAnnulus(gr, ann, dc);
+                    }
+                    else if (graphic is CvsCogPolygon)
+                    {
+                        CvsCogPolygon polygon = graphic as CvsCogPolygon;
+                        DrawPolygon(gr, polygon, dc);
+                    }
+                    else if (graphic is CvsCogText)
+                    {
+                        CvsCogText text = graphic as CvsCogText;
+                        DrawText(gr, text, dc, text.Color, text.BackgroundColor);
+                    }
+                    else if (graphic is CvsCogLine)
+                    {
+                        CvsCogLine line = graphic as CvsCogLine;
+                        DrawLine(gr, line, dc);
+                    }
+                    else if (graphic is CvsCogLineList)
+                    {
+                        CvsCogLineList lineList = graphic as CvsCogLineList;
+                        DrawLineList(gr, lineList, dc);
+                    }
+                    else if (graphic is CvsCogFixture)
+                    {
+                        CvsCogFixture fixture = graphic as CvsCogFixture;
+                        DrawFixture(gr, fixture, dc);
+                    }
+                    else if (graphic is CvsCogPoint)
+                    {
+                        CvsCogPoint point = graphic as CvsCogPoint;
+                        DrawPoint(gr, point, dc);
+                    }
+                    else if (graphic is CvsCogCompositeRegion)
+                    {
+                        CvsCogCompositeRegion cr = graphic as CvsCogCompositeRegion;
+                        DrawCompositeRegion(gr, cr, dc);
+                    }
+                    else if (graphic is CvsCogFilledBox)
+                    {
+                        CvsCogFilledBox box = graphic as CvsCogFilledBox;
+                        DrawFilledBox(gr, box, dc);
+                    }
+                    else if (graphic is CvsCogCross) {
+                        CvsCogCross cross = graphic as CvsCogCross; 
+                        DrawCross(gr, cross, dc);   
+                    }
         }
       }
     }
@@ -457,6 +461,31 @@ namespace Cognex.InSight.Web.Controls
       PaintLabel(gr, dc, pt, point.Label, point.Color, StringAlignment.Center, StringAlignment.Far);
     }
 
+    public static void DrawCross(Graphics gr, CvsCogCross cross , ICvsDisplayContext dc) { 
+        Color color = Color.Green;
+        Pen pen = new Pen(color, cross.LineThickness);
+
+            PointF[] points = GetCrossPoints(cross, 1.0 / dc.ImageScale);
+            Point[] imagePoints = new Point[4];
+
+            for (int i = 0; i < 4; i++)
+            {
+                imagePoints[i] = GraphicMath.RoundPoint(dc.SensorToClient(points[i]));
+            }
+
+            // Draw the cross lines
+            int edgeLength = 4 + cross.LineThickness;
+            gr.DrawLine(pen, imagePoints[0].X, imagePoints[0].Y, imagePoints[1].X, imagePoints[1].Y);
+            DrawArrow(gr, color, imagePoints[1].X, imagePoints[1].Y, dc.UsesXYCoordinates ? (float)cross.Angle : 90 - (float)cross.Angle, edgeLength);
+
+            gr.DrawLine(pen, imagePoints[2].X, imagePoints[2].Y, imagePoints[3].X, imagePoints[3].Y);
+            DrawArrow(gr, color, imagePoints[3].X, imagePoints[3].Y, dc.UsesXYCoordinates ? (float)cross.Angle + 90 : -(float)cross.Angle, edgeLength);
+
+
+            PointF pt = dc.SensorToClient(new PointF((float)cross.X, (float)cross.Y));
+            PaintLabel(gr, dc, pt, cross.Label, cross.Color, StringAlignment.Near, StringAlignment.Far);
+        }
+
     public static void DrawFixture(Graphics gr, CvsCogFixture fixture, ICvsDisplayContext dc)
     {
       Color color = Color.FromArgb(fixture.Color);
@@ -499,6 +528,23 @@ namespace Cognex.InSight.Web.Controls
 
       return points;
     }
+
+    private static PointF[] GetCrossPoints(CvsCogCross cross, double scale) {
+            int FIXTURE_GRAPH_SIZE = (int)cross.Width/4;
+            PointF[] points = new PointF[4];
+
+            double radians = cross.Angle * Math.PI / 180.0;
+            float sin = (float)(FIXTURE_GRAPH_SIZE * scale * Math.Sin(radians));
+            float cos = (float)(FIXTURE_GRAPH_SIZE * scale * Math.Cos(radians));
+
+            points[0] = new PointF((float)cross.X - cos, (float)cross.Y - sin);
+            points[1] = new PointF((float)cross.X + cos, (float)cross.Y + sin);
+            points[2] = new PointF((float)cross.X + sin, (float)cross.Y - cos);
+            points[3] = new PointF((float)cross.X - sin, (float)cross.Y + cos);
+
+            return points;
+
+     }
 
     public static void DrawLine(Graphics gr, CvsCogLine line, ICvsDisplayContext dc)
     {

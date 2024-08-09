@@ -88,6 +88,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TelnetInterface.cs" />
     <EmbeddedResource Include="InsightValidationControl.resx">
       <DependentUpon>InsightValidationControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -142,24 +143,60 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Icon_Verify.png" />
-    <None Include="Resources\icons8-close-48.png" />
-    <None Include="Resources\icons8-close-24.png" />
-    <None Include="Resources\icons8-maximize-button-24.png" />
-    <None Include="Resources\icons8-restore-down-28.png" />
-    <None Include="Resources\icons8-horizontal-line-24.png" />
-    <None Include="Resources\Cognex_InSightViDiPC-1.png" />
-    <None Include="Resources\connecticon.png" />
-    <None Include="Resources\folder.png" />
-    <None Include="Resources\icons8-check-mark-28.png" />
-    <None Include="Resources\icons8-check-mark-28green.png" />
-    <None Include="Resources\icons8-images-folder-28.png" />
-    <None Include="Resources\connecticon2.png" />
-    <None Include="Resources\connecticon1.png" />
-    <None Include="Resources\favicon.png" />
-    <None Include="Resources\IS2800.png" />
-    <None Include="Resources\IS3800.png" />
-    <None Include="Resources\ISD900.png" />
+    <None Include="Resources\Icon_Verify.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\icons8-close-48.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\icons8-close-24.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\icons8-maximize-button-24.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\icons8-restore-down-28.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\icons8-horizontal-line-24.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="Resources\Cognex_InSightViDiPC-1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="Resources\connecticon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\folder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\icons8-check-mark-28.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\icons8-check-mark-28green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\icons8-images-folder-28.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\connecticon2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\connecticon1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\favicon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\IS2800.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\IS3800.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\ISD900.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="testing-icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
