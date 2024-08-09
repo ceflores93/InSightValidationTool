@@ -31,7 +31,9 @@ namespace WebAPISampleApp
         private bool secuence = false;
         private string validationSecuenceSender = String.Empty;
 
-        private InSightDevice inSightSystem;
+        internal InSightDevice inSightSystem;
+
+
 
         public delegate void InSightValidationControlEventHandler(object sender, EventArgs e);
 
