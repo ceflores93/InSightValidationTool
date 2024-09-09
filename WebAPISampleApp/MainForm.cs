@@ -74,12 +74,14 @@ namespace InSightValidationTool
         private bool m_Ignore = false;
         private bool m_mouseDown;
         private Point m_lastLocation;
+        private const string version = "0.5";   
 
 
 
         public MainFormWindow()
         {
             InitializeComponent();
+            btnWindowTitle.Text += " " + version;
 
             //Make sure important events are declared 
             this.tabCtrlContent.DrawItem += TabCtrlContent_DrawItem;
@@ -1643,7 +1645,8 @@ namespace InSightValidationTool
             insightValidationControl.TabIndex = 0;
             insightValidationControl.InSightValidationControl_OnUpdate += InSightControlUpdate;
             insightValidationControl.InSightValidationControl_OnJobLoad += InSightControlJobLoad;
-            insightValidationControl.InSightValidationControl_OnConnected += InSightControlConnected;   
+            insightValidationControl.InSightValidationControl_OnConnected += InSightControlConnected;
+            
             
             tabPage.Controls.Add(insightValidationControl);
             

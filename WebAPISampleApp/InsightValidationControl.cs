@@ -43,6 +43,10 @@ namespace WebAPISampleApp
 
         public event InSightValidationControlEventHandler InSightValidationControl_OnConnected;
 
+        public event InSightValidationControlEventHandler InSightValidationControl_OnValidationStart;
+
+        public event InSightValidationControlEventHandler InSightValidationControl_OnValidationCompleted;
+
         protected virtual void onUpdateEvent(EventArgs e)
         {
 
@@ -58,6 +62,18 @@ namespace WebAPISampleApp
         {
 
             InSightValidationControl_OnConnected(this, e);
+        }
+
+        protected virtual void OnValidationStart(EventArgs e)
+        {
+            InSightValidationControl_OnValidationStart(this, e);
+
+        }
+
+        protected virtual void OnValidationCompleted(EventArgs e)
+        {
+
+            InSightValidationControl_OnValidationCompleted(this, e);
         }
 
 
@@ -804,6 +820,12 @@ namespace WebAPISampleApp
 
                 // Write validation result
                 InSight.WriteValidationResult(lblValidationResult.Text);
+
+                //Write Last Time validation Ran
+                lblValidationLastRun.Invoke((Action)delegate {
+                    lblValidationLastRun.Text += DateTime.Now.ToString("yyyy-MM-dd h:mm:ss");
+                });
+
 
                 // Perform manual trigger
                 await InSight.ManualTrigger();

@@ -61,6 +61,7 @@
             this.cvsDisplay1 = new Cognex.InSight.Web.Controls.CvsDisplay();
             this.dgwImageResults = new System.Windows.Forms.DataGridView();
             this.cvsSpreadsheet1 = new Cognex.InSight.Web.Controls.CvsSpreadsheet();
+            this.lblValidationLastRun = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -472,16 +473,18 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Controls.Add(this.lblNativeStatus, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.lblState, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.lblValidationLastRun, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(1713, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(184, 88);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
@@ -567,6 +570,15 @@
             this.cvsSpreadsheet1.Size = new System.Drawing.Size(946, 876);
             this.cvsSpreadsheet1.TabIndex = 35;
             // 
+            // lblValidationLastRun
+            // 
+            this.lblValidationLastRun.Location = new System.Drawing.Point(3, 0);
+            this.lblValidationLastRun.Name = "lblValidationLastRun";
+            this.lblValidationLastRun.Size = new System.Drawing.Size(178, 23);
+            this.lblValidationLastRun.TabIndex = 47;
+            this.lblValidationLastRun.Text = "Last Run:";
+            this.lblValidationLastRun.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // InsightValidationControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -648,5 +660,6 @@
         public System.Windows.Forms.Label lblState;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label lblNativeStatus;
+        private System.Windows.Forms.Label lblValidationLastRun;
     }
 }
