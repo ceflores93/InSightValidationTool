@@ -207,6 +207,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Resources\icons8-close-10.png" />
+    <None Include="Resources\icons8-close-24black.png" />
     <Content Include="Resources\icons8-plus-100.png" />
     <None Include="Resources\icons8-plus-1001.png" />
     <None Include="Resources\icons8-plus-28.png" />

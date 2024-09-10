@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WebAPISampleApp.Properties;
 
 namespace WebAPISampleApp
 {
@@ -72,21 +73,23 @@ namespace WebAPISampleApp
             {
                 lblConnectionName.ForeColor = Color.White;
                 backgroundColor = Color.Green;
+                btnCloseTab.Image = Resources.icons8_close_24;
             }
             else if (result == "neutral")
             {
                 backgroundColor = Color.Yellow;
                 lblConnectionName.ForeColor = Color.Black;   
+                btnCloseTab.Image = Resources.icons8_close_24black;
             }
             else if (result == "Fail" && isBlinking)
             {
                 backgroundColor = Color.Red; // Blinking red
                 lblConnectionName.ForeColor = Color.White;
+                btnCloseTab.Image = Resources.icons8_close_24;
             }
 
             this.BackColor = backgroundColor;   
-           // btnCloseTab.BackColor = backgroundColor;    
-            //lblConnectionName.BackColor = backgroundColor;  
+          
         }
     }
 }
