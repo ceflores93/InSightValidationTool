@@ -124,9 +124,7 @@ namespace InSightValidationTool
             //dgwImageResults.CellValueChanged += dgwImageResults_CellValueChanged;
             //dgwImageResults.CellDoubleClick += dgwImageResults_CellDoubleClick; 
 
-            TabBlinker = new Timer { Interval   =   500};
-            TabBlinker.Tick += TabBlinker_Tick;
-            TabBlinker.Start(); 
+           LoadCameraLayout();
         }
 
         private void TabCtrlContent_SelectedIndexChanged(object sender, EventArgs e)
@@ -1440,7 +1438,7 @@ namespace InSightValidationTool
 
                 using (OpenFileDialog openFileDialog = new OpenFileDialog())
                 {
-                    openFileDialog.InitialDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath),"ValidationRecipes"); ;
+                    openFileDialog.InitialDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath),"ValidationRecipes"); 
                     openFileDialog.Filter = "JSON files (*.json)|*.json";
                     openFileDialog.FilterIndex = 1;
                     openFileDialog.RestoreDirectory = true;
@@ -1963,10 +1961,35 @@ namespace InSightValidationTool
 
         }
 
-        private void LoadCameraLayout() { 
+        private void LoadCameraLayout() {
 
+            //Make Sure Recipes Folder Exists
+            CheckCreateForRecipeFolder();
 
+            //Check if Validation Tool Layout file exists
+            string folderPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "ValidationRecipes"); 
+            string fileName = "DefaultLayout.json";
+
+            if (File.Exists(Path.Combine(folderPath, fileName))) {
+
+                using (StreamReader sr = new StreamReader(Path.Combine(folderPath, fileName)))
+                {
+                    string jsonfile = sr.ReadToEnd();
+                    
+                    JToken layoutConfig = JToken.Parse(jsonfile);
+
+                    //m_configuration = JToken.Parse(jsonfile);
+                    loadLayoutConfig(layoutConfig);
+                }
+
+            }
+            else MessageBox.Show("No Layout File Saved Yet");
+
+        }
+
+        private void loadLayoutConfig(JToken layoutConfig) { 
         
+            
         
         
         }
