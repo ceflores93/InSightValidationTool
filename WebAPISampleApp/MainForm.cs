@@ -87,7 +87,7 @@ namespace InSightValidationTool
             btnWindowTitle.Text += " " + version;
 
             //Make sure important events are declared 
-            this.tabCtrlContent.DrawItem += TabCtrlContent_DrawItem;
+         
             this.tabCtrlContent.MouseDown += TabCtrl_MouseDown;
             this.tabCtrlContent.SelectedIndexChanged += TabCtrlContent_SelectedIndexChanged;
 
@@ -1063,18 +1063,7 @@ namespace InSightValidationTool
             }
 
            
-            /*
-            if (_inSight.Connected)
-            {
-                try
-                {
-                    await _inSight.SetSoftOnlineAsync(!_inSight.SoftOnline);
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Error setting soft online. Verify that ISE is not connected.");
-                }
-            }*/
+ 
            
 
         }
@@ -1591,21 +1580,7 @@ namespace InSightValidationTool
 
         }
 
-        private void tabPageClick(object sender, EventArgs e) { 
-        /*
-        TabControl tabControl = (TabControl)sender;
 
-            if (tabControl.SelectedTab.Name == "tabPage2")
-            {
-                //tabCtrlContent.SelectedIndex = tabCtrlContent.TabCount + 1;
-                tabCtrlContent.Controls.RemoveByKey("tabPage2");
-                InitializeNewTab();
-            }
-            else
-            {
-                UpdateWindowState();
-            }
-        */}
 
         private void InSightControlUpdate(object sender, EventArgs e) {
 
@@ -1875,86 +1850,7 @@ namespace InSightValidationTool
         }
 
 
-        private void TabCtrlContent_DrawItem(object sender, System.Windows.Forms.DrawItemEventArgs e)
-        {
-            /*
-            TabPage tabPage = tabCtrlContent.TabPages[e.Index];
-            Rectangle tabRect = tabCtrlContent.GetTabRect(e.Index);
 
-
-            using (Graphics g = e.Graphics)
-            {
-
-             //   System.Drawing.Image tabImage;
-
-                Font tabFont = new Font("Calibri", 9.0f, FontStyle.Bold);
-
-                SizeF textSize = g.MeasureString(tabPage.Text, e.Font);
-                int textWidth = (int)textSize.Width;
-                int textHeight = (int)textSize.Height;
-
-                // Define size and position for the close button
-                int buttonSize = 15;
-                Rectangle closeButtonRect = new Rectangle(
-                    tabRect.Right - buttonSize - 5,
-                    tabRect.Top + (tabRect.Height - buttonSize) / 2,
-                    buttonSize, buttonSize);
-
-                // Adjust tabRect width based on text and button size
-                int adjustedTabWidth = textWidth + buttonSize + 20; // Padding
-
-                // Draw the tab header
-                using (Brush backgroundBrush = new SolidBrush(System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))))))
-                {
-                    e.Graphics.FillRectangle(backgroundBrush, tabRect);
-                }
-
-                // Draw the tab header text
-                using (Brush textBrush = new SolidBrush(Color.White))
-                {
-                    e.Graphics.DrawString(tabPage.Text, tabFont, textBrush, tabRect.X + 2, tabRect.Y + 2);
-                }
-
-                if (tabPage.Name != "tabPage2")
-                {
-                    DrawCloseButton(e.Graphics, tabRect);
-                }
-
-                e.Graphics.FillRectangle(Brushes.Transparent, tabRect.X + textWidth + buttonSize + 10, tabRect.Y, adjustedTabWidth - textWidth - buttonSize - 20, tabRect.Height); // Ensure clear area
-
-                if (tabResults.Any() && tabPage.Name != "tabPage2")
-                {
-                
-                    string result = tabResults[e.Index];
-
-                    // Determine tab button background color based on result
-                    Color backgroundColor = SystemColors.Control; // Default background color
-                    if (result == "Pass")
-                    {
-                        backgroundColor = Color.Green;
-                    }
-                    else if (result == "neutral")
-                    {
-                        backgroundColor = Color.Yellow;
-                    }
-                    else if (result == "Fail" && isBlinking)
-                    {
-                        backgroundColor = Color.Red; // Blinking red
-                    }
-
-                    // Paint the tab button (not the tab page)
-                    using (Brush brush = new SolidBrush(backgroundColor))
-                    {
-                        e.Graphics.FillRectangle(brush, tabRect);
-                    }
-
-                    TextRenderer.DrawText(e.Graphics, tabPage.Text, tabPage.Font, tabRect, tabPage.ForeColor, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-
-                    // Draw the focus rectangle if needed
-                    e.DrawFocusRectangle();
-                }
-            }
-        */}
      
         private void DrawCloseButton(Graphics g, Rectangle tabRect)
         {
@@ -2033,6 +1929,11 @@ namespace InSightValidationTool
         {
             InitializeNewTab();
            
+        }
+
+        private void saveCameraLayoutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Save Current Page Layout
         }
     }
 }
