@@ -81,11 +81,11 @@ namespace InSightValidationTool
             this.btnWindowTitle = new System.Windows.Forms.Button();
             this.tabCtrlContent = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.insightValidationControl1 = new WebAPISampleApp.InsightValidationControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.flwlyTabControlButtons = new System.Windows.Forms.FlowLayoutPanel();
-            this.customTabSelector1 = new WebAPISampleApp.CustomTabSelector();
             this.btnAddTab = new System.Windows.Forms.Button();
+            this.insightValidationControl1 = new WebAPISampleApp.InsightValidationControl();
+            this.customTabSelector1 = new WebAPISampleApp.CustomTabSelector();
             this.menuStrip.SuspendLayout();
             this.controlBox.SuspendLayout();
             this.tbllyMainWindow.SuspendLayout();
@@ -499,22 +499,12 @@ namespace InSightValidationTool
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "DefaultConnection";
             // 
-            // insightValidationControl1
-            // 
-            this.insightValidationControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.insightValidationControl1.Location = new System.Drawing.Point(3, 3);
-            this.insightValidationControl1.Margin = new System.Windows.Forms.Padding(3, 562, 3, 562);
-            this.insightValidationControl1.Name = "insightValidationControl1";
-            this.insightValidationControl1.Size = new System.Drawing.Size(1900, 948);
-            this.insightValidationControl1.TabIndex = 0;
-            this.insightValidationControl1.Load += new System.EventHandler(this.insightValidationControl1_Load_1);
-            // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 5);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1906, 956);
+            this.tabPage2.Size = new System.Drawing.Size(1906, 950);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "+";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -533,18 +523,6 @@ namespace InSightValidationTool
             this.flwlyTabControlButtons.Size = new System.Drawing.Size(1914, 41);
             this.flwlyTabControlButtons.TabIndex = 26;
             // 
-            // customTabSelector1
-            // 
-            this.customTabSelector1.attachedTabIndex = 0;
-            this.customTabSelector1.attachedTabStatus = null;
-            this.customTabSelector1.AutoSize = true;
-            this.customTabSelector1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.customTabSelector1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.customTabSelector1.Location = new System.Drawing.Point(3, 3);
-            this.customTabSelector1.Name = "customTabSelector1";
-            this.customTabSelector1.Size = new System.Drawing.Size(155, 35);
-            this.customTabSelector1.TabIndex = 2;
-            // 
             // btnAddTab
             // 
             this.btnAddTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
@@ -558,6 +536,27 @@ namespace InSightValidationTool
             this.btnAddTab.TabIndex = 1;
             this.btnAddTab.UseVisualStyleBackColor = false;
             this.btnAddTab.Click += new System.EventHandler(this.btnAddTab_Click);
+            // 
+            // insightValidationControl1
+            // 
+            this.insightValidationControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.insightValidationControl1.Location = new System.Drawing.Point(3, 3);
+            this.insightValidationControl1.Margin = new System.Windows.Forms.Padding(3, 738, 3, 738);
+            this.insightValidationControl1.Name = "insightValidationControl1";
+            this.insightValidationControl1.Size = new System.Drawing.Size(1900, 948);
+            this.insightValidationControl1.TabIndex = 0;
+            // 
+            // customTabSelector1
+            // 
+            this.customTabSelector1.attachedTabIndex = 0;
+            this.customTabSelector1.attachedTabStatus = null;
+            this.customTabSelector1.AutoSize = true;
+            this.customTabSelector1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.customTabSelector1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.customTabSelector1.Location = new System.Drawing.Point(3, 3);
+            this.customTabSelector1.Name = "customTabSelector1";
+            this.customTabSelector1.Size = new System.Drawing.Size(155, 35);
+            this.customTabSelector1.TabIndex = 2;
             // 
             // MainFormWindow
             // 

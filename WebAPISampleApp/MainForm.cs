@@ -1512,7 +1512,7 @@ namespace InSightValidationTool
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
 
-                saveFileDialog.InitialDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath),"ValidationRecipes"); ;
+                saveFileDialog.InitialDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath),"ValidationRecipes"); 
                 saveFileDialog.Filter = "JSON files (*.json)|*.json";
                 saveFileDialog.FilterIndex = 1;
                 saveFileDialog.RestoreDirectory = true;
@@ -1920,10 +1920,6 @@ namespace InSightValidationTool
             tabPage.Dispose();
         }
 
-        private void insightValidationControl1_Load_1(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnAddTab_Click(object sender, EventArgs e)
         {
@@ -1933,7 +1929,47 @@ namespace InSightValidationTool
 
         private void saveCameraLayoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            CheckCreateForRecipeFolder();
+            JObject CameraTabs = new JObject();
             //Save Current Page Layout
+            int index = 0;
+            foreach (TabPage tabPage in tabCtrlContent.TabPages) {
+
+                InsightValidationControl insightValidationControl = tabPage.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+
+                if (insightValidationControl != null)
+                {
+                    JObject CameraConnection = new JObject();
+                    
+                    CameraConnection.Add("IPAddressPort", insightValidationControl.tbIpAddressWithPort.Text);
+                    CameraConnection.Add("User", insightValidationControl.tbUsername.Text);
+                    CameraConnection.Add("Password", insightValidationControl.tbPassword.Text);
+                    CameraConnection.Add("AutoConnect", insightValidationControl.chkAutoConnect.Checked);
+                    CameraTabs.Add(String.Concat("Camera",index.ToString()), CameraConnection);
+                    index++;    
+
+                   
+                }
+            }
+
+            string folderPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "ValidationRecipes");
+            string fileName = "DefaultLayout.json";
+
+
+            System.IO.File.WriteAllText(Path.Combine(folderPath, fileName), JsonConvert.SerializeObject(CameraTabs, Formatting.Indented));
+
+            if (File.Exists(Path.Combine(folderPath, fileName))) MessageBox.Show("Layout File Saved to HDD");
+            else MessageBox.Show("Error Saving Layout File");
+
         }
+
+        private void LoadCameraLayout() { 
+
+
+        
+        
+        
+        }
+
     }
 }
