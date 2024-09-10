@@ -57,11 +57,11 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lblNativeStatus = new System.Windows.Forms.Label();
             this.lblState = new System.Windows.Forms.Label();
+            this.lblValidationLastRun = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.cvsDisplay1 = new Cognex.InSight.Web.Controls.CvsDisplay();
             this.dgwImageResults = new System.Windows.Forms.DataGridView();
             this.cvsSpreadsheet1 = new Cognex.InSight.Web.Controls.CvsSpreadsheet();
-            this.lblValidationLastRun = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -115,8 +115,8 @@
             this.tblCameraControls.ColumnCount = 4;
             this.tblCameraControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tblCameraControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tblCameraControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tblCameraControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tblCameraControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.10526F));
+            this.tblCameraControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.89474F));
             this.tblCameraControls.Controls.Add(this.tblControlButtons, 1, 0);
             this.tblCameraControls.Controls.Add(this.panel2, 2, 0);
             this.tblCameraControls.Controls.Add(this.panel4, 0, 0);
@@ -219,7 +219,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(1143, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(564, 100);
+            this.panel2.Size = new System.Drawing.Size(509, 100);
             this.panel2.TabIndex = 1;
             // 
             // tblinfoBanners
@@ -236,7 +236,7 @@
             this.tblinfoBanners.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tblinfoBanners.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tblinfoBanners.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tblinfoBanners.Size = new System.Drawing.Size(564, 100);
+            this.tblinfoBanners.Size = new System.Drawing.Size(509, 100);
             this.tblinfoBanners.TabIndex = 0;
             // 
             // lblimgsload
@@ -247,7 +247,7 @@
             this.lblimgsload.Location = new System.Drawing.Point(2, 0);
             this.lblimgsload.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblimgsload.Name = "lblimgsload";
-            this.lblimgsload.Size = new System.Drawing.Size(560, 25);
+            this.lblimgsload.Size = new System.Drawing.Size(505, 25);
             this.lblimgsload.TabIndex = 39;
             this.lblimgsload.Text = "Images Loaded:";
             this.lblimgsload.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -260,7 +260,7 @@
             this.lblJobInfo.Location = new System.Drawing.Point(2, 25);
             this.lblJobInfo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblJobInfo.Name = "lblJobInfo";
-            this.lblJobInfo.Size = new System.Drawing.Size(560, 25);
+            this.lblJobInfo.Size = new System.Drawing.Size(505, 25);
             this.lblJobInfo.TabIndex = 40;
             this.lblJobInfo.Text = "Current Job:";
             this.lblJobInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -271,7 +271,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(3, 53);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(558, 44);
+            this.panel5.Size = new System.Drawing.Size(503, 44);
             this.panel5.TabIndex = 0;
             // 
             // splitContainer3
@@ -287,8 +287,8 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.lblValidationResult);
-            this.splitContainer3.Size = new System.Drawing.Size(558, 44);
-            this.splitContainer3.SplitterDistance = 279;
+            this.splitContainer3.Size = new System.Drawing.Size(503, 44);
+            this.splitContainer3.SplitterDistance = 251;
             this.splitContainer3.TabIndex = 0;
             // 
             // label4
@@ -299,7 +299,7 @@
             this.label4.Location = new System.Drawing.Point(0, 0);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(279, 38);
+            this.label4.Size = new System.Drawing.Size(251, 38);
             this.label4.TabIndex = 41;
             this.label4.Text = "Validation Result";
             this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -314,7 +314,7 @@
             this.lblValidationResult.Location = new System.Drawing.Point(0, 0);
             this.lblValidationResult.Margin = new System.Windows.Forms.Padding(0);
             this.lblValidationResult.Name = "lblValidationResult";
-            this.lblValidationResult.Size = new System.Drawing.Size(275, 34);
+            this.lblValidationResult.Size = new System.Drawing.Size(248, 34);
             this.lblValidationResult.TabIndex = 42;
             this.lblValidationResult.Text = "None";
             this.lblValidationResult.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -478,14 +478,14 @@
             this.tableLayoutPanel1.Controls.Add(this.lblValidationLastRun, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(1713, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(1658, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(184, 88);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(239, 88);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
             // lblNativeStatus
@@ -496,7 +496,7 @@
             this.lblNativeStatus.Location = new System.Drawing.Point(2, 29);
             this.lblNativeStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblNativeStatus.Name = "lblNativeStatus";
-            this.lblNativeStatus.Size = new System.Drawing.Size(180, 29);
+            this.lblNativeStatus.Size = new System.Drawing.Size(235, 29);
             this.lblNativeStatus.TabIndex = 46;
             this.lblNativeStatus.Text = "Native Not Connected";
             this.lblNativeStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -510,10 +510,21 @@
             this.lblState.Location = new System.Drawing.Point(0, 58);
             this.lblState.Margin = new System.Windows.Forms.Padding(0);
             this.lblState.Name = "lblState";
-            this.lblState.Size = new System.Drawing.Size(184, 30);
+            this.lblState.Size = new System.Drawing.Size(239, 30);
             this.lblState.TabIndex = 45;
             this.lblState.Text = "Not Connected";
             this.lblState.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblValidationLastRun
+            // 
+            this.lblValidationLastRun.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblValidationLastRun.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
+            this.lblValidationLastRun.Location = new System.Drawing.Point(3, 0);
+            this.lblValidationLastRun.Name = "lblValidationLastRun";
+            this.lblValidationLastRun.Size = new System.Drawing.Size(233, 29);
+            this.lblValidationLastRun.TabIndex = 47;
+            this.lblValidationLastRun.Text = "Last Run:";
+            this.lblValidationLastRun.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // splitContainer2
             // 
@@ -569,15 +580,6 @@
             this.cvsSpreadsheet1.Name = "cvsSpreadsheet1";
             this.cvsSpreadsheet1.Size = new System.Drawing.Size(946, 876);
             this.cvsSpreadsheet1.TabIndex = 35;
-            // 
-            // lblValidationLastRun
-            // 
-            this.lblValidationLastRun.Location = new System.Drawing.Point(3, 0);
-            this.lblValidationLastRun.Name = "lblValidationLastRun";
-            this.lblValidationLastRun.Size = new System.Drawing.Size(178, 23);
-            this.lblValidationLastRun.TabIndex = 47;
-            this.lblValidationLastRun.Text = "Last Run:";
-            this.lblValidationLastRun.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // InsightValidationControl
             // 
