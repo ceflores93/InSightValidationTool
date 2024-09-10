@@ -41,12 +41,12 @@ namespace WebAPISampleApp
 
         protected virtual void lblConnectionName_Click(object sender, EventArgs e)
         {
-            OnSelectTabClick(sender, e);    
+            OnSelectTabClick(this, e);    
         }
 
         protected virtual void  button1_Click(object sender, EventArgs e)
         {
-            OnCloseTabClick(sender, e);     
+            OnCloseTabClick(this, e);     
         }
 
         public void UpdateSelectorColor(string status) { 
@@ -59,8 +59,8 @@ namespace WebAPISampleApp
             modifyConnectionName(ConnectionName);   
         }
 
-        void modifyConnectionName(string ConnectionName) { 
-        
+        public void modifyConnectionName(string ConnectionName) { 
+           
             lblConnectionName.Text = ConnectionName;    
         }
         void modifyBackColor() { 
@@ -70,19 +70,23 @@ namespace WebAPISampleApp
 
             if (result == "Pass")
             {
+                lblConnectionName.ForeColor = Color.White;
                 backgroundColor = Color.Green;
             }
             else if (result == "neutral")
             {
                 backgroundColor = Color.Yellow;
+                lblConnectionName.ForeColor = Color.Black;   
             }
             else if (result == "Fail" && isBlinking)
             {
                 backgroundColor = Color.Red; // Blinking red
+                lblConnectionName.ForeColor = Color.White;
             }
 
-            btnCloseTab.BackColor = backgroundColor;    
-            lblConnectionName.BackColor = backgroundColor;  
+            this.BackColor = backgroundColor;   
+           // btnCloseTab.BackColor = backgroundColor;    
+            //lblConnectionName.BackColor = backgroundColor;  
         }
     }
 }

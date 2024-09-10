@@ -35,6 +35,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using Application = System.Windows.Forms.Application;
 using System.Runtime.CompilerServices;
+using System.Diagnostics.Eventing.Reader;
 
 namespace InSightValidationTool
 {
@@ -83,11 +84,12 @@ namespace InSightValidationTool
         public MainFormWindow()
         {
             InitializeComponent();
-            btnWindowTitle.Text += "\t" + version;
+            btnWindowTitle.Text += " " + version;
 
             //Make sure important events are declared 
             this.tabCtrlContent.DrawItem += TabCtrlContent_DrawItem;
             this.tabCtrlContent.MouseDown += TabCtrl_MouseDown;
+            this.tabCtrlContent.SelectedIndexChanged += TabCtrlContent_SelectedIndexChanged;
 
             this.insightValidationControl1.InSightValidationControl_OnUpdate += InSightControlUpdate;
             this.insightValidationControl1.InSightValidationControl_OnJobLoad += InSightControlJobLoad;
@@ -110,6 +112,9 @@ namespace InSightValidationTool
             _inSight.EditorAttachedChanged += _inSight_EditorAttachedChanged;
 
 
+            this.customTabSelector1.OnCloseTabClick += TabSelector_OnCloseTabClick;
+            this.customTabSelector1.OnSelectTabClick += TabSelector_OnSelectTabClick;
+            this.customTabSelector1.attachedTabIndex = 0;   
 
             //cvsSpreadsheet.SetInSight(_inSight);
             //cvsCustomView.SetInSight(_inSight);
@@ -122,6 +127,22 @@ namespace InSightValidationTool
             TabBlinker = new Timer { Interval   =   500};
             TabBlinker.Tick += TabBlinker_Tick;
             TabBlinker.Start(); 
+        }
+
+        private void TabCtrlContent_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach (CustomTabSelector CustomTabSelector in flwlyTabControlButtons.Controls.OfType<CustomTabSelector>())
+            {
+
+                if (CustomTabSelector.attachedTabIndex == tabCtrlContent.SelectedIndex)
+                {
+                    CustomTabSelector.BorderStyle = BorderStyle.Fixed3D;
+                }
+                else { CustomTabSelector.BorderStyle = BorderStyle.None; }
+            }
+
+
+
         }
 
         private void TabBlinker_Tick(object sender, EventArgs e)
@@ -1571,7 +1592,7 @@ namespace InSightValidationTool
         }
 
         private void tabPageClick(object sender, EventArgs e) { 
-        
+        /*
         TabControl tabControl = (TabControl)sender;
 
             if (tabControl.SelectedTab.Name == "tabPage2")
@@ -1584,7 +1605,7 @@ namespace InSightValidationTool
             {
                 UpdateWindowState();
             }
-        }
+        */}
 
         private void InSightControlUpdate(object sender, EventArgs e) {
 
@@ -1614,8 +1635,10 @@ namespace InSightValidationTool
                 if (tabPage != null)
                 {
                     int tabIndex = tabCtrlContent.TabPages.IndexOf(tabPage);
-                    tabResults.Insert(tabIndex, status);
-                    if(tabCtrlContent != null)tabCtrlContent.Invalidate();
+                    CustomTabSelector tabSelector = (CustomTabSelector) flwlyTabControlButtons.Controls[tabIndex];
+                    tabSelector.UpdateSelectorColor("neutral");    
+                    // tabResults.Insert(tabIndex, status);
+                   // if(tabCtrlContent != null)tabCtrlContent.Invalidate();
                 }
 
             }
@@ -1630,8 +1653,8 @@ namespace InSightValidationTool
                 if (tabPage != null)
                 {
                     int tabIndex = tabCtrlContent.TabPages.IndexOf(tabPage);
-                    tabResults[tabIndex] = status;
-                     if(tabCtrlContent != null)tabCtrlContent.Invalidate();
+                    CustomTabSelector tabSelector = (CustomTabSelector)flwlyTabControlButtons.Controls[tabIndex];
+                    tabSelector.UpdateSelectorColor(status);
                 }
 
             }
@@ -1698,10 +1721,14 @@ namespace InSightValidationTool
         private void InitializeNewTab() { 
             //Create Tab Selector for this tab, just before the "+" button
 
-            CustomTabSelector tabSelector = new CustomTabSelector(); 
-            this.flwlyTabControlButtons.Controls.Remove(btnAddTab);
-            this.flwlyTabControlButtons.Controls.Add(tabSelector);  
+            CustomTabSelector tabSelector = new CustomTabSelector();
+            
 
+            this.flwlyTabControlButtons.Controls.Remove(btnAddTab);
+            this.flwlyTabControlButtons.Controls.Add(tabSelector);
+
+            tabSelector.OnCloseTabClick += TabSelector_OnCloseTabClick;
+            tabSelector.OnSelectTabClick += TabSelector_OnSelectTabClick;
             
             //Create new InSightValidation Control for this tab
             TabPage tabPage = new TabPage();
@@ -1731,9 +1758,59 @@ namespace InSightValidationTool
             tabPage.Controls.Add(insightValidationControl);
             tabCtrlContent.Controls.Add(tabPage);
             tabCtrlContent.SelectTab(tabPage);
+            tabSelector.attachedTabIndex = tabCtrlContent.SelectedIndex;
+            
 
 
-            //tabCtrlContent.Controls.Add(tabPage2);
+         // tabCtrlContent.Controls.Add(tabPage2);
+        }
+
+        private void TabSelector_OnSelectTabClick(object sender, EventArgs e)
+        {
+            if (sender is CustomTabSelector CustomTabSelector) {
+                tabCtrlContent.SelectTab(CustomTabSelector.attachedTabIndex);
+            }
+        }
+
+  
+            private void TabSelector_OnCloseTabClick(object sender, EventArgs e)
+            {
+                if (sender is CustomTabSelector customTabSelector)
+                {
+                  if (customTabSelector.attachedTabIndex >= 0 && customTabSelector.attachedTabIndex < tabCtrlContent.TabPages.Count)
+                    {
+                        
+                        CleanUpTabPage(tabCtrlContent.TabPages[customTabSelector.attachedTabIndex]);
+                    }
+
+                    
+                    customTabSelector.Dispose();
+
+                    
+                    UpdateCustomTabSelectorsIndex();
+
+                  if (tabCtrlContent.TabCount > 0)
+                    {
+                        
+                        tabCtrlContent.SelectTab(tabCtrlContent.TabCount - 1);
+                    }
+                }
+
+               
+                if (flwlyTabControlButtons.Controls.Count == 1 && tabCtrlContent.TabPages.Count > 0)
+                {
+                    CleanUpTabPage(tabCtrlContent.TabPages[0]);
+                }
+            }
+
+        
+
+        private void UpdateCustomTabSelectorsIndex() {
+            int index = 0;
+            foreach (CustomTabSelector customTabSelector in flwlyTabControlButtons.Controls.OfType<CustomTabSelector>())
+            {
+                customTabSelector.attachedTabIndex = index; 
+            }   
         }
 
         private void UpdateWindowState() {
@@ -1750,9 +1827,11 @@ namespace InSightValidationTool
                             onlineMenuItem.Text = selectedControl.InSight._inSight.Online ? "Go Offline" : "Go Online";
                             liveModeMenuItem.Checked = selectedControl.InSight._inSight.LiveMode;
                             CvsCameraInfo info = selectedControl.InSight._inSight.CameraInfo;
-                            tabCtrlContent.SelectedTab.Text = info.HostName;
-
+                            // tabCtrlContent.SelectedTab.Text = info.HostName;
+                            CustomTabSelector customTabSelector =(CustomTabSelector) flwlyTabControlButtons.Controls[tabCtrlContent.SelectedIndex];
                             
+                            customTabSelector.UpdateConnectionName(info.HostName);
+                            customTabSelector.UpdateSelectorColor("neutral");
                             
 
                             info = null;
@@ -1953,6 +2032,7 @@ namespace InSightValidationTool
         private void btnAddTab_Click(object sender, EventArgs e)
         {
             InitializeNewTab();
+           
         }
     }
 }
