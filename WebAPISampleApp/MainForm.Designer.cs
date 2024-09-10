@@ -10,6 +10,7 @@
 //*******************************************************************************
 
 using Cognex.InSight.Web.Controls;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using WebAPISampleApp;
@@ -68,25 +69,30 @@ namespace InSightValidationTool
             this.saveQueuedImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.systemMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hmiSettingsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveCameraLayoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnWindowTitle = new System.Windows.Forms.Button();
             this.controlBox = new System.Windows.Forms.Panel();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnRestoreMaximize = new System.Windows.Forms.Button();
             this.btnMinimize = new System.Windows.Forms.Button();
             this.tbllyMainWindow = new System.Windows.Forms.TableLayoutPanel();
             this.pnlTopPanel = new System.Windows.Forms.Panel();
+            this.btnWindowTitle = new System.Windows.Forms.Button();
             this.tabCtrlContent = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.insightValidationControl1 = new WebAPISampleApp.InsightValidationControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.flwlyTabControlButtons = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnAddTab = new System.Windows.Forms.Button();
+            this.insightValidationControl1 = new WebAPISampleApp.InsightValidationControl();
+            this.customTabSelector1 = new WebAPISampleApp.CustomTabSelector();
             this.menuStrip.SuspendLayout();
             this.controlBox.SuspendLayout();
             this.tbllyMainWindow.SuspendLayout();
             this.pnlTopPanel.SuspendLayout();
             this.tabCtrlContent.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.flwlyTabControlButtons.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbMessages
@@ -115,6 +121,7 @@ namespace InSightValidationTool
             this.imageMenuItem,
             this.sensorMenuItem,
             this.systemMenuItem,
+            this.saveCameraLayoutToolStripMenuItem,
             this.helpMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 34);
             this.menuStrip.Name = "menuStrip";
@@ -327,6 +334,13 @@ namespace InSightValidationTool
             this.hmiSettingsMenuItem.Text = "HMI Settings...";
             this.hmiSettingsMenuItem.Click += new System.EventHandler(this.hmiSettingsMenuItem_Click);
             // 
+            // saveCameraLayoutToolStripMenuItem
+            // 
+            this.saveCameraLayoutToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
+            this.saveCameraLayoutToolStripMenuItem.Name = "saveCameraLayoutToolStripMenuItem";
+            this.saveCameraLayoutToolStripMenuItem.Size = new System.Drawing.Size(108, 26);
+            this.saveCameraLayoutToolStripMenuItem.Text = "Save Layout";
+            // 
             // helpMenuItem
             // 
             this.helpMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -344,25 +358,6 @@ namespace InSightValidationTool
             this.aboutMenuItem.Size = new System.Drawing.Size(208, 26);
             this.aboutMenuItem.Text = "About camera...";
             this.aboutMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
-            // 
-            // btnWindowTitle
-            // 
-            this.btnWindowTitle.CausesValidation = false;
-            this.btnWindowTitle.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnWindowTitle.FlatAppearance.BorderSize = 0;
-            this.btnWindowTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnWindowTitle.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnWindowTitle.ForeColor = System.Drawing.Color.White;
-            this.btnWindowTitle.Image = global::WebAPISampleApp.Properties.Resources.Cognex_InSightViDiPC_1;
-            this.btnWindowTitle.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnWindowTitle.Location = new System.Drawing.Point(0, 0);
-            this.btnWindowTitle.Name = "btnWindowTitle";
-            this.btnWindowTitle.Size = new System.Drawing.Size(391, 28);
-            this.btnWindowTitle.TabIndex = 0;
-            this.btnWindowTitle.TabStop = false;
-            this.btnWindowTitle.Text = "In-Sight Vision Suite Validation Tool";
-            this.btnWindowTitle.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnWindowTitle.UseVisualStyleBackColor = true;
             // 
             // controlBox
             // 
@@ -427,15 +422,17 @@ namespace InSightValidationTool
             this.tbllyMainWindow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tbllyMainWindow.Controls.Add(this.menuStrip, 0, 1);
             this.tbllyMainWindow.Controls.Add(this.pnlTopPanel, 0, 0);
-            this.tbllyMainWindow.Controls.Add(this.tabCtrlContent, 0, 2);
+            this.tbllyMainWindow.Controls.Add(this.tabCtrlContent, 0, 3);
+            this.tbllyMainWindow.Controls.Add(this.flwlyTabControlButtons, 0, 2);
             this.tbllyMainWindow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbllyMainWindow.Location = new System.Drawing.Point(0, 0);
             this.tbllyMainWindow.Margin = new System.Windows.Forms.Padding(0);
             this.tbllyMainWindow.Name = "tbllyMainWindow";
-            this.tbllyMainWindow.RowCount = 3;
+            this.tbllyMainWindow.RowCount = 4;
             this.tbllyMainWindow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
             this.tbllyMainWindow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tbllyMainWindow.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tbllyMainWindow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tbllyMainWindow.Size = new System.Drawing.Size(1920, 1080);
             this.tbllyMainWindow.TabIndex = 26;
             // 
@@ -452,18 +449,40 @@ namespace InSightValidationTool
             this.pnlTopPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlTopPanel_MouseMove);
             this.pnlTopPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnlTopPanel_MouseUp);
             // 
+            // btnWindowTitle
+            // 
+            this.btnWindowTitle.CausesValidation = false;
+            this.btnWindowTitle.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnWindowTitle.FlatAppearance.BorderSize = 0;
+            this.btnWindowTitle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnWindowTitle.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnWindowTitle.ForeColor = System.Drawing.Color.White;
+            this.btnWindowTitle.Image = global::WebAPISampleApp.Properties.Resources.Cognex_InSightViDiPC_1;
+            this.btnWindowTitle.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnWindowTitle.Location = new System.Drawing.Point(0, 0);
+            this.btnWindowTitle.Name = "btnWindowTitle";
+            this.btnWindowTitle.Size = new System.Drawing.Size(391, 28);
+            this.btnWindowTitle.TabIndex = 0;
+            this.btnWindowTitle.TabStop = false;
+            this.btnWindowTitle.Text = "In-Sight Vision Suite Validation Tool";
+            this.btnWindowTitle.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnWindowTitle.UseVisualStyleBackColor = true;
+            // 
             // tabCtrlContent
             // 
+            this.tabCtrlContent.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
             this.tabCtrlContent.Controls.Add(this.tabPage1);
             this.tabCtrlContent.Controls.Add(this.tabPage2);
             this.tabCtrlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabCtrlContent.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-            this.tabCtrlContent.Location = new System.Drawing.Point(3, 67);
+            this.tabCtrlContent.ItemSize = new System.Drawing.Size(0, 1);
+            this.tabCtrlContent.Location = new System.Drawing.Point(3, 114);
             this.tabCtrlContent.Multiline = true;
             this.tabCtrlContent.Name = "tabCtrlContent";
             this.tabCtrlContent.Padding = new System.Drawing.Point(0, 0);
             this.tabCtrlContent.SelectedIndex = 0;
-            this.tabCtrlContent.Size = new System.Drawing.Size(1914, 1010);
+            this.tabCtrlContent.Size = new System.Drawing.Size(1914, 963);
+            this.tabCtrlContent.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabCtrlContent.TabIndex = 26;
             this.tabCtrlContent.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabPageClick);
             // 
@@ -472,31 +491,73 @@ namespace InSightValidationTool
             this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
             this.tabPage1.Controls.Add(this.insightValidationControl1);
             this.tabPage1.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabPage1.Location = new System.Drawing.Point(4, 26);
+            this.tabPage1.Location = new System.Drawing.Point(4, 5);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1906, 980);
+            this.tabPage1.Size = new System.Drawing.Size(1906, 954);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "DefaultConnection";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 5);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1906, 961);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "+";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // flwlyTabControlButtons
+            // 
+            this.flwlyTabControlButtons.AutoScroll = true;
+            this.flwlyTabControlButtons.AutoSize = true;
+            this.flwlyTabControlButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tbllyMainWindow.SetColumnSpan(this.flwlyTabControlButtons, 2);
+            this.flwlyTabControlButtons.Controls.Add(this.customTabSelector1);
+            this.flwlyTabControlButtons.Controls.Add(this.btnAddTab);
+            this.flwlyTabControlButtons.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flwlyTabControlButtons.Location = new System.Drawing.Point(3, 67);
+            this.flwlyTabControlButtons.Name = "flwlyTabControlButtons";
+            this.flwlyTabControlButtons.Size = new System.Drawing.Size(1914, 41);
+            this.flwlyTabControlButtons.TabIndex = 26;
+            // 
+            // btnAddTab
+            // 
+            this.btnAddTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnAddTab.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddTab.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.btnAddTab.ForeColor = System.Drawing.Color.White;
+            this.btnAddTab.Image = global::WebAPISampleApp.Properties.Resources.icons8_plus_28;
+            this.btnAddTab.Location = new System.Drawing.Point(164, 3);
+            this.btnAddTab.Name = "btnAddTab";
+            this.btnAddTab.Size = new System.Drawing.Size(30, 30);
+            this.btnAddTab.TabIndex = 1;
+            this.btnAddTab.UseVisualStyleBackColor = false;
+            this.btnAddTab.Click += new System.EventHandler(this.btnAddTab_Click);
             // 
             // insightValidationControl1
             // 
             this.insightValidationControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.insightValidationControl1.Location = new System.Drawing.Point(3, 3);
+            this.insightValidationControl1.Margin = new System.Windows.Forms.Padding(3, 562, 3, 562);
             this.insightValidationControl1.Name = "insightValidationControl1";
-            this.insightValidationControl1.Size = new System.Drawing.Size(1900, 974);
+            this.insightValidationControl1.Size = new System.Drawing.Size(1900, 948);
             this.insightValidationControl1.TabIndex = 0;
+            this.insightValidationControl1.Load += new System.EventHandler(this.insightValidationControl1_Load_1);
             // 
-            // tabPage2
+            // customTabSelector1
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1906, 981);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "+";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.customTabSelector1.attachedTabIndex = 0;
+            this.customTabSelector1.attachedTabStatus = null;
+            this.customTabSelector1.AutoSize = true;
+            this.customTabSelector1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.customTabSelector1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.customTabSelector1.Location = new System.Drawing.Point(3, 3);
+            this.customTabSelector1.Name = "customTabSelector1";
+            this.customTabSelector1.Size = new System.Drawing.Size(155, 35);
+            this.customTabSelector1.TabIndex = 2;
             // 
             // MainFormWindow
             // 
@@ -523,6 +584,8 @@ namespace InSightValidationTool
             this.pnlTopPanel.ResumeLayout(false);
             this.tabCtrlContent.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.flwlyTabControlButtons.ResumeLayout(false);
+            this.flwlyTabControlButtons.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -577,6 +640,10 @@ namespace InSightValidationTool
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private WebAPISampleApp.InsightValidationControl insightValidationControl1;
+        private FlowLayoutPanel flwlyTabControlButtons;
+        private ToolStripMenuItem saveCameraLayoutToolStripMenuItem;
+        private Button btnAddTab;
+        private CustomTabSelector customTabSelector1;
     }
 }
 

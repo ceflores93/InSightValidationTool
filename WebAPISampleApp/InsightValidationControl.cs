@@ -36,6 +36,8 @@ namespace WebAPISampleApp
 
 
         public delegate void InSightValidationControlEventHandler(object sender, EventArgs e);
+        public delegate void InSightValidationControlValidationEventHandler(object sender, String status);
+
 
         public event InSightValidationControlEventHandler InSightValidationControl_OnUpdate;
 
@@ -43,14 +45,14 @@ namespace WebAPISampleApp
 
         public event InSightValidationControlEventHandler InSightValidationControl_OnConnected;
 
-        public event InSightValidationControlEventHandler InSightValidationControl_OnValidationStart;
+        public event InSightValidationControlValidationEventHandler InSightValidationControl_OnValidationStart;
 
-        public event InSightValidationControlEventHandler InSightValidationControl_OnValidationCompleted;
+        public event InSightValidationControlValidationEventHandler InSightValidationControl_OnValidationCompleted;
 
         protected virtual void onUpdateEvent(EventArgs e)
         {
 
-            InSightValidationControl_OnUpdate(this, e); 
+           InSightValidationControl_OnUpdate(this, e); 
         }
 
         public virtual void onJobLoad(EventArgs e) {
@@ -64,16 +66,16 @@ namespace WebAPISampleApp
             InSightValidationControl_OnConnected(this, e);
         }
 
-        protected virtual void OnValidationStart(EventArgs e)
+        protected virtual void OnValidationStart(string result)
         {
-            InSightValidationControl_OnValidationStart(this, e);
+            InSightValidationControl_OnValidationStart(this, result);
 
         }
 
-        protected virtual void OnValidationCompleted(EventArgs e)
+        protected virtual void OnValidationCompleted(string result )
         {
 
-            InSightValidationControl_OnValidationCompleted(this, e);
+            InSightValidationControl_OnValidationCompleted(this, result);
         }
 
 
@@ -784,6 +786,8 @@ namespace WebAPISampleApp
                     btnRunValidation.Text = $"Validation In Process from {validationSecuenceSender}";
                 });
 
+                OnValidationStart("neutral"); 
+
                 await inSightSystem.SetCameraStatus(false);
 
                 // Start from beginning
@@ -823,13 +827,14 @@ namespace WebAPISampleApp
 
                 //Write Last Time validation Ran
                 lblValidationLastRun.Invoke((Action)delegate {
-                    lblValidationLastRun.Text += DateTime.Now.ToString("yyyy-MM-dd h:mm:ss");
+                    lblValidationLastRun.Text += DateTime.Now.ToString("yyyy-MM-dd h:mm:ss tt");
                 });
 
 
                 // Perform manual trigger
                 await InSight.ManualTrigger();
 
+                OnValidationCompleted(lblValidationResult.Text);
                 // Dispose resources
                 validationSecuenceSender = string.Empty;
 

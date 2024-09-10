@@ -67,26 +67,33 @@ namespace InSightValidationTool
         private const int ThumbnailSize = 200; // Desired thumbnail size (width and height)
         private const int RowHeight = 100; // Desired row height
         private int m_currentIndex = 0;
-        private bool m_ImagesLoaded = false; 
+        private bool m_ImagesLoaded = false;
         private bool m_Secuence = false;
         private TaskCompletionSource<bool> m_imageProcessedSignal;
-        private bool m_ValidationResult = true; 
+        private bool m_ValidationResult = true;
         private bool m_Ignore = false;
         private bool m_mouseDown;
         private Point m_lastLocation;
-        private const string version = "0.5";   
+        private const string version = "0.5";
 
-
+        private List<string> tabResults = new List<string>();
+        private bool isBlinking = false;
+        private Timer TabBlinker;
 
         public MainFormWindow()
         {
             InitializeComponent();
-            btnWindowTitle.Text += " " + version;
+            btnWindowTitle.Text += "\t" + version;
 
             //Make sure important events are declared 
             this.tabCtrlContent.DrawItem += TabCtrlContent_DrawItem;
             this.tabCtrlContent.MouseDown += TabCtrl_MouseDown;
 
+            this.insightValidationControl1.InSightValidationControl_OnUpdate += InSightControlUpdate;
+            this.insightValidationControl1.InSightValidationControl_OnJobLoad += InSightControlJobLoad;
+            this.insightValidationControl1.InSightValidationControl_OnConnected += InSightControlConnected;
+            this.insightValidationControl1.InSightValidationControl_OnValidationStart += InSightControlValidationStart;
+            this.insightValidationControl1.InSightValidationControl_OnValidationCompleted += InSightControlValidationCompleted;
 
             InitializeDataGridView();    
             _startTicks = Environment.TickCount;
@@ -111,6 +118,16 @@ namespace InSightValidationTool
 
             //dgwImageResults.CellValueChanged += dgwImageResults_CellValueChanged;
             //dgwImageResults.CellDoubleClick += dgwImageResults_CellDoubleClick; 
+
+            TabBlinker = new Timer { Interval   =   500};
+            TabBlinker.Tick += TabBlinker_Tick;
+            TabBlinker.Start(); 
+        }
+
+        private void TabBlinker_Tick(object sender, EventArgs e)
+        {
+           isBlinking = !isBlinking;
+            tabCtrlContent.Invalidate();    
         }
 
         private void InitializeDataGridView() {
@@ -1587,6 +1604,59 @@ namespace InSightValidationTool
 
         }
 
+        private void InSightControlValidationStart(object sender, String status) {
+            //Modify Tab Behaviour
+            if (sender is InsightValidationControl InSightValidationControl)
+            {
+
+                TabPage tabPage = InSightValidationControl.Parent as TabPage;
+
+                if (tabPage != null)
+                {
+                    int tabIndex = tabCtrlContent.TabPages.IndexOf(tabPage);
+                    tabResults.Insert(tabIndex, status);
+                    if(tabCtrlContent != null)tabCtrlContent.Invalidate();
+                }
+
+            }
+        }
+
+        private void InSightControlValidationCompleted(Object sender, String status) {
+            if (sender is InsightValidationControl InSightValidationControl)
+            {
+
+                TabPage tabPage = InSightValidationControl.Parent as TabPage;
+
+                if (tabPage != null)
+                {
+                    int tabIndex = tabCtrlContent.TabPages.IndexOf(tabPage);
+                    tabResults[tabIndex] = status;
+                     if(tabCtrlContent != null)tabCtrlContent.Invalidate();
+                }
+
+            }
+
+
+        }
+
+        private void UpdateTabResult(object sender, string status) {
+            //Modify Tab Behaviour
+            if (sender is InsightValidationControl InSightValidationControl)
+            {
+
+                TabPage tabPage = InSightValidationControl.Parent as TabPage;
+
+                if (tabPage != null)
+                {
+                    int tabIndex = tabCtrlContent.TabPages.IndexOf(tabPage);
+                    tabResults[tabIndex] = status;
+                   // if(tabCtrlContent != null)tabCtrlContent.Invalidate();
+                }
+
+            }
+
+        }
+
         private void LoadConfigurationFromFolder()
         {
             //GrabCurrentJobFileName
@@ -1626,6 +1696,13 @@ namespace InSightValidationTool
         }
 
         private void InitializeNewTab() { 
+            //Create Tab Selector for this tab, just before the "+" button
+
+            CustomTabSelector tabSelector = new CustomTabSelector(); 
+            this.flwlyTabControlButtons.Controls.Remove(btnAddTab);
+            this.flwlyTabControlButtons.Controls.Add(tabSelector);  
+
+            
             //Create new InSightValidation Control for this tab
             TabPage tabPage = new TabPage();
             tabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
@@ -1646,13 +1723,17 @@ namespace InSightValidationTool
             insightValidationControl.InSightValidationControl_OnUpdate += InSightControlUpdate;
             insightValidationControl.InSightValidationControl_OnJobLoad += InSightControlJobLoad;
             insightValidationControl.InSightValidationControl_OnConnected += InSightControlConnected;
+            insightValidationControl.InSightValidationControl_OnValidationStart += InSightControlValidationStart;
+            insightValidationControl.InSightValidationControl_OnValidationCompleted += InSightControlValidationCompleted;   
+           
             
-            
+            this.flwlyTabControlButtons.Controls.Add(btnAddTab);
             tabPage.Controls.Add(insightValidationControl);
-            
             tabCtrlContent.Controls.Add(tabPage);
             tabCtrlContent.SelectTab(tabPage);
-            tabCtrlContent.Controls.Add(tabPage2);
+
+
+            //tabCtrlContent.Controls.Add(tabPage2);
         }
 
         private void UpdateWindowState() {
@@ -1717,8 +1798,7 @@ namespace InSightValidationTool
 
         private void TabCtrlContent_DrawItem(object sender, System.Windows.Forms.DrawItemEventArgs e)
         {
-            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
-            
+            /*
             TabPage tabPage = tabCtrlContent.TabPages[e.Index];
             Rectangle tabRect = tabCtrlContent.GetTabRect(e.Index);
 
@@ -1726,7 +1806,8 @@ namespace InSightValidationTool
             using (Graphics g = e.Graphics)
             {
 
-                System.Drawing.Image tabImage;
+             //   System.Drawing.Image tabImage;
+
                 Font tabFont = new Font("Calibri", 9.0f, FontStyle.Bold);
 
                 SizeF textSize = g.MeasureString(tabPage.Text, e.Font);
@@ -1754,32 +1835,6 @@ namespace InSightValidationTool
                 {
                     e.Graphics.DrawString(tabPage.Text, tabFont, textBrush, tabRect.X + 2, tabRect.Y + 2);
                 }
-                if (selectedControl != null)
-                {
-                    if (selectedControl.InSight._inSight.Connected)
-                    {
-
-                        string Model = selectedControl.InSight._inSight.CameraInfo.ModelNumber;
-                        Model = Model.Substring(0, 3);
-
-                        if (Model == "IS2") tabImage = Resources.IS2800;
-                        else if (Model == "IS3") tabImage = Resources.IS3800;
-                        else if (Model == "ISD") tabImage = Resources.ISD900;
-                        else tabImage = Resources.Cognex_InSightViDiPC_1;
-
-                        int imageWidth = tabImage.Width;
-                        int imageHeight = tabImage.Height;
-                        Rectangle imageRect = new Rectangle(
-                            tabRect.Left + 2,
-                            tabRect.Top + (tabRect.Height - imageHeight) / 2,
-                            imageWidth, imageHeight);
-                        g.DrawImage(tabImage, imageRect);
-                    }
-                }
-
-
-
-
 
                 if (tabPage.Name != "tabPage2")
                 {
@@ -1787,8 +1842,40 @@ namespace InSightValidationTool
                 }
 
                 e.Graphics.FillRectangle(Brushes.Transparent, tabRect.X + textWidth + buttonSize + 10, tabRect.Y, adjustedTabWidth - textWidth - buttonSize - 20, tabRect.Height); // Ensure clear area
+
+                if (tabResults.Any() && tabPage.Name != "tabPage2")
+                {
+                
+                    string result = tabResults[e.Index];
+
+                    // Determine tab button background color based on result
+                    Color backgroundColor = SystemColors.Control; // Default background color
+                    if (result == "Pass")
+                    {
+                        backgroundColor = Color.Green;
+                    }
+                    else if (result == "neutral")
+                    {
+                        backgroundColor = Color.Yellow;
+                    }
+                    else if (result == "Fail" && isBlinking)
+                    {
+                        backgroundColor = Color.Red; // Blinking red
+                    }
+
+                    // Paint the tab button (not the tab page)
+                    using (Brush brush = new SolidBrush(backgroundColor))
+                    {
+                        e.Graphics.FillRectangle(brush, tabRect);
+                    }
+
+                    TextRenderer.DrawText(e.Graphics, tabPage.Text, tabPage.Font, tabRect, tabPage.ForeColor, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+
+                    // Draw the focus rectangle if needed
+                    e.DrawFocusRectangle();
+                }
             }
-        }
+        */}
      
         private void DrawCloseButton(Graphics g, Rectangle tabRect)
         {
@@ -1858,6 +1945,14 @@ namespace InSightValidationTool
             tabPage.Dispose();
         }
 
+        private void insightValidationControl1_Load_1(object sender, EventArgs e)
+        {
 
+        }
+
+        private void btnAddTab_Click(object sender, EventArgs e)
+        {
+            InitializeNewTab();
+        }
     }
 }
