@@ -993,8 +993,21 @@ namespace InSightValidationTool
         /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
+            AdjustWindowSizeToFitScreen();  
             InitForNewJob(); // Initialize the sheet
             UpdateState();
+        }
+
+        private void AdjustWindowSizeToFitScreen()
+        {
+            // Get the working area of the primary screen (this excludes the taskbar)
+            Rectangle workingArea = Screen.PrimaryScreen.WorkingArea;
+
+            // Set the window size to the working area's size
+            this.Size = new Size(workingArea.Width, workingArea.Height);
+
+            // Optionally, set the window's position to the top-left corner
+            this.Location = new Point(workingArea.Left, workingArea.Top);
         }
 
         /// <summary>
