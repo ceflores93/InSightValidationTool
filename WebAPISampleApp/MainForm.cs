@@ -36,6 +36,7 @@ using System.Drawing.Text;
 using Application = System.Windows.Forms.Application;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.Eventing.Reader;
+using System.Runtime.Remoting.Channels;
 
 namespace InSightValidationTool
 {
@@ -94,6 +95,7 @@ namespace InSightValidationTool
             this.insightValidationControl1.InSightValidationControl_OnUpdate += InSightControlUpdate;
             this.insightValidationControl1.InSightValidationControl_OnJobLoad += InSightControlJobLoad;
             this.insightValidationControl1.InSightValidationControl_OnConnected += InSightControlConnected;
+            this.insightValidationControl1.InSightValidationControl_OnDisconnected +=  InSightControlDisconnected;
             this.insightValidationControl1.InSightValidationControl_OnValidationStart += InSightControlValidationStart;
             this.insightValidationControl1.InSightValidationControl_OnValidationCompleted += InSightControlValidationCompleted;
 
@@ -1597,17 +1599,21 @@ namespace InSightValidationTool
         }
 
         private void InSightControlJobLoad(object sender, EventArgs e) {
-            CheckRecipe();
+            CheckRecipe(sender);
         }
 
         private void InSightControlConnected(object sender, EventArgs e) {
-            CheckRecipe();
+            CheckRecipe(sender);
 
         }
 
-        private void CheckRecipe() {
+        private void InSightControlDisconnected(object sender, EventArgs e) { 
+        
+        }
+
+        private void CheckRecipe(object sender) {
             CheckCreateForRecipeFolder();
-            LoadConfigurationFromFolder();
+            LoadConfigurationFromFolder(sender);
             UpdateWindowState();
 
         }
@@ -1667,7 +1673,7 @@ namespace InSightValidationTool
 
         }
 
-        private void LoadConfigurationFromFolder()
+        private void LoadConfigurationFromFolder(object sender  )
         {
             //GrabCurrentJobFileName
 
@@ -1757,6 +1763,7 @@ namespace InSightValidationTool
         {
             if (sender is CustomTabSelector CustomTabSelector) {
                 tabCtrlContent.SelectTab(CustomTabSelector.attachedTabIndex);
+                UpdateWindowState();    
             }
         }
 

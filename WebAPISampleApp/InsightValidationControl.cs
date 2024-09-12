@@ -46,6 +46,8 @@ namespace WebAPISampleApp
 
         public event InSightValidationControlEventHandler InSightValidationControl_OnConnected;
 
+        public event InSightValidationControlEventHandler InSightValidationControl_OnDisconnected;
+
         public event InSightValidationControlValidationEventHandler InSightValidationControl_OnValidationStart;
 
         public event InSightValidationControlValidationEventHandler InSightValidationControl_OnValidationCompleted;
@@ -65,6 +67,11 @@ namespace WebAPISampleApp
         {
 
             InSightValidationControl_OnConnected(this, e);
+        }
+
+        public virtual void OnDisconnected(EventArgs e) { 
+        
+            InSightValidationControl_OnDisconnected(this, e);   
         }
 
         protected virtual void OnValidationStart(string result)
@@ -352,10 +359,20 @@ namespace WebAPISampleApp
             }
         }
 
-        private void OnConnectedChanged(object sender, EventArgs e)
+        private async void OnConnectedChanged(object sender, EventArgs e)
         {
-            InitForNewJob(); // Re-format the sheet
-            UpdateState();
+            if (InSight._inSight.Connected)
+            {
+                InitForNewJob(); // Re-format the sheet
+                UpdateState();
+                await this.cvsDisplay1.OnConnected();
+                onConnected(e);
+            }
+            else { 
+                OnDisconnected(e);  
+            }
+            
+            
         }
 
 
@@ -874,11 +891,7 @@ namespace WebAPISampleApp
             
             await InSight.Connect();
 
-            if (InSight._inSight.Connected)
-            {
-                await this.cvsDisplay1.OnConnected();
-                onConnected(e); 
-            }
+           
         }
 
         public async void ConnectDisconnect() {
