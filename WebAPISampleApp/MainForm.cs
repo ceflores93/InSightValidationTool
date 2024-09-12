@@ -124,7 +124,7 @@ namespace InSightValidationTool
             //dgwImageResults.CellValueChanged += dgwImageResults_CellValueChanged;
             //dgwImageResults.CellDoubleClick += dgwImageResults_CellDoubleClick; 
 
-           LoadCameraLayout();
+          
         }
 
         private void TabCtrlContent_SelectedIndexChanged(object sender, EventArgs e)
@@ -892,9 +892,9 @@ namespace InSightValidationTool
             selectedControl.tbPassword.Text = cameraConnection["Password"].Value<String>();
 
             //Connect if specified
-            if (cameraConnection["AutoConnect"].Value<Boolean>())
+            if (cameraConnection["AutoConnect"].Value<Boolean>() || selectedControl.chkAutoConnect.Checked)
             {
-                //  chkAutoConnect.CheckState = CheckState.Checked;
+                selectedControl.chkAutoConnect.CheckState = CheckState.Checked;
                 if(!selectedControl.InSight._inSight.Connected) await selectedControl.InSight.Connect();
             }
             string configurationJob = selectedControl.InSight.Configuration["JobFile"].Value<String>();
@@ -996,6 +996,8 @@ namespace InSightValidationTool
             AdjustWindowSizeToFitScreen();  
             InitForNewJob(); // Initialize the sheet
             UpdateState();
+
+           LoadCameraLayout();
         }
 
         private void AdjustWindowSizeToFitScreen()
@@ -1599,12 +1601,15 @@ namespace InSightValidationTool
         }
 
         private void InSightControlJobLoad(object sender, EventArgs e) {
-            CheckCreateForRecipeFolder();
-            LoadConfigurationFromFolder();
-            UpdateWindowState();
+            CheckRecipe();
         }
 
-        private void InSightControlConnected(object sender, EventArgs e) { 
+        private void InSightControlConnected(object sender, EventArgs e) {
+            CheckRecipe();
+
+        }
+
+        private void CheckRecipe() {
             CheckCreateForRecipeFolder();
             LoadConfigurationFromFolder();
             UpdateWindowState();
@@ -1671,18 +1676,19 @@ namespace InSightValidationTool
             //GrabCurrentJobFileName
 
             InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+           
+          
+                string jobFileName = selectedControl.InSight._inSight.JobInfo["name"].Value<String>();
+                jobFileName = jobFileName.Replace("/", "").Replace("\\", "").Replace(".jobx", ".json");
 
-            string jobFileName = selectedControl.InSight._inSight.JobInfo["name"].Value<String>();
-            jobFileName = jobFileName.Replace("/", "").Replace("\\", "").Replace(".jobx",".json");
+                //Check if configuration File Already Exists for this JobFile
+                 string validationPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "ValidationRecipes", jobFileName);
             
-            //Check if configuration File Already Exists for this JobFile
-            string validationPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "ValidationRecipes",jobFileName);
-
 
             if (!File.Exists(validationPath))
             {
                 //If the Recipe doesn't Exists yet let user know
-                MessageBox.Show("Validation Recipe for this JobFile not yet Created");
+                MessageBox.Show("Validation Recipe for this JobFile/Camera not yet Created");
             }
             else {
                 using (StreamReader sr = new StreamReader(validationPath))
@@ -1974,7 +1980,7 @@ namespace InSightValidationTool
 
         }
 
-        private void LoadCameraLayout() {
+        private async void LoadCameraLayout() {
 
             //Make Sure Recipes Folder Exists
             CheckCreateForRecipeFolder();
@@ -1992,7 +1998,7 @@ namespace InSightValidationTool
                     JToken layoutConfig = JToken.Parse(jsonfile);
 
                     //m_configuration = JToken.Parse(jsonfile);
-                    loadLayoutConfig(layoutConfig);
+                    await loadLayoutConfig(layoutConfig);
                 }
 
             }
@@ -2000,12 +2006,52 @@ namespace InSightValidationTool
 
         }
 
-        private void loadLayoutConfig(JToken layoutConfig) { 
-        
-            
-        
-        
-        }
+        private async Task loadLayoutConfig(JToken layoutConfig)
+        {
+            int index = 0;
+            //If there's not enough tabs Create them 
 
+            int currentTabs = flwlyTabControlButtons.Controls.Count - 1;
+            int tabsToCreate = layoutConfig.Count <JToken>() - currentTabs;
+
+            //Create the tabs
+
+            for (int i = 0; i < tabsToCreate; i++) {
+                InitializeNewTab();
+            
+            }
+
+
+            foreach (TabPage tabPage in tabCtrlContent.TabPages)
+            {
+                InsightValidationControl insightValidationControl = tabPage.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+                if (insightValidationControl != null)
+                {
+
+                    JToken connectionSettings = layoutConfig.ElementAt(index);
+                    connectionSettings = connectionSettings.ElementAt(0);
+
+                    //Load information at index
+                    //IPWithAddress
+                    insightValidationControl.tbIpAddressWithPort.Text = connectionSettings["IPAddressPort"].Value<String>();
+                    //UserName
+                    insightValidationControl.tbUsername.Text = connectionSettings["User"].Value<String>();
+                    //Password
+                    insightValidationControl.tbPassword.Text = connectionSettings["Password"].Value<String>();
+                    //AutoConnect
+                    insightValidationControl.tbUsername.Text = connectionSettings["User"].Value<String>();
+
+                    if (connectionSettings["AutoConnect"].Value<Boolean>()) {
+
+                        insightValidationControl.chkAutoConnect.CheckState = CheckState.Checked;
+                        if (!insightValidationControl.InSight._inSight.Connected) await insightValidationControl.InSight.Connect();
+                       
+                    }
+                    
+                    index++;
+                }
+
+            }
+        }
     }
 }
