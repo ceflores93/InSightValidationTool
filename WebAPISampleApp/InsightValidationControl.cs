@@ -916,7 +916,7 @@ namespace WebAPISampleApp
 
         public async void OnlineOffline() {
 
-            await inSightSystem.SetCameraStatus();
+            await inSightSystem.SetCameraStatus(!inSightSystem._inSight.Online);
         }
 
         public async void loadValidationConfig() {

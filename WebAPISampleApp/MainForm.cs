@@ -1073,11 +1073,7 @@ namespace InSightValidationTool
             else
             {
                 MessageBox.Show("No control found in the selected tab.");
-            }
-
-           
- 
-           
+            }   
 
         }
 
@@ -2018,7 +2014,6 @@ namespace InSightValidationTool
 
             for (int i = 0; i < tabsToCreate; i++) {
                 InitializeNewTab();
-            
             }
 
 
