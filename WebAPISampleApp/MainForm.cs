@@ -882,9 +882,10 @@ namespace InSightValidationTool
         /// <summary>
         /// Loads Validation Json Configuration File  
         /// </summary>
-        private async void loadValidationConfig()
+        private async void loadValidationConfig(object sender)
         {
-            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+             
+            InsightValidationControl selectedControl = sender as InsightValidationControl;
             //Set Camera connection Parameters
             string ipwithport = String.Empty;
             JToken cameraConnection = selectedControl.InSight.Configuration["CameraConnection"].Value<JToken>();
@@ -1467,7 +1468,7 @@ namespace InSightValidationTool
                             selectedControl.InSight.Configuration = JToken.Parse(jsonfile);
                             
                             //m_configuration = JToken.Parse(jsonfile);
-                            loadValidationConfig();
+                            loadValidationConfig(selectedControl);
                         }
 
                     }
@@ -1675,11 +1676,10 @@ namespace InSightValidationTool
 
         private void LoadConfigurationFromFolder(object sender  )
         {
-            //GrabCurrentJobFileName
+            
+           InsightValidationControl selectedControl = sender as InsightValidationControl;
 
-            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
-           
-          
+
                 string jobFileName = selectedControl.InSight._inSight.JobInfo["name"].Value<String>();
                 jobFileName = jobFileName.Replace("/", "").Replace("\\", "").Replace(".jobx", ".json");
 
@@ -1698,7 +1698,7 @@ namespace InSightValidationTool
                     //Automatically load configuration if configuration exists
                     string jsonfile = sr.ReadToEnd();
                     selectedControl.InSight.Configuration = JToken.Parse(jsonfile);
-                    loadValidationConfig();
+                    loadValidationConfig(selectedControl);
                 }
 
             }
@@ -1809,63 +1809,67 @@ namespace InSightValidationTool
         }
 
         private void UpdateWindowState() {
-            InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
-
-            if (selectedControl != null)
+            tabCtrlContent.Invoke((Action)delegate
             {
-                try
+                InsightValidationControl selectedControl = tabCtrlContent.SelectedTab.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+
+                if (selectedControl != null)
                 {
-                    selectedControl.lblState.Invoke((Action)delegate
+                    try
                     {
-                        if (selectedControl.InSight._inSight.Connected)
+                        selectedControl.lblState.Invoke((Action)delegate
                         {
-                            onlineMenuItem.Text = selectedControl.InSight._inSight.Online ? "Go Offline" : "Go Online";
-                            liveModeMenuItem.Checked = selectedControl.InSight._inSight.LiveMode;
-                            CvsCameraInfo info = selectedControl.InSight._inSight.CameraInfo;
-                            // tabCtrlContent.SelectedTab.Text = info.HostName;
-                            CustomTabSelector customTabSelector =(CustomTabSelector) flwlyTabControlButtons.Controls[tabCtrlContent.SelectedIndex];
-                            
-                            customTabSelector.UpdateConnectionName(info.HostName);
-                            customTabSelector.UpdateSelectorColor("neutral");
-                            
+                            if (selectedControl.InSight._inSight.Connected)
+                            {
+                                onlineMenuItem.Text = selectedControl.InSight._inSight.Online ? "Go Offline" : "Go Online";
+                                liveModeMenuItem.Checked = selectedControl.InSight._inSight.LiveMode;
+                                CvsCameraInfo info = selectedControl.InSight._inSight.CameraInfo;
+                                // tabCtrlContent.SelectedTab.Text = info.HostName;
+                                CustomTabSelector customTabSelector = (CustomTabSelector)flwlyTabControlButtons.Controls[tabCtrlContent.SelectedIndex];
 
-                            info = null;
-                        }
-                        else {
-                            onlineMenuItem.Text = "Go Online";
-                            liveModeMenuItem.Checked = false;
-                            tabCtrlContent.SelectedTab.Text = "Default Connection";
-                        }
-                        aboutMenuItem.Enabled = selectedControl.InSight._inSight.Connected;
-
-                        bool connectedButNotBusy = selectedControl.InSight._inSight.Connected && !selectedControl.InSight._inSight.EditorAttached && !selectedControl.InSight._inSight.JobLoading;
-                        bool isOffline = connectedButNotBusy && !selectedControl.InSight._inSight.Online;
-
-                        triggerMenuItem.Enabled = connectedButNotBusy;
-                        onlineMenuItem.Enabled = connectedButNotBusy;
-                        liveModeMenuItem.Enabled = isOffline;
-                        loadImageMenuItem.Enabled = isOffline;
-                        loadImageMenuItem.Enabled = true;
-                        loadHmiCellsMenuItem.Enabled = isOffline;
-                        saveImageMenuItem.Enabled = connectedButNotBusy;
-                        loadJobMenuItem.Enabled = isOffline;
-                        hmiCustomViewMenuItem.Enabled = isOffline;
-                        hmiSettingsMenuItem.Enabled = isOffline;
-                        openHMIMenuItem.Enabled = connectedButNotBusy;
-                        saveQueuedImagesToolStripMenuItem.Enabled = selectedControl.InSight._inSight.Connected;
-
-                       
-
-                    });
+                                customTabSelector.UpdateConnectionName(info.HostName);
+                                customTabSelector.UpdateSelectorColor("neutral");
 
 
+                                info = null;
+                            }
+                            else
+                            {
+                                onlineMenuItem.Text = "Go Online";
+                                liveModeMenuItem.Checked = false;
+                                tabCtrlContent.SelectedTab.Text = "Default Connection";
+                            }
+                            aboutMenuItem.Enabled = selectedControl.InSight._inSight.Connected;
+
+                            bool connectedButNotBusy = selectedControl.InSight._inSight.Connected && !selectedControl.InSight._inSight.EditorAttached && !selectedControl.InSight._inSight.JobLoading;
+                            bool isOffline = connectedButNotBusy && !selectedControl.InSight._inSight.Online;
+
+                            triggerMenuItem.Enabled = connectedButNotBusy;
+                            onlineMenuItem.Enabled = connectedButNotBusy;
+                            liveModeMenuItem.Enabled = isOffline;
+                            loadImageMenuItem.Enabled = isOffline;
+                            loadImageMenuItem.Enabled = true;
+                            loadHmiCellsMenuItem.Enabled = isOffline;
+                            saveImageMenuItem.Enabled = connectedButNotBusy;
+                            loadJobMenuItem.Enabled = isOffline;
+                            hmiCustomViewMenuItem.Enabled = isOffline;
+                            hmiSettingsMenuItem.Enabled = isOffline;
+                            openHMIMenuItem.Enabled = connectedButNotBusy;
+                            saveQueuedImagesToolStripMenuItem.Enabled = selectedControl.InSight._inSight.Connected;
+
+
+
+                        });
+
+
+                    }
+                    catch (Exception)
+                    {
+
+                        //Ignore
+                    }
                 }
-                catch (Exception)
-                {
-
-                    //Ignore
-                }
-            }
+            });
 
         }
 
