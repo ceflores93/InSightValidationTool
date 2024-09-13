@@ -81,11 +81,10 @@ namespace InSightValidationTool
             this.btnWindowTitle = new System.Windows.Forms.Button();
             this.tabCtrlContent = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.insightValidationControl1 = new WebAPISampleApp.InsightValidationControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.flwlyTabControlButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.btnAddTab = new System.Windows.Forms.Button();
-            this.insightValidationControl1 = new WebAPISampleApp.InsightValidationControl();
-            this.customTabSelector1 = new WebAPISampleApp.CustomTabSelector();
             this.menuStrip.SuspendLayout();
             this.controlBox.SuspendLayout();
             this.tbllyMainWindow.SuspendLayout();
@@ -104,7 +103,7 @@ namespace InSightValidationTool
             this.tbMessages.Margin = new System.Windows.Forms.Padding(2);
             this.tbMessages.Name = "tbMessages";
             this.tbMessages.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbMessages.Size = new System.Drawing.Size(1911, 27);
+            this.tbMessages.Size = new System.Drawing.Size(1911, 23);
             this.tbMessages.TabIndex = 0;
             this.tbMessages.WordWrap = false;
             // 
@@ -143,7 +142,7 @@ namespace InSightValidationTool
             this.saveImageMenuItem});
             this.fileMenuItem.ForeColor = System.Drawing.Color.White;
             this.fileMenuItem.Name = "fileMenuItem";
-            this.fileMenuItem.Size = new System.Drawing.Size(49, 26);
+            this.fileMenuItem.Size = new System.Drawing.Size(39, 26);
             this.fileMenuItem.Text = "File";
             // 
             // loadValidationFileToolStripMenuItem
@@ -151,7 +150,7 @@ namespace InSightValidationTool
             this.loadValidationFileToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.loadValidationFileToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.loadValidationFileToolStripMenuItem.Name = "loadValidationFileToolStripMenuItem";
-            this.loadValidationFileToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.loadValidationFileToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.loadValidationFileToolStripMenuItem.Text = "Load Validation File";
             this.loadValidationFileToolStripMenuItem.Click += new System.EventHandler(this.loadValidationFileToolStripMenuItem_Click);
             // 
@@ -160,7 +159,7 @@ namespace InSightValidationTool
             this.saveValidationFileToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.saveValidationFileToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.saveValidationFileToolStripMenuItem.Name = "saveValidationFileToolStripMenuItem";
-            this.saveValidationFileToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.saveValidationFileToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.saveValidationFileToolStripMenuItem.Text = "Save Validation File";
             this.saveValidationFileToolStripMenuItem.Click += new System.EventHandler(this.saveValidationFileToolStripMenuItem_Click);
             // 
@@ -169,7 +168,7 @@ namespace InSightValidationTool
             this.loadJobMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.loadJobMenuItem.ForeColor = System.Drawing.Color.White;
             this.loadJobMenuItem.Name = "loadJobMenuItem";
-            this.loadJobMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.loadJobMenuItem.Size = new System.Drawing.Size(189, 22);
             this.loadJobMenuItem.Text = "Load Job...";
             this.loadJobMenuItem.Click += new System.EventHandler(this.loadJobMenuItem_Click);
             // 
@@ -178,7 +177,7 @@ namespace InSightValidationTool
             this.loadHmiCellsMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.loadHmiCellsMenuItem.ForeColor = System.Drawing.Color.White;
             this.loadHmiCellsMenuItem.Name = "loadHmiCellsMenuItem";
-            this.loadHmiCellsMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.loadHmiCellsMenuItem.Size = new System.Drawing.Size(189, 22);
             this.loadHmiCellsMenuItem.Text = "Load HMI Cells...";
             this.loadHmiCellsMenuItem.Click += new System.EventHandler(this.loadHmiCellsMenuItem_Click);
             // 
@@ -187,7 +186,7 @@ namespace InSightValidationTool
             this.loadImageMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.loadImageMenuItem.ForeColor = System.Drawing.Color.White;
             this.loadImageMenuItem.Name = "loadImageMenuItem";
-            this.loadImageMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.loadImageMenuItem.Size = new System.Drawing.Size(189, 22);
             this.loadImageMenuItem.Text = "Load Image...";
             this.loadImageMenuItem.Click += new System.EventHandler(this.loadImageMenuItem_Click);
             // 
@@ -196,7 +195,7 @@ namespace InSightValidationTool
             this.saveImageMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.saveImageMenuItem.ForeColor = System.Drawing.Color.White;
             this.saveImageMenuItem.Name = "saveImageMenuItem";
-            this.saveImageMenuItem.Size = new System.Drawing.Size(230, 26);
+            this.saveImageMenuItem.Size = new System.Drawing.Size(189, 22);
             this.saveImageMenuItem.Text = "Save Image...";
             this.saveImageMenuItem.Click += new System.EventHandler(this.saveImageMenuItem_Click);
             // 
@@ -206,7 +205,7 @@ namespace InSightValidationTool
             this.hmiCustomViewMenuItem});
             this.editMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.editMenuItem.Name = "editMenuItem";
-            this.editMenuItem.Size = new System.Drawing.Size(51, 26);
+            this.editMenuItem.Size = new System.Drawing.Size(43, 26);
             this.editMenuItem.Text = "Edit";
             // 
             // hmiCustomViewMenuItem
@@ -214,7 +213,7 @@ namespace InSightValidationTool
             this.hmiCustomViewMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.hmiCustomViewMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.hmiCustomViewMenuItem.Name = "hmiCustomViewMenuItem";
-            this.hmiCustomViewMenuItem.Size = new System.Drawing.Size(264, 26);
+            this.hmiCustomViewMenuItem.Size = new System.Drawing.Size(213, 22);
             this.hmiCustomViewMenuItem.Text = "Set HMI Custom View...";
             this.hmiCustomViewMenuItem.Click += new System.EventHandler(this.hmiCustomViewMenuItem_Click);
             // 
@@ -226,7 +225,7 @@ namespace InSightValidationTool
             this.showSpreadsheetToolStripMenuItem});
             this.viewMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.viewMenuItem.Name = "viewMenuItem";
-            this.viewMenuItem.Size = new System.Drawing.Size(60, 26);
+            this.viewMenuItem.Size = new System.Drawing.Size(48, 26);
             this.viewMenuItem.Text = "View";
             // 
             // openHMIMenuItem
@@ -234,7 +233,7 @@ namespace InSightValidationTool
             this.openHMIMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.openHMIMenuItem.ForeColor = System.Drawing.Color.White;
             this.openHMIMenuItem.Name = "openHMIMenuItem";
-            this.openHMIMenuItem.Size = new System.Drawing.Size(231, 26);
+            this.openHMIMenuItem.Size = new System.Drawing.Size(188, 22);
             this.openHMIMenuItem.Text = "Open HMI...";
             this.openHMIMenuItem.Click += new System.EventHandler(this.openHMIMenuItem_Click);
             // 
@@ -246,7 +245,7 @@ namespace InSightValidationTool
             this.showCustomViewToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showCustomViewToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.showCustomViewToolStripMenuItem.Name = "showCustomViewToolStripMenuItem";
-            this.showCustomViewToolStripMenuItem.Size = new System.Drawing.Size(231, 26);
+            this.showCustomViewToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.showCustomViewToolStripMenuItem.Text = "Show Custom View";
             this.showCustomViewToolStripMenuItem.Click += new System.EventHandler(this.showCustomViewToolStripMenuItem_Click);
             // 
@@ -256,7 +255,7 @@ namespace InSightValidationTool
             this.showSpreadsheetToolStripMenuItem.CheckOnClick = true;
             this.showSpreadsheetToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.showSpreadsheetToolStripMenuItem.Name = "showSpreadsheetToolStripMenuItem";
-            this.showSpreadsheetToolStripMenuItem.Size = new System.Drawing.Size(231, 26);
+            this.showSpreadsheetToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.showSpreadsheetToolStripMenuItem.Text = "Show Spreadsheet";
             this.showSpreadsheetToolStripMenuItem.Click += new System.EventHandler(this.showSpreadsheetToolStripMenuItem_Click);
             // 
@@ -266,7 +265,7 @@ namespace InSightValidationTool
             this.triggerMenuItem});
             this.imageMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.imageMenuItem.Name = "imageMenuItem";
-            this.imageMenuItem.Size = new System.Drawing.Size(68, 26);
+            this.imageMenuItem.Size = new System.Drawing.Size(56, 26);
             this.imageMenuItem.Text = "Image";
             // 
             // triggerMenuItem
@@ -274,7 +273,7 @@ namespace InSightValidationTool
             this.triggerMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.triggerMenuItem.ForeColor = System.Drawing.Color.White;
             this.triggerMenuItem.Name = "triggerMenuItem";
-            this.triggerMenuItem.Size = new System.Drawing.Size(142, 26);
+            this.triggerMenuItem.Size = new System.Drawing.Size(116, 22);
             this.triggerMenuItem.Text = "Trigger";
             this.triggerMenuItem.Click += new System.EventHandler(this.triggerMenuItem_Click);
             // 
@@ -286,7 +285,7 @@ namespace InSightValidationTool
             this.saveQueuedImagesToolStripMenuItem});
             this.sensorMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.sensorMenuItem.Name = "sensorMenuItem";
-            this.sensorMenuItem.Size = new System.Drawing.Size(72, 26);
+            this.sensorMenuItem.Size = new System.Drawing.Size(61, 26);
             this.sensorMenuItem.Text = "Sensor";
             // 
             // onlineMenuItem
@@ -294,7 +293,7 @@ namespace InSightValidationTool
             this.onlineMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.onlineMenuItem.ForeColor = System.Drawing.Color.White;
             this.onlineMenuItem.Name = "onlineMenuItem";
-            this.onlineMenuItem.Size = new System.Drawing.Size(283, 26);
+            this.onlineMenuItem.Size = new System.Drawing.Size(231, 22);
             this.onlineMenuItem.Text = "Online";
             this.onlineMenuItem.Click += new System.EventHandler(this.onlineMenuItem_Click);
             // 
@@ -303,7 +302,7 @@ namespace InSightValidationTool
             this.liveModeMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.liveModeMenuItem.ForeColor = System.Drawing.Color.White;
             this.liveModeMenuItem.Name = "liveModeMenuItem";
-            this.liveModeMenuItem.Size = new System.Drawing.Size(283, 26);
+            this.liveModeMenuItem.Size = new System.Drawing.Size(231, 22);
             this.liveModeMenuItem.Text = "Live Mode";
             this.liveModeMenuItem.Click += new System.EventHandler(this.liveModeToolStripMenuItem_Click);
             // 
@@ -312,7 +311,7 @@ namespace InSightValidationTool
             this.saveQueuedImagesToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.saveQueuedImagesToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.saveQueuedImagesToolStripMenuItem.Name = "saveQueuedImagesToolStripMenuItem";
-            this.saveQueuedImagesToolStripMenuItem.Size = new System.Drawing.Size(283, 26);
+            this.saveQueuedImagesToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.saveQueuedImagesToolStripMenuItem.Text = "Get Queued Image URLs...";
             this.saveQueuedImagesToolStripMenuItem.Click += new System.EventHandler(this.getQueuedImageURLsToolStripMenuItem_Click);
             // 
@@ -322,7 +321,7 @@ namespace InSightValidationTool
             this.hmiSettingsMenuItem});
             this.systemMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.systemMenuItem.Name = "systemMenuItem";
-            this.systemMenuItem.Size = new System.Drawing.Size(76, 26);
+            this.systemMenuItem.Size = new System.Drawing.Size(63, 26);
             this.systemMenuItem.Text = "System";
             // 
             // hmiSettingsMenuItem
@@ -330,7 +329,7 @@ namespace InSightValidationTool
             this.hmiSettingsMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.hmiSettingsMenuItem.ForeColor = System.Drawing.Color.White;
             this.hmiSettingsMenuItem.Name = "hmiSettingsMenuItem";
-            this.hmiSettingsMenuItem.Size = new System.Drawing.Size(200, 26);
+            this.hmiSettingsMenuItem.Size = new System.Drawing.Size(164, 22);
             this.hmiSettingsMenuItem.Text = "HMI Settings...";
             this.hmiSettingsMenuItem.Click += new System.EventHandler(this.hmiSettingsMenuItem_Click);
             // 
@@ -338,7 +337,7 @@ namespace InSightValidationTool
             // 
             this.saveCameraLayoutToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.saveCameraLayoutToolStripMenuItem.Name = "saveCameraLayoutToolStripMenuItem";
-            this.saveCameraLayoutToolStripMenuItem.Size = new System.Drawing.Size(108, 26);
+            this.saveCameraLayoutToolStripMenuItem.Size = new System.Drawing.Size(92, 26);
             this.saveCameraLayoutToolStripMenuItem.Text = "Save Layout";
             this.saveCameraLayoutToolStripMenuItem.Click += new System.EventHandler(this.saveCameraLayoutToolStripMenuItem_Click);
             // 
@@ -348,7 +347,7 @@ namespace InSightValidationTool
             this.aboutMenuItem});
             this.helpMenuItem.ForeColor = System.Drawing.SystemColors.Control;
             this.helpMenuItem.Name = "helpMenuItem";
-            this.helpMenuItem.Size = new System.Drawing.Size(57, 26);
+            this.helpMenuItem.Size = new System.Drawing.Size(47, 26);
             this.helpMenuItem.Text = "Help";
             // 
             // aboutMenuItem
@@ -356,7 +355,7 @@ namespace InSightValidationTool
             this.aboutMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.aboutMenuItem.ForeColor = System.Drawing.Color.White;
             this.aboutMenuItem.Name = "aboutMenuItem";
-            this.aboutMenuItem.Size = new System.Drawing.Size(208, 26);
+            this.aboutMenuItem.Size = new System.Drawing.Size(171, 22);
             this.aboutMenuItem.Text = "About camera...";
             this.aboutMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
             // 
@@ -434,7 +433,7 @@ namespace InSightValidationTool
             this.tbllyMainWindow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tbllyMainWindow.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tbllyMainWindow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tbllyMainWindow.Size = new System.Drawing.Size(1920, 1080);
+            this.tbllyMainWindow.Size = new System.Drawing.Size(1920, 1061);
             this.tbllyMainWindow.TabIndex = 26;
             // 
             // pnlTopPanel
@@ -477,12 +476,12 @@ namespace InSightValidationTool
             this.tabCtrlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabCtrlContent.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.tabCtrlContent.ItemSize = new System.Drawing.Size(0, 1);
-            this.tabCtrlContent.Location = new System.Drawing.Point(3, 114);
+            this.tabCtrlContent.Location = new System.Drawing.Point(3, 109);
             this.tabCtrlContent.Multiline = true;
             this.tabCtrlContent.Name = "tabCtrlContent";
             this.tabCtrlContent.Padding = new System.Drawing.Point(0, 0);
             this.tabCtrlContent.SelectedIndex = 0;
-            this.tabCtrlContent.Size = new System.Drawing.Size(1914, 963);
+            this.tabCtrlContent.Size = new System.Drawing.Size(1914, 949);
             this.tabCtrlContent.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabCtrlContent.TabIndex = 26;
             // 
@@ -495,16 +494,25 @@ namespace InSightValidationTool
             this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1906, 954);
+            this.tabPage1.Size = new System.Drawing.Size(1906, 940);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "DefaultConnection";
+            // 
+            // insightValidationControl1
+            // 
+            this.insightValidationControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.insightValidationControl1.Location = new System.Drawing.Point(3, 3);
+            this.insightValidationControl1.Margin = new System.Windows.Forms.Padding(3, 738, 3, 738);
+            this.insightValidationControl1.Name = "insightValidationControl1";
+            this.insightValidationControl1.Size = new System.Drawing.Size(1900, 934);
+            this.insightValidationControl1.TabIndex = 0;
             // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 5);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1906, 950);
+            this.tabPage2.Size = new System.Drawing.Size(1906, 959);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "+";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -515,12 +523,11 @@ namespace InSightValidationTool
             this.flwlyTabControlButtons.AutoSize = true;
             this.flwlyTabControlButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tbllyMainWindow.SetColumnSpan(this.flwlyTabControlButtons, 2);
-            this.flwlyTabControlButtons.Controls.Add(this.customTabSelector1);
             this.flwlyTabControlButtons.Controls.Add(this.btnAddTab);
             this.flwlyTabControlButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flwlyTabControlButtons.Location = new System.Drawing.Point(3, 67);
             this.flwlyTabControlButtons.Name = "flwlyTabControlButtons";
-            this.flwlyTabControlButtons.Size = new System.Drawing.Size(1914, 41);
+            this.flwlyTabControlButtons.Size = new System.Drawing.Size(1914, 36);
             this.flwlyTabControlButtons.TabIndex = 26;
             // 
             // btnAddTab
@@ -530,40 +537,19 @@ namespace InSightValidationTool
             this.btnAddTab.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
             this.btnAddTab.ForeColor = System.Drawing.Color.White;
             this.btnAddTab.Image = global::WebAPISampleApp.Properties.Resources.icons8_plus_28;
-            this.btnAddTab.Location = new System.Drawing.Point(164, 3);
+            this.btnAddTab.Location = new System.Drawing.Point(3, 3);
             this.btnAddTab.Name = "btnAddTab";
             this.btnAddTab.Size = new System.Drawing.Size(30, 30);
             this.btnAddTab.TabIndex = 1;
             this.btnAddTab.UseVisualStyleBackColor = false;
             this.btnAddTab.Click += new System.EventHandler(this.btnAddTab_Click);
             // 
-            // insightValidationControl1
-            // 
-            this.insightValidationControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.insightValidationControl1.Location = new System.Drawing.Point(3, 3);
-            this.insightValidationControl1.Margin = new System.Windows.Forms.Padding(3, 738, 3, 738);
-            this.insightValidationControl1.Name = "insightValidationControl1";
-            this.insightValidationControl1.Size = new System.Drawing.Size(1900, 948);
-            this.insightValidationControl1.TabIndex = 0;
-            // 
-            // customTabSelector1
-            // 
-            this.customTabSelector1.attachedTabIndex = 0;
-            this.customTabSelector1.attachedTabStatus = null;
-            this.customTabSelector1.AutoSize = true;
-            this.customTabSelector1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.customTabSelector1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.customTabSelector1.Location = new System.Drawing.Point(3, 3);
-            this.customTabSelector1.Name = "customTabSelector1";
-            this.customTabSelector1.Size = new System.Drawing.Size(155, 35);
-            this.customTabSelector1.TabIndex = 2;
-            // 
             // MainFormWindow
             // 
             this.AllowDrop = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.ClientSize = new System.Drawing.Size(1920, 1080);
+            this.ClientSize = new System.Drawing.Size(1920, 1061);
             this.Controls.Add(this.tbMessages);
             this.Controls.Add(this.tbllyMainWindow);
             this.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -584,7 +570,6 @@ namespace InSightValidationTool
             this.tabCtrlContent.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.flwlyTabControlButtons.ResumeLayout(false);
-            this.flwlyTabControlButtons.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -642,7 +627,6 @@ namespace InSightValidationTool
         private FlowLayoutPanel flwlyTabControlButtons;
         private ToolStripMenuItem saveCameraLayoutToolStripMenuItem;
         private Button btnAddTab;
-        private CustomTabSelector customTabSelector1;
     }
 }
 

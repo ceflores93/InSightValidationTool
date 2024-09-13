@@ -858,7 +858,7 @@ namespace WebAPISampleApp
 
                 //Write Last Time validation Ran
                 lblValidationLastRun.Invoke((Action)delegate {
-                    lblValidationLastRun.Text += DateTime.Now.ToString("yyyy-MM-dd h:mm:ss tt");
+                    lblValidationLastRun.Text += DateTime.Now.ToString("yyyy-MM-dd h:mm:ss");
                 });
 
 

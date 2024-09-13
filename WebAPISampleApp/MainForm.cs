@@ -92,40 +92,8 @@ namespace InSightValidationTool
             this.tabCtrlContent.MouseDown += TabCtrl_MouseDown;
             this.tabCtrlContent.SelectedIndexChanged += TabCtrlContent_SelectedIndexChanged;
 
-            this.insightValidationControl1.InSightValidationControl_OnUpdate += InSightControlUpdate;
-            this.insightValidationControl1.InSightValidationControl_OnJobLoad += InSightControlJobLoad;
-            this.insightValidationControl1.InSightValidationControl_OnConnected += InSightControlConnected;
-            this.insightValidationControl1.InSightValidationControl_OnDisconnected +=  InSightControlDisconnected;
-            this.insightValidationControl1.InSightValidationControl_OnValidationStart += InSightControlValidationStart;
-            this.insightValidationControl1.InSightValidationControl_OnValidationCompleted += InSightControlValidationCompleted;
-
-            InitializeDataGridView();    
-            _startTicks = Environment.TickCount;
-
-            _inSight = new CvsInSight();
-            _inSight.PreviewMessage += _inSight_PreviewMessage;
-            _inSight.ResultsChanged += _inSight_ResultsChanged;
-            _inSight.ConnectedChanged += _inSight_ConnectedChanged;
-            _inSight.ConnectingChanged += _inSight_ConnectingChanged;
-            _inSight.StateChanged += _inSight_StateChanged;
-            _inSight.LiveModeChanged += _inSight_LiveModeChanged;
-            _inSight.JobInfoChanged += _inSight_JobInfoChanged;
-            _inSight.JobLoadingChanged += _inSight_JobLoadingChanged;
-            _inSight.EditorAttachedChanged += _inSight_EditorAttachedChanged;
-
-
-            this.customTabSelector1.OnCloseTabClick += TabSelector_OnCloseTabClick;
-            this.customTabSelector1.OnSelectTabClick += TabSelector_OnSelectTabClick;
-            this.customTabSelector1.attachedTabIndex = 0;   
-
-            //cvsSpreadsheet.SetInSight(_inSight);
-            //cvsCustomView.SetInSight(_inSight);
-            //cvsDisplay.SetInSight(_inSight);
-            // cvsFilmstrip.SetInSight(_inSight);
-
-            //dgwImageResults.CellValueChanged += dgwImageResults_CellValueChanged;
-            //dgwImageResults.CellDoubleClick += dgwImageResults_CellDoubleClick; 
-
+            CleanUpTabPage(tabPage1);
+            CleanUpTabPage(tabPage2);  
           
         }
 
@@ -145,548 +113,59 @@ namespace InSightValidationTool
 
         }
 
-        private void TabBlinker_Tick(object sender, EventArgs e)
+
+
+        private async void getQueuedImageURLsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           isBlinking = !isBlinking;
-            tabCtrlContent.Invalidate();    
-        }
-
-        private void InitializeDataGridView() {
-
-
-
-            //dgwImageResults.AutoGenerateColumns = false;
-            //dgwImageResults.AllowUserToAddRows = false;
-            //dgwImageResults.AllowUserToDeleteRows = false;
-
-
-            // Column for Thumbnail
-            DataGridViewImageColumn imageColumn = new DataGridViewImageColumn();
-            imageColumn.HeaderText = "Image Preview";
-            imageColumn.ImageLayout = DataGridViewImageCellLayout.Zoom; // Zoom to fit cell size
-            imageColumn.Width = ThumbnailSize;
-            imageColumn.Name = "ImagePreview";
-            imageColumn.DataPropertyName = "Preview"; // DataPropertyName should match the property in ImageEntry
-            //dgwImageResults.Columns.Add(imageColumn);
-
-            // Column for Filename
-            DataGridViewTextBoxColumn filenameColumn = new DataGridViewTextBoxColumn();
-            filenameColumn.HeaderText = "Image Name";
-            filenameColumn.Width = 400;
-            filenameColumn.DataPropertyName = "Image Name";
-            filenameColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            //dgwImageResults.Columns.Add(filenameColumn);
-
-
-            // Column for Expected Result (ComboBox)
-            DataGridViewComboBoxColumn expectedColumn = new DataGridViewComboBoxColumn();
-            expectedColumn.HeaderText = "Expected Result";
-            expectedColumn.Width = 100;
-            expectedColumn.DataPropertyName = "ExpectedResult";
-            expectedColumn.DisplayMember = "Text"; // Display member for the combo box
-            expectedColumn.ValueMember = "Value"; // Value member for the combo box
-            expectedColumn.DataSource = new List<object>
-        {
-            new { Text = "Pass", Value = true },
-            new { Text = "Fail", Value = false }
-        };
-            expectedColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            expectedColumn.Name = "ExpectedResult";
-            //dgwImageResults.Columns.Add(expectedColumn);
-
-            // Column for Actual Result
-            DataGridViewTextBoxColumn actualColumn = new DataGridViewTextBoxColumn();
-            actualColumn.HeaderText = "Actual Result";
-            actualColumn.DataPropertyName = "ActualResult";
-            actualColumn.Name = "ActualResult";
-            //dgwImageResults.Columns.Add(actualColumn);
-
-            //dgwImageResults.RowTemplate.Height = RowHeight;
-        }
-
-        private void PopulateGridView() {
-
-
-            m_imageEntries = LoadImagesFromPaths(imgspath);
-            UpdateDataGridView();
-
-        }
-
-
-        private List<ImageEntry> LoadImagesFromPaths(List<string> imagePaths)
-        {
-            var imageEntries = new List<ImageEntry>();
-
-            foreach (var imagePath in imagePaths)
+            if (_inSight.Connected)
             {
-                string filename = Path.GetFileName(imagePath);
-                imageEntries.Add(new ImageEntry
+                JToken results = _inSight.Results;
+                if (results != null)
                 {
-                    Path = imagePath,
-                    Filename = filename
-                });
+                    try
+                    {
+                        var timer = new Stopwatch();
+                        timer.Start();
+                        await _inSight.FreezeQueue(true);
+                        timer.Stop();
+                        Console.WriteLine($"{timer.ElapsedMilliseconds} ms");
+
+                        JToken token = results.SelectToken("rq.slots");
+                        if (token == null)
+                            return;
+
+                        StringBuilder sb = new StringBuilder();
+
+                        int numSlots = (int)token.ToObject(typeof(int));
+                        if (numSlots > 0)
+                        {
+                            for (int n = 0; n < numSlots; n++)
+                            {
+                                string url = await _inSight.RequestQueuedImageUrl(n);
+                                url = _inSight.RemoteIPAddressUrl + url; // Complete the URL
+                                sb.AppendLine(url);
+                            }
+
+                            MessageBox.Show(sb.ToString(), "Result Queue URLs");
+                        }
+                        else
+                        {
+                            MessageBox.Show("None", "Result Queue URLs");
+                        }
+                    }
+                    finally
+                    {
+                        await _inSight.SendReady(); // Be sure that the next result will be accepted into the session
+                        await _inSight.FreezeQueue(false);
+                    }
+                }
+
             }
-
-            return imageEntries;
         }
-
         private string ConvertToJson(List<InSightDevice.ImageEntry> imageEntries)
         {
             return JsonConvert.SerializeObject(imageEntries);
         }
-
-        private System.Drawing.Image ResizeImage(System.Drawing.Image originalImage, int width, int height)
-        {
-            // Create a new Bitmap with the desired dimensions
-            Bitmap resizedImage = new Bitmap(width, height);
-
-            // Draw the original image onto the resized image
-            using (Graphics g = Graphics.FromImage(resizedImage))
-            {
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                g.DrawImage(originalImage, 0, 0, width, height);
-            }
-
-            return resizedImage;
-        }
-
-        private void AutoResizeRowHeights()
-        {
-            // Autoresize row heights based on ThumbnailSize + padding
-            /*foreach (DataGridViewRow row in dgwImageResults.Rows)
-            {
-                int desiredHeight = ThumbnailSize + dgwImageResults.RowTemplate.DefaultCellStyle.Padding.Vertical;
-                row.Height = desiredHeight;
-            }*/
-        }
-
-
-        private void AutoResizeColumnWidths()
-        {
-            // Autoresize column widths to fill DataGridView
-            /*int totalColumnWidths = dgwImageResults.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
-            int dataGridViewWidth = dgwImageResults.ClientSize.Width;
-
-            // Adjust only if the total column widths are less than the DataGridView width
-            if (totalColumnWidths < dataGridViewWidth)
-            {
-                foreach (DataGridViewColumn column in dgwImageResults.Columns)
-                {
-                    column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
-            }*/
-        }
-
-        private void MainForm_Resize(object sender, EventArgs e)
-        {
-            // Handle form resize event to adjust column widths dynamically
-            AutoResizeColumnWidths();
-        }
-
-
-        private  void UpdateDataGridView()
-        {/*
-            dgwImageResults.Invoke((Action)delegate
-            {
-                dgwImageResults.Rows.Clear();
-                if (m_imageEntries.Count > 0) { m_ImagesLoaded = true; }
-
-                foreach (var entry in m_imageEntries)
-                {
-                    DataGridViewRow row = new DataGridViewRow();
-
-
-                    // Add Thumbnail (Image) column
-                    DataGridViewImageCell imageCell = new DataGridViewImageCell();
-                    System.Drawing.Image image = System.Drawing.Image.FromFile(entry.Path);
-                    imageCell.Value = ResizeImage(image, ThumbnailSize, ThumbnailSize); // Resize image
-                    row.Cells.Add(imageCell);
-
-                    // Add Filename column
-                    DataGridViewTextBoxCell filenameCell = new DataGridViewTextBoxCell();
-                    filenameCell.Value = entry.Filename;
-                    filenameCell.Style.ForeColor = System.Drawing.Color.White;
-                    filenameCell.Style.Font = new Font("Times New Roman",16.0f,FontStyle.Bold);
-                    row.Cells.Add(filenameCell);
-
-                    // Add Expected Result (ComboBox) column
-                    DataGridViewComboBoxCell expectedCell = new DataGridViewComboBoxCell();
-                    expectedCell.DisplayMember = "Text";
-                    expectedCell.ValueMember = "Value";
-                    expectedCell.DataSource = new List<object>
-                        {
-                            new { Text = "Pass", Value = true },
-                           new { Text = "Fail", Value = false }
-                         };
-                    expectedCell.Value = entry.ExpectedResult;
-                    expectedCell.ReadOnly = false;
-                    expectedCell.Style.ForeColor = System.Drawing.Color.White;
-                    expectedCell.Style.Font = new Font("Times New Roman", 16.0f, FontStyle.Bold);
-
-
-                    row.Cells.Add(expectedCell);
-
-                    // Add Actual Result (CheckBox) column
-                        
-                    DataGridViewTextBoxCell actualCell = new DataGridViewTextBoxCell();
-                    actualCell.Value = entry.ActualResult ? "Pass" : "Fail";
-                    actualCell.Style.ForeColor = System.Drawing.Color.White;
-                    actualCell.Style.Font = new Font("Times New Roman", 16.0f, FontStyle.Bold);
-
-                    //Color Background based on results
-                    if ((bool)expectedCell.Value != entry.ActualResult) row.DefaultCellStyle.BackColor = Color.Red; else row.DefaultCellStyle.BackColor = Color.Green;  
-
-                    row.Cells.Add(actualCell);
-
-                    // Add the row to the DataGridView
-                    dgwImageResults.Rows.Add(row);
-                    AutoResizeRowHeights();
-                    AutoResizeColumnWidths();
-                    UpdateValidationResult();   
-                    
-
-                }
-            });
-
-           */ 
-        }
-
-        private void  UpdateValidationResult() {
-
-            /*m_ValidationResult = true;  
-            foreach (DataGridViewRow row in dgwImageResults.Rows)
-            {
-                bool actual = false;    
-                bool expected = (bool)row.Cells["ExpectedResult"].Value;
-                if (row.Cells["ActualResult"].Value.ToString() == "Pass") actual = true;else actual = false;    
-                if (expected != actual) m_ValidationResult = false;
-            }
-
-            /*lblValidationResult.Invoke((Action)delegate { 
-
-            if (m_ValidationResult)
-            {
-                lblValidationResult.Text = "Pass";
-                lblValidationResult.ForeColor = Color.Green;
-            }
-            else {
-                lblValidationResult.Text = "Fail";
-                lblValidationResult.ForeColor = Color.Red;
-
-            }
-
-            });
-            */
-        }
-        private void dgwImageResults_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {/*
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0) // Ensure valid cell
-            {
-                //  DataGridViewRow row = dgwImageResults.Rows[e.RowIndex];
-                ImageEntry entry = m_imageEntries[e.RowIndex];
-
-                // Update ImageEntry object based on DataGridView change
-                switch (e.ColumnIndex)
-                {
-                    case 0: // Path column (assuming index 0)
-                        entry.Path = Convert.ToString(row.Cells[e.ColumnIndex].Value);
-                        break;
-                    case 1: // Filename column (assuming index 1)
-                        entry.Filename = Convert.ToString(row.Cells[e.ColumnIndex].Value);
-                        break;
-                    case 2: // ExpectedResult column (assuming index 2)
-                        entry.ExpectedResult = Convert.ToBoolean(row.Cells[e.ColumnIndex].Value);
-                        break;
-                    case 3: // ActualResult column (assuming index 3)
-                        entry.ActualResult = Convert.ToBoolean(row.Cells[e.ColumnIndex].Value);
-                        break;
-                    default:
-                        break;
-                }
-
-                // Update the list if necessary
-                m_imageEntries[e.RowIndex] = entry;
-            }
-        */}
-
-        private void dgwImageResults_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-          /*  if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                // Check if the double-clicked cell is in the thumbnail column
-                if (dgwImageResults.Columns[e.ColumnIndex].Name == "ImagePreview")
-                {
-                    // Retrieve the filename or other identifier from the DataGridView cell
-                    DataGridViewRow row = dgwImageResults.Rows[e.RowIndex];
-                    string filename = m_imageEntries[e.RowIndex].Path; 
-                    m_currentIndex = e.RowIndex; 
-                    // Call LoadImage async method
-                    LoadImage(filename);
-                    
-                }
-            }
-
-        */}
-
-
-        /// <summary>
-        /// Unsubscribe any events before shutting down.
-        /// </summary>
-        private void UnsubscribeEvents()
-        {
-            _inSight.PreviewMessage -= _inSight_PreviewMessage;
-            _inSight.ResultsChanged -= _inSight_ResultsChanged;
-            _inSight.ConnectedChanged -= _inSight_ConnectedChanged;
-            _inSight.StateChanged -= _inSight_StateChanged;
-            _inSight.LiveModeChanged -= _inSight_LiveModeChanged;
-            _inSight.JobInfoChanged -= _inSight_JobInfoChanged;
-            _inSight.JobLoadingChanged -= _inSight_JobLoadingChanged;
-            _inSight.EditorAttachedChanged -= _inSight_EditorAttachedChanged;
-        }
-
-        private void _inSight_JobInfoChanged(object sender, EventArgs e)
-        {
-            InitForNewJob(); // Handle sheet re-format
-            _inSight_ResultsChanged(sender, e); // Be sure we re-process the result after job load
-            UpdateState();
-            
-        }
-
-        private void _inSight_JobLoadingChanged(object sender, EventArgs e)
-        {
-            InitForNewJob();
-        }
-
-        private async void _inSight_EditorAttachedChanged(object sender, EventArgs e)
-        {
-            InitForNewJob();
-            UpdateState();
-            //  await cvsDisplay.UpdateResults();
-            //cvsFilmstrip.UpdateResults();
-        }
-
-        /// <summary>
-        /// Optionally displays the messages that are sent and received on the CogSocket.
-        /// </summary>
-        private void _inSight_PreviewMessage(object sender, MessagePayloadPreviewEventArgs e)
-        {
-            string msg = (e.Payload?.ToString() ?? "");
-            int len = msg.Length;
-
-            if (msg.Length > 150)
-            {
-                msg = msg.Substring(0, 100) + "..." + msg.Substring(msg.Length - 50, 50);
-            }
-
-            if (_inSight.Connected)
-            {
-                Debug.WriteLine($"[{Name}] [Len:{len}] {msg}");
-            }
-
-            if (msg.Contains("manualTrigger"))
-            {
-                _startTicks = Environment.TickCount;
-            }
-            /*
-                  if (msg.Contains("resultChanged"))
-                  {
-                    Debug.WriteLine(String.Format("resultChanged ticks: {0}", (Environment.TickCount - _startTicks).ToString()));
-                    MessageBox.Show(String.Format("resultChanged ticks: {0}", (Environment.TickCount - _startTicks).ToString()));
-                  }*/
-            /*
-              //#if SHOW_ALL_MESSAGES
-              Debug.WriteLine("Ticks: " + (Environment.TickCount - _startTicks).ToString());
-              var header = e.IsIncoming ? "Incoming" : "Outgoing";
-              var json = JToken.Parse((string)e.Payload);
-              long id = -1;
-              string objType = (string)json["$type"];
-
-              string lenStr = (string)(e.Payload);
-
-              if (objType != "event")
-                id = (long)json["id"];
-
-              if (e.IsIncoming)
-              {
-                Debug.WriteLine($"Incoming({id} {lenStr.Length}):");
-              }
-              else
-              {
-                Debug.WriteLine($"Outgoing({id} {lenStr.Length}):");
-              }
-
-              string payload = e.Payload.ToString();
-              string formattedJson = payload.Substring(0,Math.Min(100,payload.Length));
-              Debug.WriteLine(formattedJson);*/
-            //#endif
-        }
-
-        /// <summary>
-        /// Handles the ResultsChanged event by updating the displayed image and results.
-        /// </summary>
-        private async void _inSight_ResultsChanged(object sender, EventArgs e)
-        {
-            JToken results = _inSight.Results;
-            m_results = results;
-            
-            //If Camera is connected and Images Loaded into GridView retrieve Job Result 
-
-            if (_inSight.Connected && m_ImagesLoaded && m_currentIndex < m_imageEntries.Count && m_Ignore == false)
-            {
-               // MessageBox.Show(m_currentIndex.ToString());
-                if (results["jobStatus"].Value<int>() != 1) {
-                    m_imageEntries[m_currentIndex].ActualResult = false;
-                }
-                else
-                {
-                    m_imageEntries[m_currentIndex].ActualResult = true;
-                }
-            
-
-            }
-
-
-
-            //cvsSpreadsheet.UpdateResults(results);
-            //cvsCustomView.UpdateResults(results);
-            UpdateDataGridView();   
-            UpdateMessages();
-            if (_inSight.Connected) UpdateValidationResult();
-            //await cvsDisplay.UpdateResults();
-
-            //cvsFilmstrip.UpdateResults();
-            if (m_Secuence && m_currentIndex < m_imageEntries.Count)
-            {
-                m_currentIndex++;
-                m_imageProcessedSignal.TrySetResult(true);
-            }
-        }
-
-        /// <summary>
-        /// Handles the ConnectedChanged event by updating the controls that use the state.
-        /// </summary>
-        private void _inSight_ConnectedChanged(object sender, EventArgs e)
-        {
-            InitForNewJob(); // Re-format the sheet
-            UpdateState();
-        }
-
-        /// <summary>
-        /// Handles the ConnectingChanged event by updating the controls that use the state.
-        /// </summary>
-        private void _inSight_ConnectingChanged(object sender, EventArgs e)
-        {
-            UpdateState();
-        }
-
-        /// <summary>
-        /// Handles the StateChanged event by updating the controls that use the state.
-        /// </summary>
-        private void _inSight_StateChanged(object sender, EventArgs e)
-        {
-            UpdateState();
-        }
-
-        /// <summary>
-        /// Handles the LiveModeChanged event by updating the controls that use the state.
-        /// </summary>
-        private void _inSight_LiveModeChanged(object sender, EventArgs e)
-        {
-            UpdateState();
-        }
-
-
-        private void InitForNewJob()
-        {/*
-            cvsSpreadsheet.Invoke((Action)delegate
-            {
-                cvsSpreadsheet.InitSpreadsheet(); // Clear the spreadsheet
-                cvsCustomView.InitSpreadsheet(); // Clear the custom View
-                cvsDisplay.InitDisplay(); // Clear the graphics
-
-            });
-            */
-        }
-
-        /// <summary>
-        /// Updates the controls that use the state (i.e.  not connected/connected, offline/online, live mode)
-        /// </summary>
-        private void UpdateState()
-        {/*
-            try
-            {
-                lblState.Invoke((Action)delegate
-                {
-                    btnConnectDisconnect.Enabled = !_inSight.Connecting;
-                    btnConnectDisconnect.Text = _inSight.Connected ? "Disconnect" : "Connect";
-                    
-
-                    if (_inSight.Connected)
-                    {
-                        string stateText = _inSight.Online ? "Online" : "Offline";
-                        if (_inSight.EditorAttached)
-                            stateText = "Editor Attached, " + stateText;
-
-                        if(_inSight.Online) lblState.ForeColor = Color.Green;else lblState.ForeColor = Color.Yellow;
-                        lblState.Font = new Font("Times New Roman", 16.0f, FontStyle.Bold);
-                        lblState.Text = stateText;
-                        onlineMenuItem.Text = _inSight.Online ? "Go Offline" : "Go Online";
-                        liveModeMenuItem.Checked = _inSight.LiveMode;
-                        lblJobInfo.Text = "Current Job: " +_inSight.JobInfo["name"].Value<String>();
-                         
-
-                    }
-                    else
-                    {
-                        lblState.Text = _inSight.Connecting ? "Connecting..." : "Not Connected";
-                        lblState.Font = new Font("Times New Roman", 16.0f, FontStyle.Bold);
-                        if(_inSight.Connecting) lblState.ForeColor = Color.Blue; else lblState.ForeColor = Color.Red;
-                        onlineMenuItem.Text = "Go Online";
-                        liveModeMenuItem.Checked = false;
-                        //dgwImageResults.Rows.Clear();
-                        m_imageEntries.Clear();
-                        m_ImagesLoaded =false;
-                    }
-
-                    aboutMenuItem.Enabled = _inSight.Connected;
-
-                    bool connectedButNotBusy = _inSight.Connected && !_inSight.EditorAttached && !_inSight.JobLoading;
-                    bool isOffline = connectedButNotBusy && !_inSight.Online;
-                    triggerMenuItem.Enabled = connectedButNotBusy;
-                    onlineMenuItem.Enabled = connectedButNotBusy;
-                    liveModeMenuItem.Enabled = isOffline;
-                    //loadImageMenuItem.Enabled = isOffline;
-                    loadImageMenuItem.Enabled = true;
-                    loadHmiCellsMenuItem.Enabled = isOffline;
-                    saveImageMenuItem.Enabled = connectedButNotBusy;
-                    loadJobMenuItem.Enabled = isOffline;
-                    hmiCustomViewMenuItem.Enabled = isOffline;
-                    hmiSettingsMenuItem.Enabled = isOffline;
-                    openHMIMenuItem.Enabled = connectedButNotBusy;
-
-                    //Update Results on Mainform
-
-                   // if(m_results != null ) MessageBox.Show(m_results.ToString());
-
-                    //cvsFilmstrip.Enabled = _inSight.Connected && !_inSight.JobLoading;
-                    saveQueuedImagesToolStripMenuItem.Enabled = _inSight.Connected;
-
-                    // this.splitContainer1.Panel2Collapsed = !showSpreadsheetToolStripMenuItem.Checked;
-
-                    /*      cvsCustomView.Visible = _inSight.Connected && !_inSight.JobLoading && (_inSight.CustomViewSettings.Length > 0) && (_inSight.CustomViewSettings?[0] != null) && showCustomViewToolStripMenuItem.Checked;
-                    if (cvsCustomView.Visible)
-                    {
-                        CenterCustomView();
-                        cvsCustomView.setCustomViewName(_inSight);
-                    }
-
-
-                });
-            }
-            catch (Exception)
-            {
-                // Ignore
-            }
-        */}
 
         private void CenterCustomView()
         {
@@ -771,112 +250,9 @@ namespace InSightValidationTool
         /// <param name="e"></param>
         private async void MainForm_Closing(object sender, FormClosingEventArgs e)
         {
-            try
-            {
-                UnsubscribeEvents();
-                await _inSight.Disconnect();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Error on disconnect");
-            }
-        }
-
-        /// <summary>
-        /// Handles loading images in sequence 
-        /// </summary>
-        private async void LoadImagestoInSight()
-        {
-            if (_inSight.Connected && m_ImagesLoaded)
-            {
-
-                m_Ignore = true;  
-                await SetCameraStatus(false);
-
-                m_currentIndex = 0; //Start from begining 
-                m_Secuence = true;
-
-                foreach (var entry in m_imageEntries)
-                {
-                    try
-                    {
-                        m_Ignore = false;
-                        await SendImageAndWait(entry.Path);
-                         
-                    }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show($"LoadImage Exception: {e.Message}");
-
-                    }
-                }
-                
-                await SetCameraStatus(true);
-                m_Secuence = false; 
-            }
-        }
-        /// <summary>
-        /// Handles loading setting camera status 
-        /// </summary>
-        private async Task SetCameraStatus(bool state)
-        {
-            if (_inSight.Connected)
-            {
-                try
-                {
-                    await _inSight.SetSoftOnlineAsync(state);
-
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Error setting soft Status. Verify that ISE is not connected.");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Handles loading an image 
-        /// </summary>
-        /// 
-
-        private async void LoadImage(string imgpath) {
-
-            if (_inSight.Connected)
-            {
-                try
-                {
-                    await _inSight.LoadImage(imgpath);
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"LoadImage Exception: {ex.Message}");
-                }
-            }
 
         }
 
-        /// <summary>
-        /// Handles loading an image and wait for it to be processed 
-        /// </summary>
-        ///
-        private async Task SendImageAndWait(string imgpath) {
-
-            m_imageProcessedSignal = new TaskCompletionSource<bool>();
-
-            try
-            {
-                await _inSight.LoadImage(imgpath);
-                await m_imageProcessedSignal.Task;  
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"LoadImage Exception: {ex.Message}");
-                m_imageProcessedSignal.TrySetResult(true); 
-            }
-        
-        
-        } 
 
 
         /// <summary>
@@ -926,68 +302,8 @@ namespace InSightValidationTool
             selectedControl.UpdateState();   
         }
 
-        private async Task Connect()
-        {
-            try
-            {
-                if (_inSight.Connected)
-                {
-                    await _inSight.Disconnect();
-                    _loggedMessages = "";
-                    UpdateMessages();//GUI
-                }
-                else
-                {
-                    // To limit the cell results that are returned, use the following...
-                    HmiSessionInfo sessionInfo = new HmiSessionInfo();
-                    sessionInfo.SheetName = "Inspection";
-                    sessionInfo.CellNames = new string[1] { "A0:Z599" }; // Designating a cell range requires 6.3 or newer firmware
-                    sessionInfo.EnableQueuedResults = true; // When the queue is frozen, then show the queued results
-                    sessionInfo.IncludeCustomView = true;
-                    ////await _inSight.Connect(tbIpAddressWithPort.Text, tbUsername.Text, tbPassword.Text, sessionInfo);
-
-                    //await cvsDisplay.OnConnected();//GUI
-                    //cvsFilmstrip.OnConnected();
-                }
-
-                UpdateState();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Connect error: " + ex.Message);
-                MessageBox.Show("Unable to connect: " + ex.Message);
-            }
-
-        }
-        /// <summary>
-        /// Handles loading a job saved in camera memory
-        /// </summary>
-        private async Task LoadJob(string fileName) {
-            try
-            {
-                if (_inSight.Connected)
-                {
-                    await _inSight.LoadJob(fileName).ConfigureAwait(false); 
-                
-                }
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show($"LoadJob Exception: {ex.Message}");
-            }
-        }
 
 
-     
-      
-        /// <summary>
-        /// Handles the click event to connect and disconnect from a camera.
-        /// </summary>
-        private async void btnConnectDisconnect_Click(object sender, EventArgs e)
-        {
-            await Connect();
-        }
 
         /// <summary>
         /// Makes sure that the controls are in the correct state when the application begins.
@@ -996,11 +312,8 @@ namespace InSightValidationTool
         /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
-            AdjustWindowSizeToFitScreen();  
-            InitForNewJob(); // Initialize the sheet
-            UpdateState();
-
-           LoadCameraLayout();
+            AdjustWindowSizeToFitScreen(); 
+             LoadCameraLayout();
         }
 
         private void AdjustWindowSizeToFitScreen()
@@ -1293,7 +606,7 @@ namespace InSightValidationTool
 
         private void showCustomViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UpdateState();
+            //UpdateState();
         }
 
         private void loadHmiCellsMenuItem_Click(object sender, EventArgs e)
@@ -1351,96 +664,6 @@ namespace InSightValidationTool
             }
         }
 
-        private async void getQueuedImageURLsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_inSight.Connected)
-            {
-                JToken results = _inSight.Results;
-                if (results != null)
-                {
-                    try
-                    {
-                        var timer = new Stopwatch();
-                        timer.Start();
-                        await _inSight.FreezeQueue(true);
-                        timer.Stop();
-                        Console.WriteLine($"{timer.ElapsedMilliseconds} ms");
-
-                        JToken token = results.SelectToken("rq.slots");
-                        if (token == null)
-                            return;
-
-                        StringBuilder sb = new StringBuilder();
-
-                        int numSlots = (int)token.ToObject(typeof(int));
-                        if (numSlots > 0)
-                        {
-                            for (int n = 0; n < numSlots; n++)
-                            {
-                                string url = await _inSight.RequestQueuedImageUrl(n);
-                                url = _inSight.RemoteIPAddressUrl + url; // Complete the URL
-                                sb.AppendLine(url);
-                            }
-
-                            MessageBox.Show(sb.ToString(), "Result Queue URLs");
-                        }
-                        else
-                        {
-                            MessageBox.Show("None", "Result Queue URLs");
-                        }
-                    }
-                    finally
-                    {
-                        await _inSight.SendReady(); // Be sure that the next result will be accepted into the session
-                        await _inSight.FreezeQueue(false);
-                    }
-                }
-
-            }
-        }
-
-        private void shwMenuBar_CheckedChanged(object sender, EventArgs e)
-        {
-            //  this.menuStrip.Visible = shwMenuBar.Checked;
-        }
-
-        private void imgsFolderbtn_Click(object sender, EventArgs e)
-        {
-            if (_inSight.Connected)
-            {
-
-
-                using (OpenFileDialog openFileDialog = new OpenFileDialog())
-                {
-                    openFileDialog.InitialDirectory = ".";
-                    openFileDialog.Filter = "BMP files (*.bmp)|*.bmp";
-                    openFileDialog.FilterIndex = 1;
-                    openFileDialog.RestoreDirectory = true;
-                    openFileDialog.Multiselect = true;
-
-
-                    if (openFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        // Get the path of specified file
-
-                        imgspath = openFileDialog.FileNames.ToList<String>();
-                        //lblimgsload.Text = imgspath.Count.ToString() + "/tImages Loaded";
-                        PopulateGridView();
-                    }
-                }
-            }
-        }
-
-        private void btnRunValidation_Click(object sender, EventArgs e)
-        {
-            if (_inSight.Connected)
-            {
-                // this.btnRunValidation.Enabled = false;   
-                LoadImagestoInSight();
-                //  this.btnRunValidation.Enabled = true;
-
-            }
-        }
 
         private void loadValidationFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1587,10 +810,7 @@ namespace InSightValidationTool
             m_mouseDown = false;
         }
 
-        private void insightValidationControl1_Load(object sender, EventArgs e)
-        {
-
-        }
+ 
 
 
 
@@ -1753,10 +973,7 @@ namespace InSightValidationTool
             tabCtrlContent.Controls.Add(tabPage);
             tabCtrlContent.SelectTab(tabPage);
             tabSelector.attachedTabIndex = tabCtrlContent.SelectedIndex;
-            
 
-
-         // tabCtrlContent.Controls.Add(tabPage2);
         }
 
         private void TabSelector_OnSelectTabClick(object sender, EventArgs e)
@@ -1876,37 +1093,7 @@ namespace InSightValidationTool
 
 
      
-        private void DrawCloseButton(Graphics g, Rectangle tabRect)
-        {
-            int buttonSize = 15;
-            Rectangle closeButtonRect = new Rectangle(tabRect.Right - buttonSize - 5, tabRect.Top + (tabRect.Height - buttonSize) / 2, buttonSize, buttonSize);
 
-            // Create a circular path for the button
-            using (GraphicsPath path = new GraphicsPath())
-            {
-                path.AddEllipse(closeButtonRect);
-
-                // Create a gradient brush for the 3D effect
-                using (LinearGradientBrush brush = new LinearGradientBrush(closeButtonRect, Color.Black, Color.Black, LinearGradientMode.Vertical))
-                {
-                    g.FillPath(brush, path);
-                }
-
-                // Draw the border of the button
-                using (Pen pen = new Pen(Color.Black, 1))
-                {
-                    g.DrawPath(pen, path);
-                }
-
-                // Draw the 'x' symbol
-                using (Pen pen = new Pen(Color.White, 2))
-                {
-                    int padding = 3;
-                    g.DrawLine(pen, closeButtonRect.Left + padding, closeButtonRect.Top + padding, closeButtonRect.Right - padding, closeButtonRect.Bottom - padding);
-                    g.DrawLine(pen, closeButtonRect.Right - padding, closeButtonRect.Top + padding, closeButtonRect.Left + padding, closeButtonRect.Bottom - padding);
-                }
-            }
-        }
 
         private void TabCtrl_MouseDown(object sender, MouseEventArgs e)
         {
