@@ -273,7 +273,7 @@ namespace InSightValidationTool
             //Connect if specified
             if (cameraConnection["AutoConnect"].Value<Boolean>() || selectedControl.chkAutoConnect.Checked)
             {
-                selectedControl.chkAutoConnect.CheckState = CheckState.Checked;
+                selectedControl.chkAutoConnect.Invoke((Action)delegate { selectedControl.chkAutoConnect.CheckState = CheckState.Checked; });
                 if(!selectedControl.InSight._inSight.Connected) await selectedControl.InSight.Connect();
             }
             string configurationJob = selectedControl.InSight.Configuration["JobFile"].Value<String>();
@@ -832,7 +832,7 @@ namespace InSightValidationTool
         }
 
         private void InSightControlDisconnected(object sender, EventArgs e) { 
-        
+            //updateCustomTabStates();    
         }
 
         private void CheckRecipe(object sender) {
@@ -970,7 +970,8 @@ namespace InSightValidationTool
             insightValidationControl.InSightValidationControl_OnJobLoad += InSightControlJobLoad;
             insightValidationControl.InSightValidationControl_OnConnected += InSightControlConnected;
             insightValidationControl.InSightValidationControl_OnValidationStart += InSightControlValidationStart;
-            insightValidationControl.InSightValidationControl_OnValidationCompleted += InSightControlValidationCompleted;   
+            insightValidationControl.InSightValidationControl_OnValidationCompleted += InSightControlValidationCompleted;
+            insightValidationControl.InSightValidationControl_OnDisconnected += InSightControlDisconnected;
            
             
             this.flwlyTabControlButtons.Controls.Add(btnAddTab);
@@ -1267,7 +1268,7 @@ namespace InSightValidationTool
 
             }
 
-            updateCustomTabStates();
+            updateCustomTabStateOnLoad(layoutConfig);
         }
 
         private  void updateCustomTabStates() {
@@ -1275,11 +1276,51 @@ namespace InSightValidationTool
             int index = 0;
             //Walkthrough every tab
             foreach (TabPage tabPage in tabCtrlContent.Controls) {
+                
                 InsightValidationControl currentInsightControl = tabPage.Controls.OfType<InsightValidationControl>().FirstOrDefault();
                 CustomTabSelector tabSelector = (CustomTabSelector)flwlyTabControlButtons.Controls[index];
                 tabSelector.UpdateSelectorColor(currentInsightControl.lblValidationResult.Text);
+
+                //If Connected Change Names
+
+                if (currentInsightControl.inSightSystem._inSight.Connected) {
+
+                    CvsCameraInfo info = currentInsightControl.InSight._inSight.CameraInfo;
+                    tabSelector.UpdateConnectionName(info.HostName);
+                
+                }
+
                 index++;
             }
+        }
+
+        private void updateCustomTabStateOnLoad(JToken layoutConfig) {
+
+            int index = 0;
+            //Walkthrough every tab
+            foreach (TabPage tabPage in tabCtrlContent.Controls)
+            {
+                JToken connectionSettings = layoutConfig.ElementAt(index);
+                connectionSettings = connectionSettings.ElementAt(0);
+
+                InsightValidationControl currentInsightControl = tabPage.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+                currentInsightControl.lblValidationResult.Text = connectionSettings["LastValidationResult"].Value<String>();
+                CustomTabSelector tabSelector = (CustomTabSelector)flwlyTabControlButtons.Controls[index];
+                tabSelector.UpdateSelectorColor(currentInsightControl.lblValidationResult.Text);
+
+                //If Connected Change Names
+
+                if (currentInsightControl.inSightSystem._inSight.Connected)
+                {
+
+                    CvsCameraInfo info = currentInsightControl.InSight._inSight.CameraInfo;
+                    tabSelector.UpdateConnectionName(info.HostName);
+
+                }
+
+                index++;
+            }
+
         }
 
     }
