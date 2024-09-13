@@ -831,8 +831,9 @@ namespace InSightValidationTool
 
         }
 
-        private void InSightControlDisconnected(object sender, EventArgs e) { 
-            //updateCustomTabStates();    
+        private void InSightControlDisconnected(object sender, EventArgs e) {
+            UpdateWindowState();
+            updateCustomTabStates();    
         }
 
         private void CheckRecipe(object sender) {
@@ -1283,11 +1284,17 @@ namespace InSightValidationTool
 
                 //If Connected Change Names
 
-                if (currentInsightControl.inSightSystem._inSight.Connected) {
+                if (currentInsightControl.inSightSystem._inSight.Connected)
+                {
 
                     CvsCameraInfo info = currentInsightControl.InSight._inSight.CameraInfo;
                     tabSelector.UpdateConnectionName(info.HostName);
-                
+
+                }
+                else
+                {
+                    tabSelector.UpdateConnectionName("Default Connection");
+                    tabSelector.UpdateSelectorColor("None");
                 }
 
                 index++;

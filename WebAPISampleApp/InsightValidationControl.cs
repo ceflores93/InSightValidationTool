@@ -361,18 +361,17 @@ namespace WebAPISampleApp
 
         private async void OnConnectedChanged(object sender, EventArgs e)
         {
+            InitForNewJob();
+            UpdateState();
+
             if (InSight._inSight.Connected)
             {
-                InitForNewJob(); // Re-format the sheet
-                UpdateState();
                 await this.cvsDisplay1.OnConnected();
                 onConnected(e);
             }
-            else { 
+            else {  
                 OnDisconnected(e);  
             }
-            
-            
         }
 
 
