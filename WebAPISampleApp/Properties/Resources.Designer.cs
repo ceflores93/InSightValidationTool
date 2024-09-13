@@ -143,9 +143,29 @@ namespace WebAPISampleApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_close_10 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-close-10", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_close_24 {
             get {
                 object obj = ResourceManager.GetObject("icons8-close-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_close_24black {
+            get {
+                object obj = ResourceManager.GetObject("icons8-close-24black", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -186,6 +206,26 @@ namespace WebAPISampleApp.Properties {
         internal static System.Drawing.Bitmap icons8_maximize_button_24 {
             get {
                 object obj = ResourceManager.GetObject("icons8-maximize-button-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_plus_100 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-plus-100", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_plus_28 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-plus-28", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

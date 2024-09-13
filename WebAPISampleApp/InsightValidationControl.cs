@@ -33,9 +33,12 @@ namespace WebAPISampleApp
 
         internal InSightDevice inSightSystem;
 
+        private bool ignoreResult = false;
 
 
         public delegate void InSightValidationControlEventHandler(object sender, EventArgs e);
+        public delegate void InSightValidationControlValidationEventHandler(object sender, String status);
+
 
         public event InSightValidationControlEventHandler InSightValidationControl_OnUpdate;
 
@@ -43,10 +46,16 @@ namespace WebAPISampleApp
 
         public event InSightValidationControlEventHandler InSightValidationControl_OnConnected;
 
+        public event InSightValidationControlEventHandler InSightValidationControl_OnDisconnected;
+
+        public event InSightValidationControlValidationEventHandler InSightValidationControl_OnValidationStart;
+
+        public event InSightValidationControlValidationEventHandler InSightValidationControl_OnValidationCompleted;
+
         protected virtual void onUpdateEvent(EventArgs e)
         {
 
-            InSightValidationControl_OnUpdate(this, e); 
+           InSightValidationControl_OnUpdate(this, e); 
         }
 
         public virtual void onJobLoad(EventArgs e) {
@@ -58,6 +67,23 @@ namespace WebAPISampleApp
         {
 
             InSightValidationControl_OnConnected(this, e);
+        }
+
+        public virtual void OnDisconnected(EventArgs e) { 
+        
+            InSightValidationControl_OnDisconnected(this, e);   
+        }
+
+        protected virtual void OnValidationStart(string result)
+        {
+            InSightValidationControl_OnValidationStart(this, result);
+
+        }
+
+        protected virtual void OnValidationCompleted(string result )
+        {
+
+            InSightValidationControl_OnValidationCompleted(this, result);
         }
 
 
@@ -333,10 +359,19 @@ namespace WebAPISampleApp
             }
         }
 
-        private void OnConnectedChanged(object sender, EventArgs e)
+        private async void OnConnectedChanged(object sender, EventArgs e)
         {
-            InitForNewJob(); // Re-format the sheet
+            InitForNewJob();
             UpdateState();
+
+            if (InSight._inSight.Connected)
+            {
+                await this.cvsDisplay1.OnConnected();
+                onConnected(e);
+            }
+            else {  
+                OnDisconnected(e);  
+            }
         }
 
 
@@ -400,18 +435,20 @@ namespace WebAPISampleApp
             //inSightSystem.Results = results;
 
             //If Camera is connected and Images Loaded into GridView retrieve Job Result 
-
             
 
-            if (inSightSystem._inSight.Connected == true && inSightSystem._imageLoaded == true && (currentIndex < inSightSystem._imageEntries.Count)==true)
-            {
-                this.lblState.Invoke((Action)delegate {
-                    this.lblimgsload.Text = "Images Sent To Validation: " + currentIndex + "/" + inSightSystem._imageEntries.Count.ToString();
 
-                });
+                if (inSightSystem._inSight.Connected == true && inSightSystem._imageLoaded == true && (currentIndex < inSightSystem._imageEntries.Count) == true)
+                {
+                    this.lblState.Invoke((Action)delegate
+                    {
+                        this.lblimgsload.Text = "Images Sent To Validation: " + currentIndex + "/" + inSightSystem._imageEntries.Count.ToString();
+
+                    });
 
 
-               
+                if (!ignoreResult)
+                {
                     // MessageBox.Show(m_currentIndex.ToString());
                     if (results["jobStatus"].Value<int>() != 1)
                     {
@@ -422,21 +459,29 @@ namespace WebAPISampleApp
                         inSightSystem._imageEntries[currentIndex].ActualResult = true;
                     }
                     cvsSpreadsheet1.UpdateResults(results);
-                    //cvsCustomView1.UpdateResults(results);
-                
-            }
-            
-           // UpdateDataGridView();
-            //UpdateMessages();
-            if (inSightSystem._inSight.Connected) UpdateValidationResult();
-            await this.cvsDisplay1.UpdateResults();
+                }
+                else
+                { //TODO: Find a more elegant way to do this 
+                    ignoreResult = false;
+                    currentIndex = -1;
+                }   //cvsCustomView1.UpdateResults(results);
 
-            //cvsFilmstrip.UpdateResults();
-            if (secuence && (currentIndex < inSightSystem._imageEntries.Count))
-            {
-                currentIndex++;
-                inSightSystem._imageProcessedSignal.TrySetResult(true);
-            }
+                }
+
+                UpdateDataGridView();
+                //UpdateMessages();
+                if (inSightSystem._inSight.Connected) UpdateValidationResult();
+                await this.cvsDisplay1.UpdateResults();
+
+                //cvsFilmstrip.UpdateResults();
+                if (secuence && (currentIndex < inSightSystem._imageEntries.Count))
+                {
+                    currentIndex++;
+                    inSightSystem._imageProcessedSignal.TrySetResult(true);
+                }
+
+            
+           
         }
 
         internal InSightDevice InSight { get => inSightSystem; set => inSightSystem = value; }
@@ -559,7 +604,7 @@ namespace WebAPISampleApp
             }
         }
 
-        public void UpdateDataGridView()
+        public void UpdateDataGridView(bool updateResults = true)
         {
             // Avoid invoking on the UI thread if not necessary
             dgwImageResults.Invoke((Action)delegate
@@ -633,7 +678,7 @@ namespace WebAPISampleApp
                 AutoResizeColumnWidths();
 
                 // Update the validation result
-                UpdateValidationResult();
+                if(updateResults)UpdateValidationResult();
             });
         }
 
@@ -768,6 +813,11 @@ namespace WebAPISampleApp
                     btnRunValidation.Text = $"Validation In Process from {validationSecuenceSender}";
                 });
 
+                OnValidationStart("neutral");
+                if (inSightSystem._inSight.Online) ignoreResult = true; 
+
+
+
                 await inSightSystem.SetCameraStatus(false);
 
                 // Start from beginning
@@ -805,9 +855,16 @@ namespace WebAPISampleApp
                 // Write validation result
                 InSight.WriteValidationResult(lblValidationResult.Text);
 
+                //Write Last Time validation Ran
+                lblValidationLastRun.Invoke((Action)delegate {
+                    lblValidationLastRun.Text ="Last Validation: " + DateTime.Now.ToString("yyyy-MM-dd h:mm:ss tt");
+                });
+
+
                 // Perform manual trigger
                 await InSight.ManualTrigger();
 
+                OnValidationCompleted(lblValidationResult.Text);
                 // Dispose resources
                 validationSecuenceSender = string.Empty;
 
@@ -833,11 +890,7 @@ namespace WebAPISampleApp
             
             await InSight.Connect();
 
-            if (InSight._inSight.Connected)
-            {
-                await this.cvsDisplay1.OnConnected();
-                onConnected(e); 
-            }
+           
         }
 
         public async void ConnectDisconnect() {
@@ -875,7 +928,7 @@ namespace WebAPISampleApp
 
         public async void OnlineOffline() {
 
-            await inSightSystem.SetCameraStatus();
+            await inSightSystem.SetCameraStatus(!inSightSystem._inSight.Online);
         }
 
         public async void loadValidationConfig() {
@@ -909,8 +962,8 @@ namespace WebAPISampleApp
 
             InSight._imageEntries = JsonConvert.DeserializeObject<List<InSightDevice.ImageEntry>>(ImageEntryData.ToString());
 
-            UpdateDataGridView();
-            UpdateState();
+            UpdateDataGridView(updateResults:false);
+           // UpdateState();
 
         }
 
