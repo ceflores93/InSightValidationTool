@@ -605,7 +605,7 @@ namespace WebAPISampleApp
             }
         }
 
-        public void UpdateDataGridView()
+        public void UpdateDataGridView(bool updateResults = true)
         {
             // Avoid invoking on the UI thread if not necessary
             dgwImageResults.Invoke((Action)delegate
@@ -679,7 +679,7 @@ namespace WebAPISampleApp
                 AutoResizeColumnWidths();
 
                 // Update the validation result
-                UpdateValidationResult();
+                if(updateResults)UpdateValidationResult();
             });
         }
 
@@ -858,7 +858,7 @@ namespace WebAPISampleApp
 
                 //Write Last Time validation Ran
                 lblValidationLastRun.Invoke((Action)delegate {
-                    lblValidationLastRun.Text += DateTime.Now.ToString("yyyy-MM-dd h:mm:ss");
+                    lblValidationLastRun.Text ="Last Validation: " + DateTime.Now.ToString("yyyy-MM-dd h:mm:ss tt");
                 });
 
 
@@ -963,8 +963,8 @@ namespace WebAPISampleApp
 
             InSight._imageEntries = JsonConvert.DeserializeObject<List<InSightDevice.ImageEntry>>(ImageEntryData.ToString());
 
-            UpdateDataGridView();
-            UpdateState();
+            UpdateDataGridView(updateResults:false);
+           // UpdateState();
 
         }
 

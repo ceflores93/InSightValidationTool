@@ -72,7 +72,7 @@ namespace InSightValidationTool
         private bool m_ImagesLoaded = false;
         private bool m_Secuence = false;
         private TaskCompletionSource<bool> m_imageProcessedSignal;
-        private bool m_ValidationResult = true;
+        private bool m_ValidationResult;
         private bool m_Ignore = false;
         private bool m_mouseDown;
         private Point m_lastLocation;
@@ -783,6 +783,9 @@ namespace InSightValidationTool
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            DialogResult saveLayoutDialogResult = MessageBox.Show("Select Desired Option", "Save Current Validation Layout?", MessageBoxButtons.YesNo);
+            if (saveLayoutDialogResult == DialogResult.Yes) SaveCameraLayout(showMessage:true); 
+
             tabCtrlContent.Dispose();
             menuStrip.Dispose();
             System.Windows.Forms.Application.Exit(); 
@@ -850,7 +853,8 @@ namespace InSightValidationTool
                 {
                     int tabIndex = tabCtrlContent.TabPages.IndexOf(tabPage);
                     CustomTabSelector tabSelector = (CustomTabSelector) flwlyTabControlButtons.Controls[tabIndex];
-                    tabSelector.UpdateSelectorColor("neutral");    
+                    tabSelector.UpdateSelectorColor("neutral");
+                    SaveCameraLayout(showMessage:false);
                     // tabResults.Insert(tabIndex, status);
                    // if(tabCtrlContent != null)tabCtrlContent.Invalidate();
                 }
@@ -869,6 +873,7 @@ namespace InSightValidationTool
                     int tabIndex = tabCtrlContent.TabPages.IndexOf(tabPage);
                     CustomTabSelector tabSelector = (CustomTabSelector)flwlyTabControlButtons.Controls[tabIndex];
                     tabSelector.UpdateSelectorColor(status);
+                    SaveCameraLayout(showMessage:false);
                 }
 
             }
@@ -1045,7 +1050,7 @@ namespace InSightValidationTool
                                 CustomTabSelector customTabSelector = (CustomTabSelector)flwlyTabControlButtons.Controls[tabCtrlContent.SelectedIndex];
 
                                 customTabSelector.UpdateConnectionName(info.HostName);
-                                customTabSelector.UpdateSelectorColor("neutral");
+                                this.updateCustomTabStates();
 
 
                                 info = null;
@@ -1140,26 +1145,35 @@ namespace InSightValidationTool
 
         private void saveCameraLayoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveCameraLayout(); 
+
+        }
+
+        private void SaveCameraLayout(bool showMessage = true) {
+
             CheckCreateForRecipeFolder();
             JObject CameraTabs = new JObject();
             //Save Current Page Layout
             int index = 0;
-            foreach (TabPage tabPage in tabCtrlContent.TabPages) {
+            foreach (TabPage tabPage in tabCtrlContent.TabPages)
+            {
 
                 InsightValidationControl insightValidationControl = tabPage.Controls.OfType<InsightValidationControl>().FirstOrDefault();
 
                 if (insightValidationControl != null)
                 {
                     JObject CameraConnection = new JObject();
-                    
+
                     CameraConnection.Add("IPAddressPort", insightValidationControl.tbIpAddressWithPort.Text);
                     CameraConnection.Add("User", insightValidationControl.tbUsername.Text);
                     CameraConnection.Add("Password", insightValidationControl.tbPassword.Text);
                     CameraConnection.Add("AutoConnect", insightValidationControl.chkAutoConnect.Checked);
-                    CameraTabs.Add(String.Concat("Camera",index.ToString()), CameraConnection);
-                    index++;    
+                    CameraConnection.Add("LastValidationRun", insightValidationControl.lblValidationLastRun.Text);
+                    CameraConnection.Add("LastValidationResult",insightValidationControl.lblValidationResult.Text); 
+                    CameraTabs.Add(String.Concat("Camera", index.ToString()), CameraConnection);
+                    index++;
 
-                   
+
                 }
             }
 
@@ -1169,9 +1183,11 @@ namespace InSightValidationTool
 
             System.IO.File.WriteAllText(Path.Combine(folderPath, fileName), JsonConvert.SerializeObject(CameraTabs, Formatting.Indented));
 
-            if (File.Exists(Path.Combine(folderPath, fileName))) MessageBox.Show("Layout File Saved to HDD");
-            else MessageBox.Show("Error Saving Layout File");
-
+            if (showMessage)
+            {
+                if (File.Exists(Path.Combine(folderPath, fileName))) MessageBox.Show("Layout File Saved to HDD");
+                else MessageBox.Show("Error Saving Layout File");
+            }
         }
 
         private async void LoadCameraLayout() {
@@ -1233,6 +1249,11 @@ namespace InSightValidationTool
                     insightValidationControl.tbPassword.Text = connectionSettings["Password"].Value<String>();
                     //AutoConnect
                     insightValidationControl.tbUsername.Text = connectionSettings["User"].Value<String>();
+                    //LastValidationRun Date if any 
+                    insightValidationControl.lblValidationLastRun.Text = connectionSettings["LastValidationRun"].Value<String>();
+                    //LastValidationResult if any
+                    insightValidationControl.lblValidationResult.Text = connectionSettings["LastValidationResult"].Value<String>();
+
 
                     if (connectionSettings["AutoConnect"].Value<Boolean>()) {
 
@@ -1245,6 +1266,21 @@ namespace InSightValidationTool
                 }
 
             }
+
+            updateCustomTabStates();
         }
+
+        private  void updateCustomTabStates() {
+
+            int index = 0;
+            //Walkthrough every tab
+            foreach (TabPage tabPage in tabCtrlContent.Controls) {
+                InsightValidationControl currentInsightControl = tabPage.Controls.OfType<InsightValidationControl>().FirstOrDefault();
+                CustomTabSelector tabSelector = (CustomTabSelector)flwlyTabControlButtons.Controls[index];
+                tabSelector.UpdateSelectorColor(currentInsightControl.lblValidationResult.Text);
+                index++;
+            }
+        }
+
     }
 }

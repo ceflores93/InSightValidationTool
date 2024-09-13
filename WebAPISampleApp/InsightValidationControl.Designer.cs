@@ -524,7 +524,7 @@
             this.lblValidationLastRun.Name = "lblValidationLastRun";
             this.lblValidationLastRun.Size = new System.Drawing.Size(234, 29);
             this.lblValidationLastRun.TabIndex = 47;
-            this.lblValidationLastRun.Text = "Last Run:";
+            this.lblValidationLastRun.Text = "No Last Run info";
             this.lblValidationLastRun.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // splitContainer2
@@ -648,7 +648,7 @@
         private System.Windows.Forms.Label lblimgsload;
         public System.Windows.Forms.Label lblJobInfo;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label lblValidationResult;
+        public System.Windows.Forms.Label lblValidationResult;
         private System.Windows.Forms.TableLayoutPanel tblCameraControls;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel4;
@@ -663,6 +663,6 @@
         public System.Windows.Forms.Label lblState;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label lblNativeStatus;
-        private System.Windows.Forms.Label lblValidationLastRun;
+        public System.Windows.Forms.Label lblValidationLastRun;
     }
 }
