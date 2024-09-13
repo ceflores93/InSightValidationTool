@@ -81,10 +81,10 @@ namespace InSightValidationTool
             this.btnWindowTitle = new System.Windows.Forms.Button();
             this.tabCtrlContent = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.insightValidationControl1 = new WebAPISampleApp.InsightValidationControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.flwlyTabControlButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.btnAddTab = new System.Windows.Forms.Button();
+            this.insightValidationControl1 = new WebAPISampleApp.InsightValidationControl();
             this.menuStrip.SuspendLayout();
             this.controlBox.SuspendLayout();
             this.tbllyMainWindow.SuspendLayout();
@@ -498,15 +498,6 @@ namespace InSightValidationTool
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "DefaultConnection";
             // 
-            // insightValidationControl1
-            // 
-            this.insightValidationControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.insightValidationControl1.Location = new System.Drawing.Point(3, 3);
-            this.insightValidationControl1.Margin = new System.Windows.Forms.Padding(3, 738, 3, 738);
-            this.insightValidationControl1.Name = "insightValidationControl1";
-            this.insightValidationControl1.Size = new System.Drawing.Size(1900, 934);
-            this.insightValidationControl1.TabIndex = 0;
-            // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 5);
@@ -543,6 +534,15 @@ namespace InSightValidationTool
             this.btnAddTab.TabIndex = 1;
             this.btnAddTab.UseVisualStyleBackColor = false;
             this.btnAddTab.Click += new System.EventHandler(this.btnAddTab_Click);
+            // 
+            // insightValidationControl1
+            // 
+            this.insightValidationControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.insightValidationControl1.Location = new System.Drawing.Point(3, 3);
+            this.insightValidationControl1.Margin = new System.Windows.Forms.Padding(4, 852, 4, 852);
+            this.insightValidationControl1.Name = "insightValidationControl1";
+            this.insightValidationControl1.Size = new System.Drawing.Size(1900, 934);
+            this.insightValidationControl1.TabIndex = 0;
             // 
             // MainFormWindow
             // 

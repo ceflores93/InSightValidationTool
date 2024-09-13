@@ -48,7 +48,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Picture1.ico</ApplicationIcon>
+    <ApplicationIcon>Picture2.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -210,6 +210,7 @@
     <None Include="Resources\icons8-close-24black.png" />
     <Content Include="Cognex_InSightViDiPC.ico" />
     <Content Include="Picture1.ico" />
+    <Content Include="Picture2.ico" />
     <Content Include="Resources\icons8-plus-100.png" />
     <None Include="Resources\icons8-plus-1001.png" />
     <None Include="Resources\icons8-plus-28.png" />
